@@ -1,0 +1,15 @@
+.carousel {
+  height: 700px;
+
+  .carousel-inner {
+    height: inherit;
+
+    .carousel-item {
+      height: inherit;
+
+      img {
+        height: inherit;
+      }
+    }
+  }
+}
