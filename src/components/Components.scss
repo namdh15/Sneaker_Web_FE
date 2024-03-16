@@ -1,11 +1,61 @@
-.carousel-inner {
+// body {
+//   font-family: 'Montserrat, sans-serif';
+// }
 
-  .carousel-item.active,
-  .carousel-item-next,
-  .carousel-item-prev {
-    display: flex;
+
+.section-about {
+  h1 {
+    margin: 1em 0;
+  }
+
+  b {
+    margin: 0.5em 0;
+  }
+
+  margin: 5em 0;
+  display: grid;
+  text-align: center;
+}
+
+
+.slider-product-section {
+  width: 90%;
+  margin: auto;
+
+  .slick-slider {
+    .slick-list {
+      .slick-track {
+        display: flex;
+        width: 100% !important;
+        justify-content: center;
+
+        .slick-slide {
+          .card {
+            width: 80%;
+            margin: auto;
+          }
+
+          .slick-prev,
+          .slick-next {
+            &:before {
+              color: gray;
+            }
+          }
+        }
+      }
+    }
+
   }
 }
+
+.button-loadmore {
+  width: fit-content;
+  margin: 3em;
+  padding: 0.5em 2em;
+  border-radius: 6px;
+  border-color: lightgray;
+}
+
 
 
 @media (max-width: 767px) {

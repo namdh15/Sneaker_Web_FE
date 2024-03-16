@@ -12,6 +12,7 @@ import Layout from './components/layouts/Layout';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 const genLayoutElement = (el, isPublic = false) => {
+  // replace by private and public wrapper
   return isPublic ? (
     <Layout>
       {el}
@@ -28,7 +29,7 @@ root.render(
       <Routes>
         <Route path="/" element={genLayoutElement(<Home />)} />
         <Route path="/product" element={<Products />} />
-        <Route path="/product/:id" element={<Product />} />
+        <Route path="/product/:code" element={<Product />} />
         <Route path="/about" element={<AboutPage />} />
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/cart" element={<Cart />} />

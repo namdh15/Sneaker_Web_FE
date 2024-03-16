@@ -1,88 +1,69 @@
+import Slider from "react-slick";
 import "./Components.scss"
+import ProductCard from "./item-components/ProductCard";
 
-
-
-
-
-const SlideProducts = () => {
+export const SampleNextArrow = (props) => {
+  const { className, style, onClick } = props;
   return (
-    <div class="container text-center my-3">
-      <h2 class="font-weight-light">Bootstrap Multi Slide Carousel</h2>
-      <div class="row mx-auto my-auto justify-content-center">
-        <div id="recipeCarousel" class="carousel slide" data-bs-ride="carousel">
-          <div class="carousel-inner" role="listbox">
-            <div class="carousel-item active">
-              <div class="col-md-3">
-                <div class="card">
-                  <div class="card-img">
-                    <img src="//via.placeholder.com/500x400/31f?text=1" class="img-fluid" alt="" />
-                  </div>
-                  <div class="card-img-overlay">Slide 1</div>
-                </div>
-              </div>
-            </div>
-            <div class="carousel-item">
-              <div class="col-md-3">
-                <div class="card">
-                  <div class="card-img">
-                    <img src="//via.placeholder.com/500x400/e66?text=2" class="img-fluid" alt="" />
-                  </div>
-                  <div class="card-img-overlay">Slide 2</div>
-                </div>
-              </div>
-            </div>
-            <div class="carousel-item">
-              <div class="col-md-3">
-                <div class="card">
-                  <div class="card-img">
-                    <img src="//via.placeholder.com/500x400/7d2?text=3" class="img-fluid" alt="" />
-                  </div>
-                  <div class="card-img-overlay">Slide 3</div>
-                </div>
-              </div>
-            </div>
-            <div class="carousel-item">
-              <div class="col-md-3">
-                <div class="card">
-                  <div class="card-img">
-                    <img src="//via.placeholder.com/500x400?text=4" class="img-fluid" alt="" />
-                  </div>
-                  <div class="card-img-overlay">Slide 4</div>
-                </div>
-              </div>
-            </div>
-            <div class="carousel-item">
-              <div class="col-md-3">
-                <div class="card">
-                  <div class="card-img">
-                    <img src="//via.placeholder.com/500x400/aba?text=5" class="img-fluid" alt="" />
-                  </div>
-                  <div class="card-img-overlay">Slide 5</div>
-                </div>
-              </div>
-            </div>
-            <div class="carousel-item">
-              <div class="col-md-3">
-                <div class="card">
-                  <div class="card-img">
-                    <img src="//via.placeholder.com/500x400/fc0?text=6" class="img-fluid" alt="" />
-                  </div>
-                  <div class="card-img-overlay">Slide 6</div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <a class="carousel-control-prev bg-transparent w-aut" href="#recipeCarousel" role="button" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-          </a>
-          <a class="carousel-control-next bg-transparent w-aut" href="#recipeCarousel" role="button" data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-          </a>
-        </div>
-      </div>
-      <h5 class="mt-2 fw-light">advances one slide at a time</h5>
+    <div
+      className={className}
+      style={{ ...style, display: "block" }}
+      onClick={onClick}
+    >
+      <img class="d-block w-100" src="./assets/next.svg" alt="First slide" />
+    </div >
+  );
+}
+
+export const SamplePrevArrow = (props) => {
+  const { className, style, onClick } = props;
+  return (
+    <div
+      className={className}
+      style={{ ...style, display: "block" }}
+      onClick={onClick}
+    >
+      <img class="d-block w-100" src="./assets/previous.svg" alt="First slide" />
     </div>
-  )
+  );
+}
+
+const SlideProducts = ({ products, title }) => {
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 4,
+    slidesToScroll: 4,
+    nextArrow: <SampleNextArrow />,
+    prevArrow: <SamplePrevArrow />
+  };
+  return (
+    <>
+      <div className="container my-5 py-3">
+        <div className="row">
+          <div className="col-12">
+            <h2 className="display-5 text-center">{title}</h2>
+            <hr />
+          </div>
+        </div>
+        <div className="row justify-content-center">
+          <div className="slider-product-section">
+            <Slider {...settings}>
+              {products.map((product) => <ProductCard product={product} />)}
+            </Slider>
+          </div>
+        </div>
+        <div className="row justify-content-center">
+          <button className="button-loadmore">More</button>
+        </div>
+
+      </div>
+    </>
+
+
+
+  );
 }
 
 export default SlideProducts;

@@ -1,3 +1,5 @@
+$home-slide-heigh: 500px;
+
 .carousel {
   height: 700px;
 
@@ -10,6 +12,24 @@
       img {
         height: inherit;
       }
+    }
+  }
+}
+
+.slider-home-image {
+  display: flex;
+  justify-content: center;
+  height: $home-slide-heigh;
+
+  .slick-slider {
+    width: 80%;
+
+    .slick-list {
+      height: $home-slide-heigh !important;
+    }
+
+    img {
+      height: $home-slide-heigh;
     }
   }
 }
