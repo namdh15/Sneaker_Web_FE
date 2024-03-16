@@ -5,8 +5,6 @@ import HomeAbout from "../components/HomeAbout";
 import * as Api from "../services/product"
 import SkeletonSimilarProducts from "../components/sub-components/SkeletonSimilarProducts";
 
-
-
 function Home() {
   const [data, setData] = useState([]);
   const [filter, setFilter] = useState(data);
@@ -27,9 +25,9 @@ function Home() {
     <>
       <SlideImageHomepage />
       <HomeAbout />
-      {loading ? <SkeletonSimilarProducts /> : <SlideProducts products={filter?.slice(0, 10)} title={'Men Cloth'} />}
-      {loading ? <SkeletonSimilarProducts /> : <SlideProducts products={filter?.slice(0, 10)} title={'Z Gen Fashion'} />}
-      {loading ? <SkeletonSimilarProducts /> : <SlideProducts products={filter?.slice(0, 10)} title={'Hip hop'} />}
+      {loading ? <SkeletonSimilarProducts /> : <SlideProducts products={filter?.slice(0, 10)} title={'MEN COLLECTION'} />}
+      {loading ? <SkeletonSimilarProducts /> : <SlideProducts products={filter?.slice(0, 10)} title={'WOWEN COLLECTION'} />}
+      {loading ? <SkeletonSimilarProducts /> : <SlideProducts products={filter?.slice(0, 10)} title={'Sandals Collection'} />}
     </>
   )
 }

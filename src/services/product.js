@@ -1,9 +1,5 @@
 import { API, handleErrorAPI } from "./setupAPI/api"
 
-
-
-
-
 export const getProducts = async (payload) => {
   try {
     const res = await API.get('products', payload, {

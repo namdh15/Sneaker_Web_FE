@@ -1,8 +1,29 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { Footer, Navbar } from "../components";
+import { useDispatch } from "react-redux";
+import { loginAction } from "../redux/action/authAction";
 
 const Login = () => {
+
+  const [loading, setLoading] = useState(false);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    setLoading(true);
+    const formData = new FormData()
+    formData.append('email', email);
+    formData.append('password', password);
+    await dispatch(loginAction(formData, navigate))
+    setLoading(false);
+  }
+
   return (
     <>
       <Navbar />
@@ -19,6 +40,7 @@ const Login = () => {
                   class="form-control"
                   id="floatingInput"
                   placeholder="name@example.com"
+                  onChange={(e) => setEmail(e.target.value)}
                 />
               </div>
               <div class="my-3">
@@ -28,14 +50,19 @@ const Login = () => {
                   class="form-control"
                   id="floatingPassword"
                   placeholder="Password"
+                  onChange={(e) => setPassword(e.target.value)}
                 />
               </div>
               <div className="my-3">
                 <p>New Here? <Link to="/register" className="text-decoration-underline text-info">Register</Link> </p>
               </div>
               <div className="text-center">
-                <button class="my-2 mx-auto btn btn-dark" type="submit" disabled>
-                  Login
+                <button class="my-2 mx-auto btn btn-dark" type="submit" onClick={handleSubmit}>
+                  {loading ? (
+                    <div class="spinner-border" role="status">
+                      <span class="sr-only">Loading...</span>
+                    </div>
+                  ) : ("Login")}
                 </button>
               </div>
             </form>
