@@ -2,6 +2,7 @@ import React from 'react'
 import { useDispatch } from 'react-redux';
 import { addCart } from '../../redux/action';
 import { Link } from 'react-router-dom';
+import './ItemComponents.scss'
 
 const ProductCard = ({ product }) => {
   const dispatch = useDispatch();
@@ -18,14 +19,14 @@ const ProductCard = ({ product }) => {
       />
       <div className="card-body">
         <h5 className="card-title">
-          {product.name}...
+          {product.name}
         </h5>
         <p className="card-text">
-          {product.name}...
+          {product.name}
         </p>
       </div>
       <ul className="list-group list-group-flush">
-        <li className="list-group-item lead">{product.price} vnd</li>
+        <li className="list-group-item lead">{Number(product.price).toLocaleString('en')} vnd</li>
         {/* <li className="list-group-item">Dapibus ac facilisis in</li>
                     <li className="list-group-item">Vestibulum at eros</li> */}
       </ul>

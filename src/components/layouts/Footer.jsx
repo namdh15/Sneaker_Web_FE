@@ -3,7 +3,7 @@ import React from "react";
 const Footer = () => {
   return (
     <>
-      <footer className="bg-secondary bg-gradient py-4">
+      <footer className="py-4" style={{ backgroundColor: '#bcbcbc ' }}>
         <div className="container">
           <div className="row">
             <div className="col-md-4">

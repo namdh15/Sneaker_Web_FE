@@ -32,15 +32,15 @@ const SlideProducts = ({ products, title }) => {
   const settings = {
     dots: true,
     infinite: true,
-    speed: 500,
     slidesToShow: 4,
-    slidesToScroll: 4,
+    slidesToScroll: 1,
+    autoplaySpeed: 3000,
     nextArrow: <SampleNextArrow />,
     prevArrow: <SamplePrevArrow />
   };
   return (
     <>
-      <div className="container my-5 py-3">
+      <div className="container my-5">
         <div className="row">
           <div className="col-12">
             <h2 className="display-5 text-center">{title}</h2>

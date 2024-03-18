@@ -1,11 +1,15 @@
 import React from 'react'
 import { Footer, Navbar, Product } from "../components"
+import SidebarFilter from '../components/SidebarFilter'
 
 const Products = () => {
   return (
     <>
       <Navbar />
-      <Product />
+      <div style={{ display: 'flex' }}>
+        <SidebarFilter />
+        <Product />
+      </div>
       <Footer />
     </>
   )

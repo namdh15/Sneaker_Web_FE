@@ -1,8 +1,7 @@
 import { useState, useEffect } from "react";
 import { Provider } from "react-redux";
-import axios from "axios";
 import { Helmet } from "react-helmet";
-import { Route, Routes, useLocation } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import Loading from "./components/item-components/Loading";
 import createAppStore from "./redux/store";
 import { Home, Product, Products, AboutPage, ContactPage, Cart, Login, Register, Checkout, PageNotFound } from "./pages"
@@ -28,7 +27,6 @@ const genLayoutElement = (el, isPublic = false) => {
 }
 
 const AppContainer = () => {
-  const location = useLocation();
   const [store, setStore] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
