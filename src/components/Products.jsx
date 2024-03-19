@@ -31,12 +31,12 @@ const Products = () => {
       <>
         <div className="buttons text-center py-5">
           <button className="btn btn-outline-dark btn-sm m-2" onClick={() => setFilter(data)}>All</button>
-          <button className="btn btn-outline-dark btn-sm m-2" onClick={() => filterProduct(0)}>Men</button>
+          <button className="btn btn-outline-dark btn-sm m-2" onClick={() => filterProduct(0)}>Shoes</button>
           <button className="btn btn-outline-dark btn-sm m-2" onClick={() => filterProduct(1)}>
-            Women
+            Sandals
           </button>
-          <button className="btn btn-outline-dark btn-sm m-2" onClick={() => filterProduct(2)}>Gilrs</button>
-          <button className="btn btn-outline-dark btn-sm m-2" onClick={() => filterProduct(3)}>Boys</button>
+          <button className="btn btn-outline-dark btn-sm m-2" onClick={() => filterProduct(2)}>Running</button>
+          <button className="btn btn-outline-dark btn-sm m-2" onClick={() => filterProduct(3)}>Sneaker</button>
         </div>
 
         {filter.map((product) => {

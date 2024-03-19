@@ -16,10 +16,10 @@ function Home() {
     const getProducts = async () => {
       setLoading(true);
       const [resMen, resWomen, resGirl, resBoy] = await Promise.all([
-        Api.getProducts({ categories: 0 }),
-        Api.getProducts({ categories: 1 }),
-        Api.getProducts({ categories: 2 }),
-        Api.getProducts({ categories: 3 })
+        Api.getProducts({ gender: 0 }),
+        Api.getProducts({ gender: 1 }),
+        Api.getProducts({ gender: 2 }),
+        Api.getProducts({ gender: 3 })
       ]);
       setDataMen(resMen);
       setDataWomen(resWomen);
