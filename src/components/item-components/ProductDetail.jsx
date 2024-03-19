@@ -2,10 +2,12 @@ import React from 'react'
 import { addCart } from '../../redux/action';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const ProductDetail = ({ product }) => {
   const dispatch = useDispatch();
   const addProduct = (product) => {
+    toast.success("Add an item to cart successful")
     dispatch(addCart(product));
   };
 
@@ -33,7 +35,7 @@ const ProductDetail = ({ product }) => {
             <h3 className="display-6  my-4">Quantity: {product.stock}</h3>
             <p className="lead">{product.description}</p>
             <button
-              className="btn btn-outline-dark"
+              className="btn btn-dark"
               onClick={() => addProduct(product)}
             >
               Add to Cart

@@ -6,16 +6,25 @@ import * as Api from "../services/product"
 import SkeletonSimilarProducts from "../components/sub-components/SkeletonSimilarProducts";
 
 function Home() {
-  const [data, setData] = useState([]);
-  const [filter, setFilter] = useState(data);
+  const [dataMen, setDataMen] = useState([]);
+  const [dataWomen, setDataWomen] = useState([]);
+  const [dataGirl, setDataGirl] = useState([]);
+  const [dataBoy, setDataBoy] = useState([]);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const getProducts = async () => {
       setLoading(true);
-      const response = await Api.getProducts();
-      setData(response);
-      setFilter(response);
+      const [resMen, resWomen, resGirl, resBoy] = await Promise.all([
+        Api.getProducts({ categories: 0 }),
+        Api.getProducts({ categories: 1 }),
+        Api.getProducts({ categories: 2 }),
+        Api.getProducts({ categories: 3 })
+      ]);
+      setDataMen(resMen);
+      setDataWomen(resWomen);
+      setDataGirl(resGirl);
+      setDataBoy(resBoy);
       setLoading(false);
     };
     getProducts();
@@ -25,9 +34,10 @@ function Home() {
     <>
       <SlideImageHomepage />
       <HomeAbout />
-      {loading ? <SkeletonSimilarProducts /> : <SlideProducts products={filter?.slice(0, 10)} title={'MEN COLLECTION'} />}
-      {loading ? <SkeletonSimilarProducts /> : <SlideProducts products={filter?.slice(0, 10)} title={'WOWEN COLLECTION'} />}
-      {loading ? <SkeletonSimilarProducts /> : <SlideProducts products={filter?.slice(0, 10)} title={'Sandals Collection'} />}
+      {loading ? <SkeletonSimilarProducts /> : <SlideProducts products={dataMen?.slice(0, 10)} title={'Men Collection'} />}
+      {loading ? <SkeletonSimilarProducts /> : <SlideProducts products={dataWomen?.slice(0, 10)} title={'Women Collection'} />}
+      {loading ? <SkeletonSimilarProducts /> : <SlideProducts products={dataGirl?.slice(0, 10)} title={'Girl Collection'} />}
+      {loading ? <SkeletonSimilarProducts /> : <SlideProducts products={dataBoy?.slice(0, 10)} title={'Boy Collection'} />}
     </>
   )
 }

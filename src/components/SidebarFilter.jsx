@@ -14,7 +14,7 @@ const SidebarFilter = ({ applyFilters }) => {
   };
 
   return (
-    <div className="sidebar" style={{ flex: '1 0 20%', paddingLeft: '2em' }}>
+    <div className="sidebar">
       <h4>Filter Sandals</h4>
 
       <div>
@@ -219,7 +219,7 @@ const SidebarFilter = ({ applyFilters }) => {
           </div>
         </div>
       </div>
-      <button className="btn btn-outline-dark btn-sm m-2" onClick={handleApplyFilters}>Apply Filters</button>
+      <button className="btn btn-outline-dark btn-sm m-2" onClick={handleApplyFilters} disabled>Apply Filters</button>
     </div>
   );
 };

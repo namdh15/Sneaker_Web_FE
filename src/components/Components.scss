@@ -54,6 +54,9 @@
 }
 
 .sidebar {
+  flex: 1 0 20%;
+  padding-left: 2em;
+
   .filter-type-content {
     display: flex;
     flex-wrap: wrap;
@@ -95,6 +98,18 @@
         }
       }
     }
+  }
+
+  @media screen and (min-width: 1368px) {
+    flex: 0.2 0 15%;
+  }
+}
+
+.list-poducts {
+  margin: 0 10em;
+
+  @media screen and (max-width: 1368px) {
+    margin: 0 4em;
   }
 }
 

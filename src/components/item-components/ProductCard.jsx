@@ -3,10 +3,12 @@ import { useDispatch } from 'react-redux';
 import { addCart } from '../../redux/action';
 import { Link } from 'react-router-dom';
 import './ItemComponents.scss'
+import { toast } from 'react-toastify';
 
 const ProductCard = ({ product }) => {
   const dispatch = useDispatch();
   const addProduct = (product) => {
+    toast.success("Add an item to cart successful")
     dispatch(addCart(product))
   }
   return (

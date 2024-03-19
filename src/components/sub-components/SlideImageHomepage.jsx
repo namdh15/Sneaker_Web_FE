@@ -8,7 +8,7 @@ const SlideImageHomepage = () => {
   var settings = {
     dots: true,
     infinite: true,
-    speed: 1000,
+    speed: 1500,
     slidesToShow: 1,
     slidesToScroll: 1,
     autoplay: true,
@@ -26,6 +26,9 @@ const SlideImageHomepage = () => {
         </div>
         <div>
           <img class="d-block w-100" src="./assets/home_3.jpg" alt="Third slide" />
+        </div>
+        <div>
+          <img class="d-block w-100" src="./assets/home_4.jpg" alt="Fourth slide" />
         </div>
       </Slider>
     </div>

@@ -2,31 +2,31 @@ import Slider from "react-slick";
 import "./Components.scss"
 import ProductCard from "./item-components/ProductCard";
 
-export const SampleNextArrow = (props) => {
-  const { className, style, onClick } = props;
-  return (
-    <div
-      className={className}
-      style={{ ...style, display: "block" }}
-      onClick={onClick}
-    >
-      <img class="d-block w-100" src="./assets/next.svg" alt="First slide" />
-    </div >
-  );
-}
+// export const SampleNextArrow = (props) => {
+//   const { className, style, onClick } = props;
+//   return (
+//     <div
+//       className={className}
+//       style={{ ...style, display: "block" }}
+//       onClick={onClick}
+//     >
+//       <img class="d-block w-100" src="./assets/next.svg" alt="First slide" />
+//     </div >
+//   );
+// }
 
-export const SamplePrevArrow = (props) => {
-  const { className, style, onClick } = props;
-  return (
-    <div
-      className={className}
-      style={{ ...style, display: "block" }}
-      onClick={onClick}
-    >
-      <img class="d-block w-100" src="./assets/previous.svg" alt="First slide" />
-    </div>
-  );
-}
+// export const SamplePrevArrow = (props) => {
+//   const { className, style, onClick } = props;
+//   return (
+//     <div
+//       className={className}
+//       style={{ ...style, display: "block" }}
+//       onClick={onClick}
+//     >
+//       <img class="d-block w-100" src="./assets/previous.svg" alt="First slide" />
+//     </div>
+//   );
+// }
 
 const SlideProducts = ({ products, title }) => {
   const settings = {
@@ -35,8 +35,8 @@ const SlideProducts = ({ products, title }) => {
     slidesToShow: 4,
     slidesToScroll: 1,
     autoplaySpeed: 3000,
-    nextArrow: <SampleNextArrow />,
-    prevArrow: <SamplePrevArrow />
+    // nextArrow: <SampleNextArrow />,
+    // prevArrow: <SamplePrevArrow />
   };
   return (
     <>

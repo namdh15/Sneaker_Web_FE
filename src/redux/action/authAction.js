@@ -1,9 +1,9 @@
 import * as api from "../../services/auth";
 import * as types from '../types/authType';
 import { isValidToken } from "../../utils/tokenUtils";
+import { toast } from "react-toastify";
 
 export const initializeAuth = () => async (dispatch) => {
-  console.log(JSON.parse(localStorage.getItem("profile")));
   const accessToken = JSON.parse(localStorage.getItem("profile"))?.token;
   if (accessToken) {
     if (isValidToken(accessToken)) {
@@ -31,13 +31,56 @@ export const setInitialAuthState = (navigate) => async (dispatch) => {
 export const loginAction = (formData, navigate) => async (dispatch) => {
   try {
     const respone = await api.login(formData)
-    console.log(respone);
-    localStorage.setItem("profile", JSON.stringify(respone));
-    dispatch({
-      type: types.SIGNIN_SUCCESS,
-      payload: respone,
+    localStorage.setItem("profile", JSON.stringify(respone?.data));
+    if (+respone?.statusCode === 200) {
+      toast.success("Welcome back !");
+      dispatch({
+        type: types.SIGNIN_SUCCESS,
+        payload: respone?.data,
+      });
+      navigate("/");
+    } else if (+respone?.statusCode !== 200) {
+      respone.errors?.map((error) => {
+        toast.error(error);
+        return false;
+      })
+      dispatch({
+        type: types.SIGNIN_FAIL,
+        payload: respone?.data,
+      });
+    }
+    return;
+  } catch (error) {
+    await dispatch({
+      type: types.SIGNIN_FAIL,
+      payload: types.ERROR_MESSAGE,
     });
-    navigate("/");
+    navigate("/signin");
+  }
+}
+
+export const registerAction = (formData, navigate) => async (dispatch) => {
+  try {
+    const respone = await api.register(formData)
+    localStorage.setItem("profile", JSON.stringify(respone?.data));
+    if (+respone?.statusCode === 200) {
+      toast.success("Welcome to Sandal world !");
+      dispatch({
+        type: types.SIGNUP_SUCCESS,
+        payload: respone?.data,
+      });
+      navigate("/");
+    } else if (+respone?.statusCode !== 200) {
+      respone.errors?.map((error) => {
+        toast.error(error);
+        return false;
+      })
+      dispatch({
+        type: types.SIGNIN_FAIL,
+        payload: respone?.data,
+      });
+    }
+    return;
   } catch (error) {
     await dispatch({
       type: types.SIGNIN_FAIL,

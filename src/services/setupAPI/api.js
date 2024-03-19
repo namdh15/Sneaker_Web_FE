@@ -24,9 +24,10 @@ API.interceptors.request.use((req) => {
 
 export const handleErrorAPI = async (error) => {
   try {
-    const errorMessage = error.response?.data?.message || "Exist an error";
-    const data = null;
-    return { error: errorMessage, data }
+    const data = error?.response;
+    const errorMessage = Object.values(error?.response?.data).flat() || ["Exist an error"];
+    const statusCode = error?.response?.status
+    return { errors: errorMessage, data, statusCode }
   } catch (error) {
     throw new Error("Exist an error")
   }

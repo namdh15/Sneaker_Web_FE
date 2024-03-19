@@ -31,9 +31,10 @@ const authReducer = (state = initialState, action) => {
     case types.SIGNUP_SUCCESS:
       return {
         ...state,
-        signInError: null,
-        signUpError: [],
+        userData: payload ? payload : null,
+        accessToken: payload ? payload.token : null,
         successMessage: payload ? payload : null,
+        signUpError: [],
       };
 
     case types.SIGNUP_FAIL:
@@ -48,7 +49,7 @@ const authReducer = (state = initialState, action) => {
       return {
         ...state,
         userData: payload ? payload : null,
-        accessToken: payload ? payload.accessToken : null,
+        accessToken: payload ? payload.token : null,
         signInError: null,
         successMessage: payload ? payload : null,
       };

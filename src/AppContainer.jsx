@@ -7,6 +7,8 @@ import createAppStore from "./redux/store";
 import { Home, Product, Products, AboutPage, ContactPage, Cart, Login, Register, Checkout, PageNotFound } from "./pages"
 import Layout from "./components/layouts/Layout";
 import UserProfile from "./pages/UserProfile";
+import { ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 // import initialStore from "./redux/store";
 
 const ErrorComponent = ({ errorMessage }) => (
@@ -72,6 +74,7 @@ const AppContainer = () => {
 
   return (
     <Provider store={store}>
+      <ToastContainer />
       {/* <Helmet>
         <title>{getTitleFromRoute(location.pathname)}</title>
       </Helmet> */}

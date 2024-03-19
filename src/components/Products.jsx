@@ -23,7 +23,8 @@ const Products = () => {
 
   const filterProduct = (cat) => {
     const updatedList = data.filter((item) => item.category === cat);
-    setFilter(updatedList);
+    // setFilter(updatedList); // ************** backing to filter rely on UI condition
+    setFilter(data);
   }
   const ShowProducts = () => {
     return (
@@ -50,7 +51,7 @@ const Products = () => {
   };
   return (
     <>
-      <div className="container my-3 py-3">
+      <div className="list-poducts my-3 py-3 pr-5">
         <div className="row">
           <div className="col-12">
             <h2 className="display-5 text-center">Latest Products</h2>
