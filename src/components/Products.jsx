@@ -22,21 +22,21 @@ const Products = () => {
   }, []);
 
   const filterProduct = (cat) => {
-    const updatedList = data.filter((item) => item.category === cat);
-    // setFilter(updatedList); // ************** backing to filter rely on UI condition
-    setFilter(data);
+    const updatedList = data.filter((item) => item.categories === cat);
+    setFilter(updatedList); 
+    // setFilter(data);
   }
   const ShowProducts = () => {
     return (
       <>
         <div className="buttons text-center py-5">
           <button className="btn btn-outline-dark btn-sm m-2" onClick={() => setFilter(data)}>All</button>
-          <button className="btn btn-outline-dark btn-sm m-2" onClick={() => filterProduct("men's clothing")}>Men</button>
-          <button className="btn btn-outline-dark btn-sm m-2" onClick={() => filterProduct("women's clothing")}>
+          <button className="btn btn-outline-dark btn-sm m-2" onClick={() => filterProduct(0)}>Men</button>
+          <button className="btn btn-outline-dark btn-sm m-2" onClick={() => filterProduct(1)}>
             Women
           </button>
-          <button className="btn btn-outline-dark btn-sm m-2" onClick={() => filterProduct("jewelery")}>Sandals</button>
-          <button className="btn btn-outline-dark btn-sm m-2" onClick={() => filterProduct("electronics")}>Others</button>
+          <button className="btn btn-outline-dark btn-sm m-2" onClick={() => filterProduct(2)}>Gilrs</button>
+          <button className="btn btn-outline-dark btn-sm m-2" onClick={() => filterProduct(3)}>Boys</button>
         </div>
 
         {filter.map((product) => {

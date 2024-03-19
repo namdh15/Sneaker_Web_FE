@@ -8,6 +8,7 @@ import Footer from "../components/layouts/Footer";
 const Cart = () => {
   const state = useSelector((state) => state.handleCart);
   const dispatch = useDispatch();
+  console.log(state);
 
   const EmptyCart = () => {
     return (
@@ -23,6 +24,24 @@ const Cart = () => {
       </div>
     );
   };
+
+  // To-Do: move to constant folder
+  const genColor = (colorCode) => {
+    switch (colorCode) {
+      case 0:
+        return 'Black'
+      case 1:
+        return 'Grey'
+      case 2:
+        return 'Blue'
+      case 3:
+        return 'Orange'
+      case 4:
+        return 'Navy'
+      default:
+        break;
+    }
+  }
 
   const addItem = (product) => {
     dispatch(addCart(product));
@@ -65,7 +84,7 @@ const Cart = () => {
                                 <img
                                   src={item.image}
                                   // className="w-100"
-                                  alt={item.title}
+                                  alt={item.name}
                                   width={100}
                                   height={75}
                                 />
@@ -74,10 +93,10 @@ const Cart = () => {
 
                             <div className="col-lg-5 col-md-6">
                               <p>
-                                <strong>{item.title}</strong>
+                                <strong>{item.name}</strong>
                               </p>
-                              {/* <p>Color: blue</p>
-                              <p>Size: M</p> */}
+                              <p>Color: {genColor(item.color)}</p>
+                              <p>Size: M</p>
                             </div>
 
                             <div className="col-lg-4 col-md-6">
