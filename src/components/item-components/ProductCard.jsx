@@ -24,7 +24,7 @@ const ProductCard = ({ product }) => {
           {product.name}
         </h5>
         <p className="card-text">
-          {product.name}
+          {product.description}
         </p>
       </div>
       <ul className="list-group list-group-flush">
