@@ -9,6 +9,9 @@ import Layout from "./components/layouts/Layout";
 import UserProfile from "./pages/UserProfile";
 import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import DashboardPage from "./pages/DashboardPage";
+import DetailProduct from "./pages/DetailProduct";
+import CreateProductPage from "./pages/CreateProductPage";
 // import initialStore from "./redux/store";
 
 const ErrorComponent = ({ errorMessage }) => (
@@ -91,6 +94,9 @@ const AppContainer = () => {
         <Route path="/checkout" element={<Checkout />} />
         <Route path="*" element={<PageNotFound />} />
         <Route path="/product/*" element={<PageNotFound />} />
+        <Route path="/admin" element={genLayoutElement(<DashboardPage />)} />
+        <Route path="/admin/create-product" element={<CreateProductPage />} />
+        <Route path="/testing" element={<DetailProduct />} />
       </Routes>
     </Provider>
   );

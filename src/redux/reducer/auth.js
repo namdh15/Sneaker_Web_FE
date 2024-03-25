@@ -54,6 +54,23 @@ const authReducer = (state = initialState, action) => {
         successMessage: payload ? payload : null,
       };
 
+    case types.SIGNIN_AS_ADMIN_SUCCESS:
+      return {
+        ...state,
+        userData: payload ? payload : null,
+        accessToken: payload ? payload.token : null,
+        signInError: null,
+        successMessage: payload ? payload : null,
+      };
+
+    case types.SIGNIN_AS_ADMIN_FAIL:
+      return {
+        ...state,
+        successMessage: null,
+        signUpError: [],
+        signInError: payload ? payload : null,
+      };
+
     case types.SIGNIN_FAIL:
       return {
         ...state,

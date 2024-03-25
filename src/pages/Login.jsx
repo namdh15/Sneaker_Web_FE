@@ -29,6 +29,20 @@ const Login = () => {
       <Navbar />
       <div className="container my-3 py-3">
         <h1 className="text-center">Login</h1>
+    
+    
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+          <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Home</button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Profile</button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button" role="tab" aria-controls="contact" aria-selected="false">Contact</button>
+          </li>
+        </ul>
+        
         <hr />
         <div class="row my-4 h-100">
           <div className="col-md-4 col-lg-4 col-sm-8 mx-auto">

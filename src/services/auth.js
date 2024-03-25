@@ -18,3 +18,12 @@ export const login = async (formData) => {
   }
 }
 
+
+export const loginAsAdmin = async (formData) => {
+  try {
+    const res = await API.post('/auth/login', formData);
+    return { data: res?.data, statusCode: res?.status, message: res?.statusText }
+  } catch (error) {
+    return handleErrorAPI(error);
+  }
+}

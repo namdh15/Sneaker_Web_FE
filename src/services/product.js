@@ -2,9 +2,6 @@ import { API, handleErrorAPI } from "./setupAPI/api"
 
 export const getProducts = async (payload = {}) => {
   try {
-    // const { category, gender, color, min_price, max_price } = payload;
-    // const createQuery = `/products?categories=${category}&gender=${gender}&color=${color}&min_price=${min_price}&max_price=${max_price}`
-
     const queryParams = Object.entries(payload)
       .filter(([key, value]) => value !== undefined)
       .map(([key, value]) => `${key}=${value}`)
@@ -27,6 +24,14 @@ export const getProduct = async (productCode) => {
   try {
     const res = await API.get(`product/${productCode}`);
     return res?.data
+  } catch (error) {
+
+  }
+}
+
+export const createProduct = async (formData) => {
+  try {
+    const res = await API.post('/auth/login', formData);
   } catch (error) {
 
   }
