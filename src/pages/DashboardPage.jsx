@@ -2,6 +2,10 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import * as Api from "../services/product"
+import ConfirmModal from "../components/item-components/ConfirmModal";
+import { PRODUCT_CATEGORIES } from "../constants/products.constant";
+import { toast } from "react-toastify";
+import EditProductModal from "../components/EditProductModal";
 
 export const AdminControlComponent = () => {
   return (
@@ -41,7 +45,7 @@ const EmptyTable = () => {
         <div className="col-md-12">
           <div className="card">
             <div className="card-header">
-              <h5>Cart</h5>
+              <h5>List Products</h5>
             </div>
             <div className="card-body cart">
               <div className="col-sm-12 empty-cart-cls text-center">
@@ -53,7 +57,7 @@ const EmptyTable = () => {
                   alt=""
                 />
                 <h3>
-                  <strong>Your Cart is Empty</strong>
+                  <strong>Your warehouse is Empty</strong>
                 </h3>
                 <h4>Add something to make me happy :</h4>
                 <a href="#" className="btn btn-primary cart-btn-transform m-3" data-abc="true"   >
@@ -70,13 +74,13 @@ const EmptyTable = () => {
 }
 
 const ProductItem = (props) => {
-  const { product } = props;
+  const { product, setSelectedItem } = props;
   return (
     <tr>
       <td className="align-middle">
         <div className="custom-control custom-control-inline custom-checkbox custom-control-nameless m-0 align-top">
-          <input type="checkbox" className="custom-control-input" id="item-1" />
-          <label className="custom-control-label" htmlFor="item-1" />
+          <input type="checkbox" className="custom-control-input" id={product.code} />
+          <label className="custom-control-label" htmlFor={product.code} />
         </div>
       </td>
       <td className="align-middle text-center">
@@ -103,7 +107,7 @@ const ProductItem = (props) => {
         {product.color}
       </td> */}
       <td className="text-nowrap align-middle">
-        {product.categories}
+        {PRODUCT_CATEGORIES[product.categories]}
       </td>
       {/* <td className="text-nowrap align-middle">
         {product.stock}
@@ -121,12 +125,16 @@ const ProductItem = (props) => {
             type="button"
             data-toggle="modal"
             data-target="#user-form-modal"
+            onClick={() => setSelectedItem(product)}
           >
             Edit
           </button>
           <button
             className="btn btn-sm btn-outline-secondary badge"
             type="button"
+            data-toggle="modal"
+            data-target="#exampleModalCenter"
+            onClick={() => setSelectedItem(product)}
           >
             <i className="fa fa-trash" style={{ color: 'black' }} />
           </button>
@@ -138,15 +146,24 @@ const ProductItem = (props) => {
 
 const DashboardPage = () => {
   const [allProducts, setAllProducts] = useState([]);
+  const [selectedItem, setSelectedItem] = useState();
 
   useEffect(() => {
     const getProducts = async () => {
       const response = await Api.getProducts();
-      console.log(response);
       setAllProducts(response);
     };
     getProducts();
   }, []);
+
+
+  const handleDeleteProduct = async (productCode) => {
+    console.log(productCode);
+    const res = await Api.deleteProduct(productCode)
+    setAllProducts(allProducts.filter((item) => item?.code !== productCode))
+    toast.success('You removed this product!')
+    console.log(res);
+  }
 
   return (
     <>
@@ -175,43 +192,49 @@ const DashboardPage = () => {
                     </div>
                     <div className="e-table">
                       <div className="table-responsive table-lg mt-3">
-                        <table className="table table-bordered">
-                          <thead>
-                            <tr>
-                              <th className="align-top" style={{ width: '36px' }}>
-                                <div className="custom-control custom-control-inline custom-checkbox custom-control-nameless m-0">
-                                  <input
-                                    type="checkbox"
-                                    className="custom-control-input"
-                                    id="all-items"
-                                  />
-                                  <label
-                                    className="custom-control-label"
-                                    htmlFor="all-items"
-                                  />
-                                </div>
-                              </th>
-                              <th style={{ width: '90px' }}>Photo</th>
-                              <th>Code</th>
-                              <th>Name</th>
-                              <th style={{ width: '100px' }} className="max-width">Price</th>
-                              {/* <th className="max-width">Gender</th>
+                        {allProducts?.length ?
+                          <table className="table table-bordered">
+                            <thead>
+                              <tr>
+                                <th className="align-top" style={{ width: '36px' }}>
+                                  <div className="custom-control custom-control-inline custom-checkbox custom-control-nameless m-0">
+                                    <input
+                                      type="checkbox"
+                                      className="custom-control-input"
+                                      id="all-items"
+                                    />
+                                    <label
+                                      className="custom-control-label"
+                                      htmlFor="all-items"
+                                    />
+                                  </div>
+                                </th>
+                                <th style={{ width: '90px' }}>Photo</th>
+                                <th>Code</th>
+                                <th>Name</th>
+                                <th style={{ width: '100px' }} className="max-width">Price</th>
+                                {/* <th className="max-width">Gender</th>
                               <th className="max-width">Color</th> */}
-                              <th style={{ width: '80px' }} className="max-width">Category</th>
-                              {/* <th className="sortable">Quantity</th> */}
-                              <th style={{ width: '80px' }}> Available </th>
-                              <th style={{ width: '80px' }}>Actions</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {
-                              allProducts?.map((item, index) => (
-                                <ProductItem product={item || {}} />
-                              ))
-                            }
-                            <ProductItem product={allProducts[1] || {}} />
-                          </tbody>
-                        </table>
+                                <th style={{ width: '80px' }} className="max-width">Category</th>
+                                {/* <th className="sortable">Quantity</th> */}
+                                <th style={{ width: '80px' }}> Available </th>
+                                <th style={{ width: '80px' }}>Actions</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {
+                                allProducts?.map((item, index) => (
+                                  <ProductItem
+                                    product={item || {}}
+                                    index={index}
+                                    setSelectedItem={setSelectedItem}
+                                  />
+                                ))
+                              }
+                              <ProductItem product={allProducts[1] || {}} />
+                            </tbody>
+                          </table> : <EmptyTable />
+                        }
                       </div>
                       <div className="d-flex justify-content-center">
                         <ul className="pagination mt-3 mb-0">
@@ -266,8 +289,6 @@ const DashboardPage = () => {
                       <button
                         className="btn btn-success btn-block"
                         type="button"
-                        data-toggle="modal"
-                        data-target="#user-form-modal"
                       >
                         <Link className="nav-link px-2 active" to='/admin/create-product' >
                           Create Product
@@ -378,194 +399,17 @@ const DashboardPage = () => {
               </div>
             </div>
             {/* Product Form Modal */}
-            {/* <div
-              className="modal fade"
-              role="dialog"
-              tabIndex={-1}
-              id="user-form-modal"
-            >
-              <div className="modal-dialog modal-lg" role="document">
-                <div className="modal-content">
-                  <div className="modal-header">
-                    <h5 className="modal-title">Create Product</h5>
-                    <button type="button" className="close" data-dismiss="modal">
-                      <span aria-hidden="true">×</span>
-                    </button>
-                  </div>
-                  <div className="modal-body">
-                    <div className="py-1">
-                      <form className="form" noValidate="">
-                        <div className="row">
-                          <div className="col">
-                            <div className="row">
-                              <div className="col">
-                                <div className="form-group">
-                                  <label>Full Name</label>
-                                  <input
-                                    className="form-control"
-                                    type="text"
-                                    name="name"
-                                    placeholder="John Smith"
-                                    defaultValue="John Smith"
-                                  />
-                                </div>
-                              </div>
-                              <div className="col">
-                                <div className="form-group">
-                                  <label>Username</label>
-                                  <input
-                                    className="form-control"
-                                    type="text"
-                                    name="username"
-                                    placeholder="johnny.s"
-                                    defaultValue="johnny.s"
-                                  />
-                                </div>
-                              </div>
-                            </div>
-                            <div className="row">
-                              <div className="col">
-                                <div className="form-group">
-                                  <label>Email</label>
-                                  <input
-                                    className="form-control"
-                                    type="text"
-                                    placeholder="user@example.com"
-                                  />
-                                </div>
-                              </div>
-                            </div>
-                            <div className="row">
-                              <div className="col mb-3">
-                                <div className="form-group">
-                                  <label>About</label>
-                                  <textarea
-                                    className="form-control"
-                                    rows={5}
-                                    placeholder="My Bio"
-                                    defaultValue={""}
-                                  />
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="row">
-                          <div className="col-12 col-sm-6 mb-3">
-                            <div className="mb-2">
-                              <b>Change Password</b>
-                            </div>
-                            <div className="row">
-                              <div className="col">
-                                <div className="form-group">
-                                  <label>Current Password</label>
-                                  <input
-                                    className="form-control"
-                                    type="password"
-                                    placeholder="••••••"
-                                  />
-                                </div>
-                              </div>
-                            </div>
-                            <div className="row">
-                              <div className="col">
-                                <div className="form-group">
-                                  <label>New Password</label>
-                                  <input
-                                    className="form-control"
-                                    type="password"
-                                    placeholder="••••••"
-                                  />
-                                </div>
-                              </div>
-                              <div className="col">
-                                <div className="form-group">
-                                  <label>
-                                    Confirm{" "}
-                                    <span className="d-none d-xl-inline">
-                                      Password
-                                    </span>
-                                  </label>
-                                  <input
-                                    className="form-control"
-                                    type="password"
-                                    placeholder="••••••"
-                                  />
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                          <div className="col-12 col-sm-5 offset-sm-1 mb-3">
-                            <div className="mb-2">
-                              <b>Keeping in Touch</b>
-                            </div>
-                            <div className="row">
-                              <div className="col">
-                                <label>Email Notifications</label>
-                                <div className="custom-controls-stacked px-2">
-                                  <div className="custom-control custom-checkbox">
-                                    <input
-                                      type="checkbox"
-                                      className="custom-control-input"
-                                      id="notifications-blog"
-                                      defaultChecked=""
-                                    />
-                                    <label
-                                      className="custom-control-label"
-                                      htmlFor="notifications-blog"
-                                    >
-                                      Blog posts
-                                    </label>
-                                  </div>
-                                  <div className="custom-control custom-checkbox">
-                                    <input
-                                      type="checkbox"
-                                      className="custom-control-input"
-                                      id="notifications-news"
-                                      defaultChecked=""
-                                    />
-                                    <label
-                                      className="custom-control-label"
-                                      htmlFor="notifications-news"
-                                    >
-                                      Newsletter
-                                    </label>
-                                  </div>
-                                  <div className="custom-control custom-checkbox">
-                                    <input
-                                      type="checkbox"
-                                      className="custom-control-input"
-                                      id="notifications-offers"
-                                      defaultChecked=""
-                                    />
-                                    <label
-                                      className="custom-control-label"
-                                      htmlFor="notifications-offers"
-                                    >
-                                      Personal Offers
-                                    </label>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="row">
-                          <div className="col d-flex justify-content-end">
-                            <button className="btn btn-primary" type="submit">
-                              Save Changes
-                            </button>
-                          </div>
-                        </div>
-                      </form>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div> */}
+            <EditProductModal currProduct={selectedItem} />
           </div>
         </div>
       </div >
+      <ConfirmModal
+        modalMessage={'Are you sure to delete this item?'}
+        modalTitle={'Delete this Product'}
+        modalId={'exampleModalCenter'}
+        rightFunc={() => handleDeleteProduct(selectedItem?.code)}
+        leftFunc={() => {}}
+      />
     </>
 
   )

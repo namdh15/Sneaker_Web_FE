@@ -4,11 +4,11 @@ import { addCart, delCart } from "../redux/action";
 import { Link } from "react-router-dom";
 import Navbar from "../components/layouts/Navbar";
 import Footer from "../components/layouts/Footer";
+import { PRODUCT_COLOR } from "../constants/products.constant";
 
 const Cart = () => {
   const state = useSelector((state) => state.handleCart);
   const dispatch = useDispatch();
-  console.log(state);
 
   const EmptyCart = () => {
     return (
@@ -24,24 +24,6 @@ const Cart = () => {
       </div>
     );
   };
-
-  // To-Do: move to constant folder
-  const genColor = (colorCode) => {
-    switch (colorCode) {
-      case 0:
-        return 'Black'
-      case 1:
-        return 'Grey'
-      case 2:
-        return 'Blue'
-      case 3:
-        return 'Orange'
-      case 4:
-        return 'Navy'
-      default:
-        break;
-    }
-  }
 
   const addItem = (product) => {
     dispatch(addCart(product));
@@ -95,7 +77,7 @@ const Cart = () => {
                               <p>
                                 <strong>{item.name}</strong>
                               </p>
-                              <p>Color: {genColor(item.color)}</p>
+                              <p>Color: {PRODUCT_COLOR[item.color]}</p>
                               <p>Size: M</p>
                             </div>
 

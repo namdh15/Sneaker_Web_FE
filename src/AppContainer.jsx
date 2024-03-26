@@ -84,7 +84,7 @@ const AppContainer = () => {
       <Routes>
         <Route path="/" element={genLayoutElement(<Home />)} />
         <Route path="/product" element={<Products />} />
-        <Route path="/product/:code" element={<Product />} />
+        {/* <Route path="/product/:code" element={<Product />} /> */}
         <Route path="/about" element={<AboutPage />} />
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/cart" element={<Cart />} />
@@ -96,7 +96,8 @@ const AppContainer = () => {
         <Route path="/product/*" element={<PageNotFound />} />
         <Route path="/admin" element={genLayoutElement(<DashboardPage />)} />
         <Route path="/admin/create-product" element={<CreateProductPage />} />
-        <Route path="/testing" element={<DetailProduct />} />
+        {/* <Route path="/testing" element={<DetailProduct />} /> */}
+        <Route path="/product/:code" element={genLayoutElement(<DetailProduct />)} />
       </Routes>
     </Provider>
   );

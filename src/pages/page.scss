@@ -619,3 +619,15 @@ input:checked,
 .custom-control {
   margin-right: 2em;
 }
+
+
+
+
+
+
+
+div.required>label:after {
+  margin-left: 0.5em;
+  content: "*";
+  color: red;
+}

@@ -1,38 +1,46 @@
 import { Link } from "react-router-dom";
 import { AdminControlComponent } from "./DashboardPage";
-import { useReducer } from "react";
+import { useEffect, useReducer } from "react";
 import { useState } from "react";
+
+import * as Api from "../services/product"
+import { PRODUCT_CATEGORIES, PRODUCT_COLOR, PRODUCT_GENDER } from "../constants/products.constant";
 
 const sizeConstant = [36, 37, 38, 39, 40]
 
-const CreateProductPage = () => {
+const CreateProductPage = (props) => {
 
   const initialProduct = {
-    code: '',
+    code: null,
     name: 'New Product',
-    price: 0,
-    gender: 0,
-    color: 0,
-    categories: 0,
-    description: '',
-    quantity: 0,
+    price: null,
+    gender: null,
+    color: null,
+    categories: null,
+    description: null,
+    quantity: null,
     image: null,
   }
-
-  const [formValues, setFormValues] = useReducer((currentVals, newVals) => ({ ...currentVals, ...newVals }), initialProduct);
-  const { code, name, price, gender, color, categories, description, quantity } = formValues;
-  const [previewImage, setPreviewImage] = useState(null);
+  const { isEdit, currProduct } = props;
+  const [formValues, setFormValues] = useState();
+  const [previewImage, setPreviewImage] = useState(formValues?.image);
+  useEffect(() => {
+    setFormValues(currProduct);
+    setPreviewImage(currProduct?.image)
+    return () => {}
+  }, [currProduct])
+  const { code, name, price, gender, color, categories, description, quantity } = formValues || initialProduct;
 
   const handleChangeValue = (event) => {
     const { name, value } = event.target;
-    setFormValues({ [name]: value });
+    setFormValues({ ...formValues, [name]: value });
   }
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
       if (file instanceof Blob) {
-        setFormValues({ image: file })
+        setFormValues({ 'image': file })
         var reader = new FileReader();
         reader.onload = function () {
           setPreviewImage(reader.result);
@@ -46,15 +54,26 @@ const CreateProductPage = () => {
     }
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log(formValues);
+    const formData = new FormData();
+    // Append each key-value pair from the initialProduct object to the FormData object
+    Object.keys(formValues).forEach(key => {
+      console.log(key);
+      if (formValues[key]) {
+        formData.append(key, formValues[key]);
+      }
+    });
+    console.log(formData);
+    const res = await Api.createProduct(formData);
+
+    console.log(res);
   }
   return (
     <>
       <div style={{ padding: '3em' }}>
         <div className="row flex-lg-nowrap">
-          <AdminControlComponent />
+          {!isEdit && <AdminControlComponent />}
           <div className="col">
             <div className="row">
               <div className="col mb-3">
@@ -70,22 +89,16 @@ const CreateProductPage = () => {
                             >
                               {previewImage ?
                                 <img style={{ width: '140px', height: '140px' }} src={previewImage} alt="" /> :
-                                <span style={{ color: "rgb(166, 168, 170)", font: "bold 8pt Arial" }} >
-                                  140x140
-                                </span>}
+                                <span style={{ color: "rgb(166, 168, 170)", font: "bold 8pt Arial" }}>140x140</span>}
                             </div>
                           </div>
                         </div>
                         <div className="col d-flex flex-column flex-sm-row justify-content-between mb-3">
                           <div className="text-center text-sm-left mb-2 mb-sm-0">
-                            <h4 className="pt-sm-2 pb-1 mb-0 text-nowrap">
-                              New Product
-                            </h4>
-                            <p className="mb-0">new product</p>
-                            <div className="text-muted">
-                              <small>address</small>
-                            </div>
-                            <div className="mt-2">
+                            <h4 className="pt-sm-2 pb-1 mb-0 text-nowrap" style={{ width: '200px', overflow: 'hidden', textOverflow: 'ellipsis', height: '1.8em' }}>{name}</h4>
+                            <p className="mb-0 text-nowrap" style={{ width: '200px', overflow: 'hidden', textOverflow: 'ellipsis', height: '1.8em' }}>{code}</p>
+                            <div className="text-muted"><small>HaNoi, 231.st Hoang Mai</small></div>
+                            <div className="mt-2 required">
                               <label htmlFor="image">
                                 <input
                                   type="file"
@@ -95,19 +108,17 @@ const CreateProductPage = () => {
                                   accept="image/*"
                                   onChange={handleImageChange}
                                 />
-                                <span class="btn btn-primary">
-                                  <i className="fa fa-fw fa-camera" /> Select Photo
-                                </span>
+                                <span class="btn btn-primary"><i className="fa fa-fw fa-camera" />Select Photo</span>
                               </label>
                             </div>
                           </div>
                           <div className="text-center text-sm-right">
-                            <span className="badge badge-secondary">
-                              administrator
-                            </span>
-                            <div className="text-muted">
-                              <small>System admin</small>
-                            </div>
+                            <>
+                              <span className="badge badge-secondary">administrator</span>
+                              <div className="text-muted">
+                                <small>System admin</small>
+                              </div>
+                            </>
                           </div>
                         </div>
                       </div>
@@ -123,12 +134,12 @@ const CreateProductPage = () => {
                               <div className="col">
                                 <div className="row">
                                   <div className="col">
-                                    <div className="form-group">
+                                    <div className="form-group required">
                                       <label>Code</label>
                                       <input
                                         className="form-control"
                                         type="text"
-                                        name="name"
+                                        name="code"
                                         placeholder="ABC-xyz"
                                         onChange={handleChangeValue}
                                         value={code}
@@ -136,14 +147,13 @@ const CreateProductPage = () => {
                                     </div>
                                   </div>
                                   <div className="col">
-                                    <div className="form-group">
+                                    <div className="form-group required">
                                       <label>Quantity</label>
                                       <input
                                         className="form-control"
                                         type="number"
                                         name="quantity"
                                         placeholder="0"
-                                        defaultValue="0"
                                         onChange={handleChangeValue}
                                         value={quantity}
                                       />
@@ -152,7 +162,7 @@ const CreateProductPage = () => {
                                 </div>
                                 <div className="row">
                                   <div className="col">
-                                    <div className="form-group">
+                                    <div className="form-group required">
                                       <label>Product Name</label>
                                       <input
                                         className="form-control"
@@ -189,7 +199,7 @@ const CreateProductPage = () => {
                                 </div>
                                 <div className="row">
                                   <div className="col">
-                                    <div className="form-group">
+                                    <div className="form-group required">
                                       <label>Price (VND)</label>
                                       <input
                                         className="form-control"
@@ -226,9 +236,9 @@ const CreateProductPage = () => {
                                         value={categories}
                                       >
                                         <option selected>Select category</option>
-                                        <option value="1">One</option>
-                                        <option value="2">Two</option>
-                                        <option value="3">Three</option>
+                                        {PRODUCT_CATEGORIES.map((item, index) => (
+                                          <option value={index}>{item}</option>
+                                        ))}
                                       </select>
                                     </div>
                                   </div>
@@ -245,9 +255,9 @@ const CreateProductPage = () => {
                                         value={color}
                                       >
                                         <option selected>Select color</option>
-                                        <option value="1">One</option>
-                                        <option value="2">Two</option>
-                                        <option value="3">Three</option>
+                                        {PRODUCT_COLOR.map((item, index) => (
+                                          <option value={index}>{item}</option>
+                                        ))}
                                       </select>
                                     </div>
                                   </div>
@@ -264,9 +274,9 @@ const CreateProductPage = () => {
                                         value={gender}
                                       >
                                         <option selected>Select gender</option>
-                                        <option value="1">One</option>
-                                        <option value="2">Two</option>
-                                        <option value="3">Three</option>
+                                        {PRODUCT_GENDER.map((item, index) => (
+                                          <option value={index}>{item}</option>
+                                        ))}
                                       </select>
                                     </div>
                                   </div>
@@ -323,31 +333,33 @@ const CreateProductPage = () => {
                   </div>
                 </div>
               </div>
-              <div className="col-12 col-md-3 mb-3">
-                <div className="card mb-3">
-                  <div className="card-body">
-                    <div className="px-xl-3">
-                      <button className="btn btn-block btn-secondary">
-                        <Link className="nav-link px-2 active" to='/admin'>
-                          <i className="fa fa-sign-out" />
-                          <span> Exit unsave</span>
-                        </Link>
+              {!isEdit &&
+                <div className="col-12 col-md-3 mb-3">
+                  <div className="card mb-3">
+                    <div className="card-body">
+                      <div className="px-xl-3">
+                        <button className="btn btn-block btn-secondary">
+                          <Link className="nav-link px-2 active" to='/admin'>
+                            <i className="fa fa-sign-out" />
+                            <span> Exit unsave</span>
+                          </Link>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="card">
+                    <div className="card-body">
+                      <h6 className="card-title font-weight-bold">Support</h6>
+                      <p className="card-text">
+                        Lorem ipsum, free help from our friendly assistants.
+                      </p>
+                      <button type="button" className="btn btn-primary">
+                        Help
                       </button>
                     </div>
                   </div>
                 </div>
-                <div className="card">
-                  <div className="card-body">
-                    <h6 className="card-title font-weight-bold">Support</h6>
-                    <p className="card-text">
-                      Lorem ipsum, free help from our friendly assistants.
-                    </p>
-                    <button type="button" className="btn btn-primary">
-                      Help
-                    </button>
-                  </div>
-                </div>
-              </div>
+              }
             </div>
           </div>
         </div>

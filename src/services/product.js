@@ -1,4 +1,4 @@
-import { API, handleErrorAPI } from "./setupAPI/api"
+import { API, API_ADMIN, handleErrorAPI } from "./setupAPI/api"
 
 export const getProducts = async (payload = {}) => {
   try {
@@ -8,12 +8,7 @@ export const getProducts = async (payload = {}) => {
       .join('&');
 
     const createQuery = `/products${queryParams ? '?' + queryParams : ''}`;
-    const res = await API.get(createQuery, {
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json;charset=UTF-8"
-      }
-    });
+    const res = await API.get(createQuery);
     return res?.data;
   } catch (error) {
     return handleErrorAPI(error);
@@ -25,14 +20,24 @@ export const getProduct = async (productCode) => {
     const res = await API.get(`product/${productCode}`);
     return res?.data
   } catch (error) {
-
+    return handleErrorAPI(error);
   }
 }
 
 export const createProduct = async (formData) => {
   try {
-    const res = await API.post('/auth/login', formData);
+    const res = await API_ADMIN.post('/product', formData);
+    return res?.data
   } catch (error) {
 
+  }
+}
+
+export const deleteProduct = async (productCode) => {
+  try {
+    const res = await API_ADMIN.delete(`/product/${productCode}`)
+    return res?.data
+  } catch (error) {
+    return handleErrorAPI(error);
   }
 }
