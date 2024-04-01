@@ -1,8 +1,8 @@
 import React from 'react'
-import { Footer, Navbar } from "../components";
 import { useDispatch, useSelector } from 'react-redux';
 import { logoutAction } from '../redux/action/authAction';
 import { useNavigate } from 'react-router-dom';
+import { Footer, Navbar } from '../components';
 const UserProfile = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -63,4 +63,4 @@ const UserProfile = () => {
   )
 }
 
-export default UserProfile
+export default UserProfile;

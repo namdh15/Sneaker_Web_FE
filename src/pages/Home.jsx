@@ -1,9 +1,7 @@
 import { useEffect, useState } from "react";
-import SlideProducts from "../components/SlideProducts";
-import SlideImageHomepage from "../components/sub-components/SlideImageHomepage";
-import HomeAbout from "../components/HomeAbout";
 import * as Api from "../services/product"
-import SkeletonSimilarProducts from "../components/sub-components/SkeletonSimilarProducts";
+import { HomeAbout, SkeletonSimilarProducts, SlideImageHomepage, SlideProducts } from "../components";
+
 
 function Home() {
   const [dataMen, setDataMen] = useState([]);

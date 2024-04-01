@@ -2,11 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Marquee from "react-fast-marquee";
 
-import { Footer, Navbar } from "../components";
-import ProductDetail from "../components/item-components/ProductDetail";
-import SkaletonDetailProduct from "../components/sub-components/SkaletonDetailProduct";
-import SkeletonSimilarProducts from "../components/sub-components/SkeletonSimilarProducts";
-import SimilarProducts from "../components/sub-components/SimilarProducts";
+import { Footer, Navbar, ProductDetail, SimilarProducts, SkaletonDetailProduct, SkeletonSimilarProducts } from "../components";
+
 
 import * as Api from "../services/product"
 

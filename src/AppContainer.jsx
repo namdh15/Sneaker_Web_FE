@@ -2,16 +2,17 @@ import { useState, useEffect } from "react";
 import { Provider } from "react-redux";
 import { Helmet } from "react-helmet";
 import { Route, Routes } from "react-router-dom";
-import Loading from "./components/item-components/Loading";
 import createAppStore from "./redux/store";
-import { Home, Product, Products, AboutPage, ContactPage, Cart, Login, Register, Checkout, PageNotFound } from "./pages"
+import { Home, AboutPage, ContactPage, Cart, Login, Register, Checkout, PageNotFound, ProductsPage } from "./pages"
 import Layout from "./components/layouts/Layout";
 import UserProfile from "./pages/UserProfile";
 import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
-import DashboardPage from "./pages/DashboardPage";
 import DetailProduct from "./pages/DetailProduct";
 import CreateProductPage from "./pages/CreateProductPage";
+import DashboardPageTest from "./pages/DashboardPageTest";
+import DashboardPage from "./pages/DashboardPage";
+import { Loading } from "./components";
 // import initialStore from "./redux/store";
 
 const ErrorComponent = ({ errorMessage }) => (
@@ -83,7 +84,7 @@ const AppContainer = () => {
       </Helmet> */}
       <Routes>
         <Route path="/" element={genLayoutElement(<Home />)} />
-        <Route path="/product" element={<Products />} />
+        <Route path="/product" element={<ProductsPage />} />
         {/* <Route path="/product/:code" element={<Product />} /> */}
         <Route path="/about" element={<AboutPage />} />
         <Route path="/contact" element={<ContactPage />} />
@@ -94,7 +95,8 @@ const AppContainer = () => {
         <Route path="/checkout" element={<Checkout />} />
         <Route path="*" element={<PageNotFound />} />
         <Route path="/product/*" element={<PageNotFound />} />
-        <Route path="/admin" element={genLayoutElement(<DashboardPage />)} />
+        <Route path="/admin-test" element={genLayoutElement(<DashboardPageTest />)} />
+        <Route path="/admin" element={<DashboardPage />} />
         <Route path="/admin/create-product" element={<CreateProductPage />} />
         {/* <Route path="/testing" element={<DetailProduct />} /> */}
         <Route path="/product/:code" element={genLayoutElement(<DetailProduct />)} />

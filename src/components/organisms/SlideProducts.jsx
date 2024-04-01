@@ -1,6 +1,6 @@
 import Slider from "react-slick";
-import "./Components.scss"
-import ProductCard from "./item-components/ProductCard";
+import "./organisms.scss"
+import { EmptyComponent, ProductCard } from "..";
 
 // export const SampleNextArrow = (props) => {
 //   const { className, style, onClick } = props;
@@ -49,20 +49,26 @@ const SlideProducts = ({ products, title }) => {
         </div>
         <div className="row justify-content-center">
           <div className="slider-product-section">
-            <Slider {...settings}>
-              {products.map((product) => <ProductCard product={product} />)}
-            </Slider>
+            {products?.length > 4 ?
+              <Slider {...settings}>
+                {products.map((product) => <ProductCard product={product} />)}
+              </Slider>
+              : <EmptyComponent
+                isSlide={true}
+                message1={'Sorry, there are currently no products available'}
+                message2={`Don't worry, we'll have products available soon!`}
+              />
+            }
           </div>
         </div>
-        <div className="row justify-content-center">
-          <button className="button-loadmore">More</button>
-        </div>
+        {products?.length > 4 ?
+          <div className="row justify-content-center">
+            <button className="button-loadmore">More</button>
+          </div>
+          : <></>}
 
       </div>
     </>
-
-
-
   );
 }
 

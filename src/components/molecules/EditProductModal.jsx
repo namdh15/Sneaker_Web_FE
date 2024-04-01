@@ -1,6 +1,6 @@
 import React from 'react';
-import CreateProductPage from '../pages/CreateProductPage';
-import './Components.scss';
+import CreateProductPage from '../../pages/CreateProductPage';
+import './molecules.scss';
 
 const EditProductModal = (props) => {
   const { currProduct } = props

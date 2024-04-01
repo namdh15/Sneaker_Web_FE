@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { AdminControlComponent } from "./DashboardPage";
+import { AdminControlComponent } from "./DashboardPageTest";
 import { useEffect, useReducer } from "react";
 import { useState } from "react";
 
@@ -27,7 +27,7 @@ const CreateProductPage = (props) => {
   useEffect(() => {
     setFormValues(currProduct);
     setPreviewImage(currProduct?.image)
-    return () => {}
+    return () => { }
   }, [currProduct])
   const { code, name, price, gender, color, categories, description, quantity } = formValues || initialProduct;
 

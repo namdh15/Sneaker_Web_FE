@@ -2,7 +2,7 @@ import React from 'react'
 import { useDispatch } from 'react-redux';
 import { addCart } from '../../redux/action';
 import { Link } from 'react-router-dom';
-import './ItemComponents.scss'
+import './molecules.scss'
 import { toast } from 'react-toastify';
 
 const ProductCard = ({ product }) => {

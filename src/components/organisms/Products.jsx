@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "react-loading-skeleton/dist/skeleton.css";
-import SkeletonProducts from "./sub-components/SkeletonProducts";
-import ProductCard from "./item-components/ProductCard";
-import * as Api from "../services/product"
+import * as Api from "../../services/product"
+import { ProductCard, SkeletonProducts } from "..";
 
 const Products = () => {
   const [data, setData] = useState([]);
