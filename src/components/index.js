@@ -2,6 +2,7 @@
 export { default as EmptyComponent } from './atoms/EmptyComponent'
 export { default as ButtonLoading } from './atoms/ButtonLoading'
 export { default as Loading } from './atoms/Loading'
+export { default as Breadcrumbs } from './atoms/Breadcrumbs'
 
 
 
@@ -12,6 +13,8 @@ export { default as Navbar } from './layouts/Navbar';
 export { default as SkaletonDetailProduct } from './layouts/SkaletonDetailProduct';
 export { default as SkeletonProducts } from './layouts/SkeletonProducts';
 export { default as SkeletonSimilarProducts } from './layouts/SkeletonSimilarProducts';
+//export layouts components ********************************
+export { default as DashboardLayout } from './layouts/dashboard/DashboardLayout';
 
 
 
@@ -21,6 +24,9 @@ export { default as EditProductModal } from './molecules/EditProductModal';
 export { default as HomeAbout } from './molecules/HomeAbout';
 export { default as ProductCard } from './molecules/ProductCard';
 export { default as ProductDetail } from './molecules/ProductDetail';
+//export organisms dashboard components ********************************
+export { default as EarningCard } from './molecules/dashboard/EarningCard';
+export { default as TotalOrderLineChartCard } from './molecules/dashboard/TotalOrderLineChartCard';
 
 
 //export organisms components ********************************
@@ -29,6 +35,8 @@ export { default as SidebarFilter } from './organisms/SidebarFilter';
 export { default as SimilarProducts } from './organisms/SimilarProducts';
 export { default as SlideImageHomepage } from './organisms/SlideImageHomepage';
 export { default as SlideProducts } from './organisms/SlideProducts';
+//export organisms dashboard components ********************************
+export { default as DashboardHeader } from './organisms/dashboard/DashboardHeader';
 
 
 

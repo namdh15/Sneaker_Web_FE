@@ -19,16 +19,16 @@ const SlideImageHomepage = () => {
     <div className='slider-home-image'>
       <Slider {...settings}>
         <div>
-          <img class="d-block w-100" src="./assets/home_1.jpg" alt="First slide" />
+          <img className="d-block w-100" src="./assets/home_1.jpg" alt="First slide" />
         </div>
         <div>
-          <img class="d-block w-100" src="./assets/home_2.jpg" alt="Second slide" />
+          <img className="d-block w-100" src="./assets/home_2.jpg" alt="Second slide" />
         </div>
         <div>
-          <img class="d-block w-100" src="./assets/home_3.jpg" alt="Third slide" />
+          <img className="d-block w-100" src="./assets/home_3.jpg" alt="Third slide" />
         </div>
         <div>
-          <img class="d-block w-100" src="./assets/home_4.jpg" alt="Fourth slide" />
+          <img className="d-block w-100" src="./assets/home_4.jpg" alt="Fourth slide" />
         </div>
       </Slider>
     </div>
