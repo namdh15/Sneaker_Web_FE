@@ -1,14 +1,14 @@
 import { Link } from "react-router-dom";
-import { AdminControlComponent } from "./DashboardPageTest";
-import { useEffect, useReducer } from "react";
+import { useEffect } from "react";
 import { useState } from "react";
 
-import * as Api from "../services/product"
-import { PRODUCT_CATEGORIES, PRODUCT_COLOR, PRODUCT_GENDER } from "../constants/products.constant";
+import * as Api from "../../services/product"
+import { PRODUCT_CATEGORIES, PRODUCT_COLOR, PRODUCT_GENDER } from "../../constants/products.constant";
+import { RowInput, RowSelect } from "../../components";
 
 const sizeConstant = [36, 37, 38, 39, 40]
 
-const CreateProductPage = (props) => {
+const DashboardCreateProduct = (props) => {
 
   const initialProduct = {
     code: null,
@@ -27,7 +27,7 @@ const CreateProductPage = (props) => {
   useEffect(() => {
     setFormValues(currProduct);
     setPreviewImage(currProduct?.image)
-    return () => { }
+    return () => {}
   }, [currProduct])
   const { code, name, price, gender, color, categories, description, quantity } = formValues || initialProduct;
 
@@ -64,16 +64,13 @@ const CreateProductPage = (props) => {
         formData.append(key, formValues[key]);
       }
     });
-    console.log(formData);
     const res = await Api.createProduct(formData);
-
     console.log(res);
   }
   return (
     <>
-      <div style={{ padding: '3em' }}>
+      <div >
         <div className="row flex-lg-nowrap">
-          {!isEdit && <AdminControlComponent />}
           <div className="col">
             <div className="row">
               <div className="col mb-3">
@@ -124,7 +121,7 @@ const CreateProductPage = (props) => {
                       </div>
                       <ul className="nav nav-tabs">
                         <li className="nav-item">
-                          <a href="" className="active nav-link">Settings</a>
+                          <div className="active nav-link">Settings</div>
                         </li>
                       </ul>
                       <div className="tab-content pt-3">
@@ -132,64 +129,54 @@ const CreateProductPage = (props) => {
                           <form className="form" noValidate="">
                             <div className="row">
                               <div className="col">
-                                <div className="row">
-                                  <div className="col">
-                                    <div className="form-group required">
-                                      <label>Code</label>
-                                      <input
-                                        className="form-control"
-                                        type="text"
-                                        name="code"
-                                        placeholder="ABC-xyz"
-                                        onChange={handleChangeValue}
-                                        value={code}
-                                      />
-                                    </div>
-                                  </div>
-                                  <div className="col">
-                                    <div className="form-group required">
-                                      <label>Quantity</label>
-                                      <input
-                                        className="form-control"
-                                        type="number"
-                                        name="quantity"
-                                        placeholder="0"
-                                        onChange={handleChangeValue}
-                                        value={quantity}
-                                      />
-                                    </div>
-                                  </div>
-                                </div>
-                                <div className="row">
-                                  <div className="col">
-                                    <div className="form-group required">
-                                      <label>Product Name</label>
-                                      <input
-                                        className="form-control"
-                                        type="text"
-                                        name="name"
-                                        placeholder="New Product"
-                                        onChange={handleChangeValue}
-                                        value={name}
-                                      />
-                                    </div>
-                                  </div>
-                                </div>
-                                <div className="row">
-                                  <div className="col mb-3">
-                                    <div className="form-group">
-                                      <label>Description</label>
-                                      <textarea
-                                        className="form-control"
-                                        rows={5}
-                                        name="description"
-                                        placeholder="Product Bio"
-                                        onChange={handleChangeValue}
-                                        value={description}
-                                      />
-                                    </div>
-                                  </div>
-                                </div>
+                                <RowInput
+                                  items={[
+                                    {
+                                      disabled: true,
+                                      required: true,
+                                      label: 'Code',
+                                      type: 'text',
+                                      name: 'code',
+                                      placeholder: "ABC-xyz",
+                                      handleChangeValue: handleChangeValue,
+                                      value: code
+                                    },
+                                    {
+                                      required: true,
+                                      label: 'Quantity',
+                                      type: 'number',
+                                      name: 'quantity',
+                                      placeholder: "0",
+                                      handleChangeValue: handleChangeValue,
+                                      value: quantity
+                                    }
+                                  ]}
+                                />
+                                <RowInput
+                                  items={[
+                                    {
+                                      required: true,
+                                      label: 'Product Name',
+                                      type: 'text',
+                                      name: 'name',
+                                      placeholder: "New Product",
+                                      handleChangeValue: handleChangeValue,
+                                      value: name
+                                    }
+                                  ]}
+                                />
+                                <RowInput
+                                  items={[
+                                    {
+                                      label: 'Description',
+                                      name: 'description',
+                                      placeholder: "Product Bio",
+                                      handleChangeValue: handleChangeValue,
+                                      value: description
+                                    }
+                                  ]}
+                                  isTextArea={true}
+                                />
                               </div>
                             </div>
                             <div className="row">
@@ -197,90 +184,37 @@ const CreateProductPage = (props) => {
                                 <div className="mb-2">
                                   <b>Product static</b>
                                 </div>
-                                <div className="row">
-                                  <div className="col">
-                                    <div className="form-group required">
-                                      <label>Price (VND)</label>
-                                      <input
-                                        className="form-control"
-                                        type="number"
-                                        placeholder="0"
-                                        value={price}
-                                        name="price"
-                                        onChange={handleChangeValue}
-                                      />
-                                    </div>
-                                  </div>
-                                </div>
-                                {/* <div className="row">
-                                  <div className="col">
-                                    <div className="form-group">
-                                      <label>Size</label>
-                                      <input
-                                        className="form-control"
-                                        type="number"
-                                        placeholder="0"
-                                      />
-                                    </div>
-                                  </div>
-                                </div> */}
-                                <div className="row">
-                                  <div className="col">
-                                    <div className="form-group">
-                                      <label>Category</label>
-                                      <select
-                                        onChange={handleChangeValue}
-                                        name="categories"
-                                        class="form-select"
-                                        aria-label="Default select example"
-                                        value={categories}
-                                      >
-                                        <option selected>Select category</option>
-                                        {PRODUCT_CATEGORIES.map((item, index) => (
-                                          <option value={index}>{item}</option>
-                                        ))}
-                                      </select>
-                                    </div>
-                                  </div>
-                                </div>
-                                <div className="row">
-                                  <div className="col">
-                                    <div className="form-group">
-                                      <label>Color</label>
-                                      <select
-                                        class="form-select"
-                                        aria-label="Default select example"
-                                        onChange={handleChangeValue}
-                                        name="color"
-                                        value={color}
-                                      >
-                                        <option selected>Select color</option>
-                                        {PRODUCT_COLOR.map((item, index) => (
-                                          <option value={index}>{item}</option>
-                                        ))}
-                                      </select>
-                                    </div>
-                                  </div>
-                                </div>
-                                <div className="row">
-                                  <div className="col">
-                                    <div className="form-group">
-                                      <label>Gender</label>
-                                      <select
-                                        class="form-select"
-                                        aria-label="Default select example"
-                                        onChange={handleChangeValue}
-                                        name="gender"
-                                        value={gender}
-                                      >
-                                        <option selected>Select gender</option>
-                                        {PRODUCT_GENDER.map((item, index) => (
-                                          <option value={index}>{item}</option>
-                                        ))}
-                                      </select>
-                                    </div>
-                                  </div>
-                                </div>
+                                <RowInput
+                                  items={[
+                                    {
+                                      required: true,
+                                      label: 'Price (VND)',
+                                      type: 'number',
+                                      name: 'price',
+                                      placeholder: "0",
+                                      handleChangeValue: handleChangeValue,
+                                      value: price
+                                    }
+                                  ]}
+                                />
+                                <RowSelect
+                                  item={{
+                                    label: 'Category',
+                                    name: 'categories',
+                                    handleChangeValue: handleChangeValue,
+                                    value: categories
+                                  }}
+                                  options={PRODUCT_CATEGORIES}
+                                />
+                                <RowSelect
+                                  item={{
+                                    label: 'Gender',
+                                    name: 'gender',
+                                    handleChangeValue: handleChangeValue,
+                                    value: gender
+                                  }}
+                                  options={PRODUCT_GENDER}
+                                />
                               </div>
                               <div className="col-12 col-sm-5 offset-sm-1 mb-3">
                                 <div className="mb-2">
@@ -369,4 +303,4 @@ const CreateProductPage = (props) => {
   )
 }
 
-export default CreateProductPage;
+export default DashboardCreateProduct;

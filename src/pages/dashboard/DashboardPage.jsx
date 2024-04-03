@@ -1,4 +1,4 @@
-import { EarningCard, TotalOrderLineChartCard } from "../components"
+import { EarningCard, TotalOrderLineChartCard } from "../../components"
 import { useEffect, useState } from 'react';
 
 // material-ui

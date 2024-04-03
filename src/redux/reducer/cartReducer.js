@@ -1,6 +1,6 @@
 const cart = []
 
-const handleCart = (state = cart, action) => {
+const cartReducer = (state = cart, action) => {
     const product = action.payload
     switch (action.type) {
         case "ADDITEM":
@@ -27,4 +27,4 @@ const handleCart = (state = cart, action) => {
     }
 }
 
-export default handleCart
+export default cartReducer;

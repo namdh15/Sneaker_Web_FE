@@ -7,7 +7,10 @@ import {
   IconTypography,
   IconPalette,
   IconShadow,
-  IconWindmill
+  IconWindmill,
+  IconPackages,
+  IconCirclePlus,
+  IconShoe,
 } from '@tabler/icons-react';
 // constant
 const icons = {
@@ -18,32 +21,93 @@ const icons = {
   IconTypography,
   IconPalette,
   IconShadow,
-  IconWindmill
+  IconWindmill,
+  IconPackages,
+  IconCirclePlus,
+  IconShoe
 };
 
-const other = {
-  id: 'sample-docs-roadmap',
+const dashboard = {
+  id: 'dashboard',
+  title: 'Dashboard',
   type: 'group',
   children: [
     {
-      id: 'sample-page',
-      title: 'Sample Page',
+      id: 'default',
+      title: 'Dashboard',
       type: 'item',
-      url: '/sample-page',
-      icon: icons.IconBrandChrome,
+      url: '/admin',
+      icon: icons.IconDashboard,
       breadcrumbs: false
-    },
-    {
-      id: 'documentation',
-      title: 'Documentation',
-      type: 'item',
-      url: 'https://codedthemes.gitbook.io/berry/',
-      icon: icons.IconHelp,
-      external: true,
-      target: true
     }
   ]
 };
+
+const products = {
+  id: 'products',
+  title: 'Products',
+  caption: 'Products Caption',
+  type: 'group',
+  children: [
+    {
+      id: 'list-products',
+      title: 'List Products',
+      type: 'item',
+      url: '/admin/products',
+      icon: icons.IconPackages,
+      breadcrumbs: false
+    },
+    {
+      id: 'create-product',
+      title: 'Create Product',
+      type: 'item',
+      url: '/admin/products/create-product',
+      icon: icons.IconCirclePlus,
+      breadcrumbs: false
+    },
+    {
+      id: 'create-product-detail',
+      title: 'Create Product Detail',
+      type: 'item',
+      url: '/admin/products/create-product-detail',
+      icon: icons.IconShoe,
+      breadcrumbs: false
+    },
+  ]
+};
+
+const auth = {
+  id: 'products',
+  title: 'Products',
+  caption: 'Products Caption',
+  type: 'group',
+  children: [
+    {
+      id: 'authentication',
+      title: 'Authentication',
+      type: 'collapse',
+      icon: icons.IconKey,
+
+      children: [
+        {
+          id: 'login3',
+          title: 'Login',
+          type: 'item',
+          url: '/pages/login/login3',
+          target: true
+        },
+        {
+          id: 'register3',
+          title: 'Register',
+          type: 'item',
+          url: '/pages/register/register3',
+          target: true
+        }
+      ]
+    }
+  ]
+};
+
 
 const utilities = {
   id: 'utilities',
@@ -102,50 +166,28 @@ const utilities = {
 };
 
 
-const pages = {
-  id: 'pages',
-  title: 'Products',
-  caption: 'Products Caption',
+
+
+const other = {
+  id: 'sample-docs-roadmap',
   type: 'group',
   children: [
     {
-      id: 'authentication',
-      title: 'Authentication',
-      type: 'collapse',
-      icon: icons.IconKey,
-
-      children: [
-        {
-          id: 'login3',
-          title: 'Login',
-          type: 'item',
-          url: '/pages/login/login3',
-          target: true
-        },
-        {
-          id: 'register3',
-          title: 'Register',
-          type: 'item',
-          url: '/pages/register/register3',
-          target: true
-        }
-      ]
-    }
-  ]
-};
-
-const dashboard = {
-  id: 'dashboard',
-  title: 'Dashboard',
-  type: 'group',
-  children: [
-    {
-      id: 'default',
-      title: 'Dashboard',
+      id: 'sample-page',
+      title: 'Sample Page',
       type: 'item',
-      url: '/dashboard/default',
-      icon: icons.IconDashboard,
+      url: '/sample-page',
+      icon: icons.IconBrandChrome,
       breadcrumbs: false
+    },
+    {
+      id: 'documentation',
+      title: 'Documentation',
+      type: 'item',
+      url: 'https://codedthemes.gitbook.io/berry/',
+      icon: icons.IconHelp,
+      external: true,
+      target: true
     }
   ]
 };
@@ -153,7 +195,7 @@ const dashboard = {
 
 
 const menuItems = {
-  items: [dashboard, pages, utilities, other]
+  items: [dashboard, products, utilities, auth, other]
 };
 
 export default menuItems;

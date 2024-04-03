@@ -1,76 +1,10 @@
 import { useEffect } from "react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import * as Api from "../services/product"
-import { PRODUCT_CATEGORIES } from "../constants/products.constant";
+import * as Api from "../../services/product"
+import { PRODUCT_CATEGORIES, PRODUCT_GENDER } from "../../constants/products.constant";
 import { toast } from "react-toastify";
-import { ConfirmModal, EditProductModal } from "../components";
-
-export const AdminControlComponent = () => {
-  return (
-    <div className="col-12 col-lg-auto mb-3" style={{ width: 150 }}>
-      <div className="card py-2 px-1">
-        <div className="e-navlist e-navlist--active-bg">
-          <ul className="nav">
-            <li className="nav-item">
-              <a className="nav-link px-2 active" href="#">
-                <i className="fa fa-fw fa-bar-chart mr-1" />
-                <span>Overview</span>
-              </a>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link px-2" target="__blank" >
-                <i className="fa fa-fw fa-th mr-1" />
-                <span>CRUD</span>
-              </a>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link px-2" target="__blank">
-                <i className="fa fa-fw fa-cog mr-1" />
-                <span>Settings</span>
-              </a>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  )
-}
-
-const EmptyTable = () => {
-  return (
-    <div className="container-fluid  mt-100">
-      <div className="row">
-        <div className="col-md-12">
-          <div className="card">
-            <div className="card-header">
-              <h5>List Products</h5>
-            </div>
-            <div className="card-body cart">
-              <div className="col-sm-12 empty-cart-cls text-center">
-                <img
-                  src="https://i.imgur.com/dCdflKN.png"
-                  width={130}
-                  height={130}
-                  className="img-fluid mb-4 mr-3"
-                  alt=""
-                />
-                <h3>
-                  <strong>Your warehouse is Empty</strong>
-                </h3>
-                <h4>Add something to make me happy :</h4>
-                <a href="#" className="btn btn-primary cart-btn-transform m-3" data-abc="true"   >
-                  continue shopping
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-  )
-}
+import { ConfirmModal, EditProductModal, EmptyComponent } from "../../components";
 
 const ProductItem = (props) => {
   const { product, setSelectedItem } = props;
@@ -90,27 +24,18 @@ const ProductItem = (props) => {
           <img src={product.image} alt={product.code} style={{ width: 'inherit', height: 'inherit', borderRadius: 5 }} />
         </div>
       </td>
-      <td className="align-middle" style={{ wordBreak: 'break-all' }}>
-        {product.code}
-      </td>
       <td className="align-middle">
         {product.name}
       </td>
       <td className="text-nowrap align-middle">
         {Number(product.price).toLocaleString('en')}
       </td>
-      {/* <td className="text-nowrap align-middle">
-        {product.gender}
-      </td>
       <td className="text-nowrap align-middle">
-        {product.color}
-      </td> */}
+        {PRODUCT_GENDER[product.gender]}
+      </td>
       <td className="text-nowrap align-middle">
         {PRODUCT_CATEGORIES[product.categories]}
       </td>
-      {/* <td className="text-nowrap align-middle">
-        {product.stock}
-      </td> */}
       <td className="text-center align-middle">
         <label class="switch">
           <input type="checkbox" checked />
@@ -143,7 +68,7 @@ const ProductItem = (props) => {
   )
 }
 
-const DashboardPageTest = () => {
+const DashboardListProducts = () => {
   const [allProducts, setAllProducts] = useState([]);
   const [selectedItem, setSelectedItem] = useState();
 
@@ -166,16 +91,15 @@ const DashboardPageTest = () => {
 
   return (
     <>
-      <div style={{ padding: '2em 1em' }}>
+      <div >
         <div className="row flex-lg-nowrap">
-          <AdminControlComponent />
           <div className="col">
             <div className="e-tabs mb-3 px-3">
               <ul className="nav nav-tabs">
                 <li className="nav-item">
-                  <a className="nav-link active" href="#">
+                  <Link className="nav-link active" to='#'>
                     Products setting
-                  </a>
+                  </Link>
                 </li>
               </ul>
             </div>
@@ -209,11 +133,11 @@ const DashboardPageTest = () => {
                                   </div>
                                 </th>
                                 <th style={{ width: '90px' }}>Photo</th>
-                                <th>Code</th>
+                                {/* <th>Code</th> */}
                                 <th>Name</th>
                                 <th style={{ width: '100px' }} className="max-width">Price</th>
-                                {/* <th className="max-width">Gender</th>
-                              <th className="max-width">Color</th> */}
+                                <th style={{ width: '100px' }} className="max-width">Gender</th>
+                                {/* <th className="max-width">Color</th> */}
                                 <th style={{ width: '80px' }} className="max-width">Category</th>
                                 {/* <th className="sortable">Quantity</th> */}
                                 <th style={{ width: '80px' }}> Available </th>
@@ -232,7 +156,12 @@ const DashboardPageTest = () => {
                               }
                               <ProductItem product={allProducts[1] || {}} />
                             </tbody>
-                          </table> : <EmptyTable />
+                          </table> :
+                          <EmptyComponent
+                            isSlide={false}
+                            message1={'Your warehouse is Empty'}
+                            message2={'Add something to make me happy'}
+                          />
                         }
                       </div>
                       <div className="d-flex justify-content-center">
@@ -289,7 +218,7 @@ const DashboardPageTest = () => {
                         className="btn btn-success btn-block"
                         type="button"
                       >
-                        <Link className="nav-link px-2 active" to='/admin/create-product' >
+                        <Link className="nav-link px-2 active" to='/admin/products/create-product' >
                           Create Product
                         </Link>
                       </button>
@@ -414,4 +343,4 @@ const DashboardPageTest = () => {
   )
 }
 
-export default DashboardPageTest;
+export default DashboardListProducts;

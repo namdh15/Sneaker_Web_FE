@@ -15,9 +15,9 @@ export const getProducts = async (payload = {}) => {
   }
 }
 
-export const getProduct = async (productCode) => {
+export const getProduct = async (productId) => {
   try {
-    const res = await API.get(`product/${productCode}`);
+    const res = await API.get(`product/${productId}`);
     return res?.data
   } catch (error) {
     return handleErrorAPI(error);

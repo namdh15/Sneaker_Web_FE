@@ -11,7 +11,7 @@ import {
   Register,
   UserProfile
 } from '../pages';
-import DashboardPageTest from '../pages/DashboardPageTest';
+import DashboardPageTest from '../pages/dashboard/DashboardListProducts';
 import DetailProduct from '../pages/DetailProduct';
 
 

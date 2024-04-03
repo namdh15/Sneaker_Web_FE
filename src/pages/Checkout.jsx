@@ -3,7 +3,7 @@ import { Footer, Navbar } from "../components";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 const Checkout = () => {
-  const state = useSelector((state) => state.handleCart);
+  const state = useSelector((state) => state.cart);
 
   const EmptyCart = () => {
     return (

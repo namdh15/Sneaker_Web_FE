@@ -3,6 +3,8 @@ export { default as EmptyComponent } from './atoms/EmptyComponent'
 export { default as ButtonLoading } from './atoms/ButtonLoading'
 export { default as Loading } from './atoms/Loading'
 export { default as Breadcrumbs } from './atoms/Breadcrumbs'
+export { default as RowInput } from './atoms/RowInput'
+export { default as RowSelect } from './atoms/RowSelect'
 
 
 

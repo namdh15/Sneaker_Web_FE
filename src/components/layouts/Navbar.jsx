@@ -18,7 +18,7 @@ const AuthNavi = () => {
     }
 }
 const Navbar = () => {
-    const itemsInCart = useSelector(state => state.handleCart)
+    const itemsInCart = useSelector(state => state.cart)
 
     return (
         <nav className="navbar navbar-expand-lg navbar-light bg-light sticky-top">

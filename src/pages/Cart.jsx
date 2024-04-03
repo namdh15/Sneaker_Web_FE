@@ -7,7 +7,7 @@ import Footer from "../components/layouts/Footer";
 import { PRODUCT_COLOR } from "../constants/products.constant";
 
 const Cart = () => {
-  const state = useSelector((state) => state.handleCart);
+  const state = useSelector((state) => state.cart);
   const dispatch = useDispatch();
 
   const EmptyCart = () => {

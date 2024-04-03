@@ -21,13 +21,15 @@ const EmptyComponent = (props) => {
                 </h3>
                 {/* <h4>Add something to make me happy</h4> */}
                 <h4>{message2}</h4>
-                {!isSlide && <a
-                  href="#"
-                  className="btn btn-primary cart-btn-transform m-3"
-                  data-abc="true"
-                >
-                  continue shopping
-                </a>}
+                {!isSlide &&
+                  <a
+                    href="#"
+                    className="btn btn-primary cart-btn-transform m-3"
+                    data-abc="true"
+                  >
+                    continue shopping
+                  </a>
+                }
               </div>
             </div>
           </div>

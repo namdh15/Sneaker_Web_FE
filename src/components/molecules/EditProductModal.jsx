@@ -1,5 +1,5 @@
 import React from 'react';
-import CreateProductPage from '../../pages/CreateProductPage';
+import CreateProductPage from '../../pages/dashboard/DashboardCreateProduct';
 import './molecules.scss';
 
 const EditProductModal = (props) => {
