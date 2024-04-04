@@ -154,7 +154,6 @@ const DashboardListProducts = () => {
                                   />
                                 ))
                               }
-                              <ProductItem product={allProducts[1] || {}} />
                             </tbody>
                           </table> :
                           <EmptyComponent
@@ -326,11 +325,11 @@ const DashboardListProducts = () => {
                 </div>
               </div>
             </div>
-            {/* Product Form Modal */}
-            <EditProductModal currProduct={selectedItem} />
           </div>
         </div>
       </div >
+      {/* Product Form Modal */}
+      <EditProductModal currProduct={selectedItem} />
       <ConfirmModal
         modalMessage={'Are you sure to delete this item?'}
         modalTitle={'Delete this Product'}

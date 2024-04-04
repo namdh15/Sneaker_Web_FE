@@ -1,5 +1,6 @@
 //export atom components ********************************
 export { default as EmptyComponent } from './atoms/EmptyComponent'
+export { default as InitialComponent } from './atoms/InitialComponent'
 export { default as ButtonLoading } from './atoms/ButtonLoading'
 export { default as Loading } from './atoms/Loading'
 export { default as Breadcrumbs } from './atoms/Breadcrumbs'
@@ -29,6 +30,7 @@ export { default as ProductDetail } from './molecules/ProductDetail';
 //export organisms dashboard components ********************************
 export { default as EarningCard } from './molecules/dashboard/EarningCard';
 export { default as TotalOrderLineChartCard } from './molecules/dashboard/TotalOrderLineChartCard';
+export { default as HandleVariantModal } from './molecules/dashboard/HandleVariantModal';
 
 
 //export organisms components ********************************
