@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import * as Api from "../services/product"
 
 const DetailProduct = () => {
-  const { code } = useParams();
+  const { id } = useParams();
   const [product, setProduct] = useState([]);
   // const [similarProducts, setSimilarProducts] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -15,7 +15,7 @@ const DetailProduct = () => {
     const getProducts = async () => {
       setLoading(true);
       setLoading2(true);
-      const response = await Api.getProduct(code);
+      const response = await Api.getProduct(id);
       setProduct(response);
       setLoading(false);
       //     const response2 = await fetch(
@@ -27,7 +27,7 @@ const DetailProduct = () => {
     };
 
     getProducts();
-  }, [code]);
+  }, [id]);
 
 
   return (

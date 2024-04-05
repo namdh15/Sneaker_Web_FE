@@ -30,7 +30,7 @@ const CommonRoutes = {
       element: <ProductsPage />,
       children: [
         {
-          path: ':code',
+          path: ':id',
           element: <ProductsPage />
         },
         {

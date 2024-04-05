@@ -3,7 +3,7 @@ import { Products, SidebarFilter } from "../components"
 
 const ProductsPage = () => {
   return (
-    <div style={{ display: 'flex' }}>
+    <div className='row' style={{ display: 'flex' }}>
       <SidebarFilter />
       <Products />
     </div>

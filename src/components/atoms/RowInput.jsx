@@ -8,7 +8,7 @@ const RowInput = (props) => {
         items?.map((item) => (
           <div className="col">
             <div className={`form-group ${item.required && 'required'}`}>
-              <label>{item.label}</label>
+              <label className="form-label">{item.label}</label>
               {isTextArea ?
                 <textarea
                   disabled={item.disabled}
@@ -18,7 +18,8 @@ const RowInput = (props) => {
                   name={item.name}
                   placeholder={item.placeholder}
                   onChange={item.handleChangeValue}
-                  value={item.value}
+                  // value={item.value}
+                  required
                 />
                 :
                 <input
@@ -28,8 +29,12 @@ const RowInput = (props) => {
                   name={item.name}
                   placeholder={item.placeholder}
                   onChange={item.handleChangeValue}
-                  value={item.value}
+                  // value={item.value}
+                  required
                 />}
+              <div class="invalid-feedback">
+                Please provide valid value.
+              </div>
             </div>
           </div>
 

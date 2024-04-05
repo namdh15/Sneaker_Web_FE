@@ -86,7 +86,6 @@ $home-slide-heigh: 500px;
 }
 
 .sidebar {
-  flex: 1 0 20%;
   padding-left: 2em;
 
   .filter-type-content {
@@ -133,16 +132,11 @@ $home-slide-heigh: 500px;
   }
 
   @media screen and (min-width: 1368px) {
-    flex: 0.2 0 15%;
   }
 }
 
 .list-poducts {
-  margin: 0 10em;
-
-  @media screen and (max-width: 1368px) {
-    margin: 0 4em;
-  }
+  margin: 0 1em;
 }
 
 @media (max-width: 767px) {

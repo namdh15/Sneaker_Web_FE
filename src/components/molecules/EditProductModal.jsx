@@ -14,7 +14,7 @@ const EditProductModal = (props) => {
       aria-hidden="true"
     >
       <div className="modal-dialog modal-edit-button" role="document">
-        <div className="modal-content">
+        <div className="modal-content" style={{ marginTop: '10em' }}>
           <div className="modal-header">
             <button
               type="button"

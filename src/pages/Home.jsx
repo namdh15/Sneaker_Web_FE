@@ -19,10 +19,10 @@ function Home() {
         Api.getProducts({ gender: 2 }),
         Api.getProducts({ gender: 3 })
       ]);
-      setDataMen(resMen);
-      setDataWomen(resWomen);
-      setDataGirl(resGirl);
-      setDataBoy(resBoy);
+      setDataMen(resMen?.results);
+      setDataWomen(resWomen?.results);
+      setDataGirl(resGirl?.results);
+      setDataBoy(resBoy?.results);
       setLoading(false);
     };
     getProducts();

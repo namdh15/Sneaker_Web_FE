@@ -19,7 +19,7 @@ const ProductCard = ({ product }) => {
         alt="Card"
         height={300}
       />
-      <div className="card-body">
+      <div className="product-card-body">
         <h5 className="card-title">
           {product.name}
         </h5>
@@ -32,8 +32,8 @@ const ProductCard = ({ product }) => {
         {/* <li className="list-group-item">Dapibus ac facilisis in</li>
                     <li className="list-group-item">Vestibulum at eros</li> */}
       </ul>
-      <div className="card-body">
-        <Link to={"/product/" + product.code} className="btn btn-dark m-1">
+      <div className="product-card-body">
+        <Link to={"/product/" + product.id} className="btn btn-dark m-1">
           Buy Now
         </Link>
         <button className="btn btn-dark m-1" onClick={() => addProduct(product)}>

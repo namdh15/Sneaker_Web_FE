@@ -12,8 +12,8 @@ const ProductItem = (props) => {
     <tr>
       <td className="align-middle">
         <div className="custom-control custom-control-inline custom-checkbox custom-control-nameless m-0 align-top">
-          <input type="checkbox" className="custom-control-input" id={product.code} />
-          <label className="custom-control-label" htmlFor={product.code} />
+          <input type="checkbox" className="custom-control-input" id={product.id} />
+          <label className="custom-control-label" htmlFor={product.id} />
         </div>
       </td>
       <td className="align-middle text-center">
@@ -21,7 +21,7 @@ const ProductItem = (props) => {
           className="bg-light d-inline-flex justify-content-center align-items-center align-top"
           style={{ width: 60, height: 60, borderRadius: 5 }}
         >
-          <img src={product.image} alt={product.code} style={{ width: 'inherit', height: 'inherit', borderRadius: 5 }} />
+          <img src={product.image} alt={product.id} style={{ width: 'inherit', height: 'inherit', borderRadius: 5 }} />
         </div>
       </td>
       <td className="align-middle">
@@ -75,16 +75,16 @@ const DashboardListProducts = () => {
   useEffect(() => {
     const getProducts = async () => {
       const response = await Api.getProducts();
-      setAllProducts(response);
+      setAllProducts(response?.results);
     };
     getProducts();
   }, []);
 
 
-  const handleDeleteProduct = async (productCode) => {
-    console.log(productCode);
-    const res = await Api.deleteProduct(productCode)
-    setAllProducts(allProducts.filter((item) => item?.code !== productCode))
+  const handleDeleteProduct = async (productId) => {
+    console.log(productId);
+    const res = await Api.deleteProduct(productId)
+    setAllProducts(allProducts.filter((item) => item?.id !== productId))
     toast.success('You removed this product!')
     console.log(res);
   }
@@ -334,7 +334,7 @@ const DashboardListProducts = () => {
         modalMessage={'Are you sure to delete this item?'}
         modalTitle={'Delete this Product'}
         modalId={'exampleModalCenter'}
-        rightFunc={() => handleDeleteProduct(selectedItem?.code)}
+        rightFunc={() => handleDeleteProduct(selectedItem?.id)}
         leftFunc={() => {}}
       />
     </>

@@ -18,87 +18,64 @@ import SearchSectionDashboard from '../../components/atoms/dashboard/SearchSecti
 import { PRODUCT_CATEGORIES, PRODUCT_GENDER } from '../../constants/products.constant';
 import { ConfirmModal, HandleVariantModal, InitialComponent, Loading } from '../../components';
 
-
-const MockVariants = [
-  {
-    id: 1,
-    size: 39,
-    color: 'Green',
-    stock: 100,
-    img: 'https://i.imgur.com/EJOjIMC.jpeg',
-  },
-  {
-    id: 1,
-    size: 39,
-    color: 'Green',
-    stock: 100,
-    img: 'https://i.imgur.com/EJOjIMC.jpeg',
-  },
-  {
-    id: 1,
-    size: 39,
-    color: 'Green',
-    stock: 100,
-    img: 'https://i.imgur.com/EJOjIMC.jpeg',
-  },
-]
-
-
 const InfoCard = (props) => {
-  const { product } = props
+  const { product, loading } = props
+  console.log(loading);
   return (
-    <div className="card mb-3">
-      {!product ?
-        <InitialComponent />
-        :
-        <div className="card-body">
-          <Card>
-            <CardActionArea>
-              <CardMedia
-                component="img"
-                height="250"
-                image={product?.image}
-                alt="green iguana"
-              />
-              <CardContent>
-                <Typography gutterBottom variant="h5" component="div">
-                  {product?.name}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  {product?.description}
-                </Typography>
-                <TableContainer component={Paper}>
-                  <Table aria-label="simple table">
-                    <TableBody>
-                      <TableRow>
-                        <TableCell>Price</TableCell>
-                        <TableCell>{product.price}</TableCell>
-                      </TableRow>
-                      <TableRow >
-                        <TableCell>Gender </TableCell>
-                        <TableCell>{PRODUCT_GENDER[product.gender]}</TableCell>
-                      </TableRow>
-                      <TableRow >
-                        <TableCell>Gender </TableCell>
-                        <TableCell>{PRODUCT_CATEGORIES[product.categories]}</TableCell>
-                      </TableRow>
-                    </TableBody>
-                  </Table>
-                </TableContainer>
-              </CardContent>
-            </CardActionArea>
-          </Card>
-        </div>
-      }
-    </div>
+    loading ?
+      < Loading /> :
+      <div className="card mb-3">
+        {!product ?
+          <InitialComponent />
+          :
+          <div className="card-body">
+            <Card>
+              <CardActionArea>
+                <CardMedia
+                  component="img"
+                  height="250"
+                  image={product?.image}
+                  alt="green iguana"
+                />
+                <CardContent>
+                  <Typography gutterBottom variant="h5" component="div">
+                    {product?.name}
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    {product?.description}
+                  </Typography>
+                  <TableContainer component={Paper}>
+                    <Table aria-label="simple table">
+                      <TableBody>
+                        <TableRow>
+                          <TableCell>Price</TableCell>
+                          <TableCell>{product.price}</TableCell>
+                        </TableRow>
+                        <TableRow >
+                          <TableCell>Gender </TableCell>
+                          <TableCell>{PRODUCT_GENDER[product.gender]}</TableCell>
+                        </TableRow>
+                        <TableRow >
+                          <TableCell>Gender </TableCell>
+                          <TableCell>{PRODUCT_CATEGORIES[product.categories]}</TableCell>
+                        </TableRow>
+                      </TableBody>
+                    </Table>
+                  </TableContainer>
+                </CardContent>
+              </CardActionArea>
+            </Card>
+          </div>
+        }
+      </div>
   )
 }
 
 const TableVariants = (props) => {
-  const { product } = props
+  const { product, loading } = props
   const [editMode, setEditMode] = useState(false)
-  console.log(product);
-  return (
+  return (loading ?
+    <Loading /> :
     <>
       <div className="card">
         {!product ?
@@ -192,22 +169,25 @@ const DashboardProductDetail = () => {
   const [selectedItem, setSelectedItem] = useState(null);
   const [detailSelectedItem, setDetailSelectedItem] = useState(null);
   const [loading1, setLoading1] = useState(false);
+  const [loading2, setLoading2] = useState(false);
 
   useEffect(() => {
     setLoading1(true)
     const getProducts = async () => {
       const response = await Api.getProducts();
-      setAllProducts(response);
+      setAllProducts(response?.results);
+      setLoading1(false);
     };
     getProducts();
-    setLoading1(false);
   }, []);
 
 
   useEffect(() => {
     const getProductDetail = async () => {
+      setLoading2(true);
       const response = await Api.getProduct(selectedItem?.id);
       setDetailSelectedItem(response);
+      setLoading2(false);
     };
     selectedItem?.id && getProductDetail();
   }, [selectedItem?.id])
@@ -253,7 +233,7 @@ const DashboardProductDetail = () => {
                             onClick={() => setSelectedItem(item)}
                           >
                             <TableCell>
-                              <img src={item.image} alt="" width={150} height={80} />
+                              <img src={item.image} alt="" width={150} height={110} />
                             </TableCell>
                             <TableCell>{item.name}</TableCell>
                             <TableCell>{item.price}</TableCell>
@@ -271,10 +251,10 @@ const DashboardProductDetail = () => {
       </div>
       <div className="row">
         <div className="col-12 col-md-4">
-          <InfoCard product={detailSelectedItem} loading={loading1} />
+          <InfoCard product={detailSelectedItem} loading={loading2} />
         </div>
-        <div className="col">
-          <TableVariants product={detailSelectedItem} loading={loading1} />
+        <div className="col col-md-8">
+          <TableVariants product={detailSelectedItem} loading={loading2} />
         </div>
       </div>
     </>

@@ -8,7 +8,7 @@ import { Footer, Navbar, ProductDetail, SimilarProducts, SkaletonDetailProduct, 
 import * as Api from "../services/product"
 
 const Product = () => {
-  const { code } = useParams();
+  const { id } = useParams();
   const [product, setProduct] = useState([]);
   // const [similarProducts, setSimilarProducts] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -18,7 +18,7 @@ const Product = () => {
     const getProducts = async () => {
       setLoading(true);
       setLoading2(true);
-      const response = await Api.getProduct(code);
+      const response = await Api.getProduct(id);
       setProduct(response);
       setLoading(false);
       //     const response2 = await fetch(
@@ -30,7 +30,7 @@ const Product = () => {
     };
 
     getProducts();
-  }, [code]);
+  }, [id]);
 
 
   // useEffect(() => {

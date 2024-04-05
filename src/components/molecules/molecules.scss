@@ -1,6 +1,7 @@
 .card {
-  .card-body {
+  .product-card-body {
     .card-title {
+      padding: 0 1em;
       display: -webkit-box;
       max-width: 400px;
       -webkit-line-clamp: 1;
@@ -10,6 +11,7 @@
     }
 
     .card-text {
+      padding: 0 1em;
       display: -webkit-box;
       max-width: 400px;
       -webkit-line-clamp: 2;

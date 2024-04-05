@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { useState } from "react";
 
 import * as Api from "../../services/product"
-import { PRODUCT_CATEGORIES, PRODUCT_COLOR, PRODUCT_GENDER } from "../../constants/products.constant";
+import { PRODUCT_CATEGORIES, PRODUCT_GENDER } from "../../constants/products.constant";
 import { RowInput, RowSelect } from "../../components";
 
 const sizeConstant = [36, 37, 38, 39, 40]
@@ -11,14 +11,12 @@ const sizeConstant = [36, 37, 38, 39, 40]
 const DashboardCreateProduct = (props) => {
 
   const initialProduct = {
-    code: null,
-    name: 'New Product',
+    name: null,
     price: null,
     gender: null,
-    color: null,
     categories: null,
     description: null,
-    quantity: null,
+    // quantity: null,
     image: null,
   }
   const { isEdit, currProduct } = props;
@@ -29,7 +27,7 @@ const DashboardCreateProduct = (props) => {
     setPreviewImage(currProduct?.image)
     return () => {}
   }, [currProduct])
-  const { code, name, price, gender, color, categories, description, quantity } = formValues || initialProduct;
+  const { name, price, gender, categories, description, quantity } = formValues || initialProduct;
 
   const handleChangeValue = (event) => {
     const { name, value } = event.target;
@@ -58,6 +56,7 @@ const DashboardCreateProduct = (props) => {
     event.preventDefault();
     const formData = new FormData();
     // Append each key-value pair from the initialProduct object to the FormData object
+    console.log(formData);
     Object.keys(formValues).forEach(key => {
       console.log(key);
       if (formValues[key]) {
@@ -93,7 +92,6 @@ const DashboardCreateProduct = (props) => {
                         <div className="col d-flex flex-column flex-sm-row justify-content-between mb-3">
                           <div className="text-center text-sm-left mb-2 mb-sm-0">
                             <h4 className="pt-sm-2 pb-1 mb-0 text-nowrap" style={{ width: '200px', overflow: 'hidden', textOverflow: 'ellipsis', height: '1.8em' }}>{name}</h4>
-                            <p className="mb-0 text-nowrap" style={{ width: '200px', overflow: 'hidden', textOverflow: 'ellipsis', height: '1.8em' }}>{code}</p>
                             <div className="text-muted"><small>HaNoi, 231.st Hoang Mai</small></div>
                             <div className="mt-2 required">
                               <label htmlFor="image">
@@ -126,7 +124,7 @@ const DashboardCreateProduct = (props) => {
                       </ul>
                       <div className="tab-content pt-3">
                         <div className="tab-pane active">
-                          <form className="form" noValidate="">
+                          <form className="form needs-validation" novalidate>
                             <div className="row">
                               <div className="col">
                                 <RowInput
@@ -139,9 +137,10 @@ const DashboardCreateProduct = (props) => {
                                       name: 'code',
                                       placeholder: "ABC-xyz",
                                       handleChangeValue: handleChangeValue,
-                                      value: code
+                                      value: quantity
                                     },
                                     {
+                                      disabled: true,
                                       required: true,
                                       label: 'Quantity',
                                       type: 'number',
@@ -255,7 +254,11 @@ const DashboardCreateProduct = (props) => {
                             </div>
                             <div className="row">
                               <div className="col d-flex justify-content-end">
-                                <button onClick={handleSubmit} className="btn btn-primary" type="submit">
+                                <button
+                                  // onClick={handleSubmit}
+                                  className="btn btn-primary"
+                                  type="submit"
+                                >
                                   Submit
                                 </button>
                               </div>

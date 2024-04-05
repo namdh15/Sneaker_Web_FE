@@ -12,8 +12,8 @@ const Products = () => {
     const getProducts = async () => {
       setLoading(true);
       const response = await Api.getProducts();
-      setData(response);
-      setFilter(response);
+      setData(response?.results);
+      setFilter(response?.results);
       setLoading(false);
     };
 
@@ -21,8 +21,8 @@ const Products = () => {
   }, []);
 
   const filterProduct = (cat) => {
-    const updatedList = data.filter((item) => item.categories === cat);
-    setFilter(updatedList); 
+    const updatedList = data?.filter((item) => item.categories === cat);
+    setFilter(updatedList);
     // setFilter(data);
   }
   const ShowProducts = () => {
@@ -38,7 +38,7 @@ const Products = () => {
           <button className="btn btn-outline-dark btn-sm m-2" onClick={() => filterProduct(3)}>Sneaker</button>
         </div>
 
-        {filter.map((product) => {
+        {filter?.map((product) => {
           return (
             <div id={product.id} key={product.id} className="col-md-3 col-sm-6 col-xs-8 col-12 mb-4">
               <ProductCard product={product} />
@@ -49,8 +49,8 @@ const Products = () => {
     );
   };
   return (
-    <>
-      <div className="list-poducts my-3 py-3 pr-5">
+    <div className="col-md-9">
+      <div className="list-poducts my-3 py-3">
         <div className="row">
           <div className="col-12">
             <h2 className="display-5 text-center">Latest Products</h2>
@@ -61,7 +61,7 @@ const Products = () => {
           {loading ? <SkeletonProducts /> : <ShowProducts />}
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
