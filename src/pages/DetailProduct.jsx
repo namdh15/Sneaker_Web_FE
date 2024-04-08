@@ -3,6 +3,11 @@ import './page.scss';
 import { useEffect, useState } from 'react';
 
 import * as Api from "../services/product"
+// assets
+import {
+  IconTag
+} from '@tabler/icons-react';
+import { PRODUCT_SIZE } from '../constants/products.constant';
 
 const DetailProduct = () => {
   const { id } = useParams();
@@ -31,29 +36,33 @@ const DetailProduct = () => {
 
 
   return (
-    <div className="container">
+    <div className="mx-5">
       <div className="single_product">
         <div
           className="container-fluid"
-          style={{ backgroundColor: "#fff", padding: 11 }}
+          style={{ backgroundColor: "#fff", padding: "3em 2em" }}
         >
           <div className="row">
             <div className="col-lg-2 order-lg-1 order-2">
               <ul className="image_list">
                 <li data-image="">
-                  <img src="" alt="" />
+                  <img src="https://images.unsplash.com/photo-1603787081207-362bcef7c144?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8c25lYWtlcnxlbnwwfHwwfHx8MA%3D%3D" alt="" />
                 </li>
                 <li data-image="">
-                  <img src="" alt="" />
+                  <img src="https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8c25lYWtlcnxlbnwwfHwwfHx8MA%3D%3D" alt="" />
                 </li>
                 <li data-image=".imgur.com/HkEiXfn.jpg">
-                  <img src=".imgur.com/HkEiXfn.jpg" alt="" />
+                  <img src="https://images.unsplash.com/photo-1560769629-975ec94e6a86?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mjh8fHNuZWFrZXJ8ZW58MHx8MHx8fDA%3Dg" alt="" />
                 </li>
               </ul>
             </div>
             <div className="col-lg-4 order-lg-2 order-1">
-              <div className="image_selected">
-                <img src=".imgur.com/qEwct2O.jpg" alt="" />
+              <div className="image_selected d-flex">
+                <img style={{
+                  flexShrink: 0,
+                  minWidth: '100%',
+                  minHeight: '100%',
+                }} src={product?.image} alt="" />
               </div>
             </div>
             <div className="col-lg-6 order-3">
@@ -76,7 +85,7 @@ const DetailProduct = () => {
                   <span className="badge badge-success">
                     <i className="fa fa-star" /> 4.5 Star
                   </span>
-                  <span className="rating-review">35 Ratings &amp; 45 Reviews</span>
+                  <span className="rating-review ml-3">35 Ratings &amp; 45 Reviews</span>
                 </div>
                 <div>
                   <span className="product_price">VND {Number(product.price).toLocaleString('en')}</span>
@@ -105,8 +114,11 @@ const DetailProduct = () => {
                       <div className="br-dashed">
                         <div className="row">
                           <div className="col-md-3 col-xs-3">
-
-                            <img src="mg.icons8.com/color/48/000000/price-tag.png" />
+                            <IconTag
+                              size={40}
+                              strokeWidth={1}
+                              color={'black'}
+                            />
                           </div>
                           <div className="col-md-9 col-xs-9">
                             <div className="pr-info">
@@ -125,9 +137,11 @@ const DetailProduct = () => {
                     <div className="col-xs-6 ml-3 mb-3">
                       <span className="product_options">Size Options</span>
                       <br />
-                      <button className="btn btn-primary btn-sm mr-2">36</button>
-                      <button className="btn btn-primary btn-sm mr-2">38</button>
-                      <button className="btn btn-primary btn-sm mr-2">40</button>
+                      {
+                        PRODUCT_SIZE.map((size, index) => (
+                          <button className="btn btn-primary btn-sm mr-2">{size}</button>
+                        ))
+                      }
                     </div>
                     <div className="col-xs-6  ml-3 mb-3">
                       <span className="product_options">Color Options</span>
