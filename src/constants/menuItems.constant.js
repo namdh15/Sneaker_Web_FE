@@ -65,14 +65,14 @@ const products = {
       icon: icons.IconCirclePlus,
       breadcrumbs: false
     },
-    {
-      id: 'create-product-detail',
-      title: 'Product Detail',
-      type: 'item',
-      url: '/admin/products/create-product-detail',
-      icon: icons.IconShoe,
-      breadcrumbs: false
-    },
+    // {
+    //   id: 'create-product-detail',
+    //   title: 'Product Detail',
+    //   type: 'item',
+    //   url: '/admin/products/create-product-detail',
+    //   icon: icons.IconShoe,
+    //   breadcrumbs: false
+    // },
   ]
 };
 

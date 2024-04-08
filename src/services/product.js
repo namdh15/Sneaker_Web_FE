@@ -38,7 +38,7 @@ export const createProduct = async (formData) => {
 
 export const deleteProduct = async (productId) => {
   try {
-    const res = await API_ADMIN.delete(`/product/${productId}`)
+    const res = await API_ADMIN.delete(`/products/${productId}`)
     return res?.data
   } catch (error) {
     return handleErrorAPI(error);

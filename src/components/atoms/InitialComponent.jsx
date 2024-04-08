@@ -10,7 +10,7 @@ const InitialComponent = () => {
           <div className="card" style={{ backgroundColor: 'transparent' }} >
             <div className="card-body cart">
               <div className="col-sm-12 empty-cart-cls text-center">
-                <IconBoxOff stroke={1.5} size="8rem" />
+                <IconBoxOff stroke={1} size="8rem" />
                 <h3> <strong>Not available</strong> </h3>
                 <h4>Choose certain item for more information</h4>
               </div>

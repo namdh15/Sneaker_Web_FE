@@ -5,6 +5,7 @@ import * as Api from "../../services/product"
 import { PRODUCT_CATEGORIES, PRODUCT_GENDER } from "../../constants/products.constant";
 import { toast } from "react-toastify";
 import { ConfirmModal, EditProductModal, EmptyComponent } from "../../components";
+import SearchSectionDashboard from "../../components/atoms/dashboard/SearchSectionDashboard";
 
 const ProductItem = (props) => {
   const { product, setSelectedItem } = props;
@@ -25,7 +26,9 @@ const ProductItem = (props) => {
         </div>
       </td>
       <td className="align-middle">
-        {product.name}
+        <Link style={{ textDecoration: 'none', fontWeight: '700' }} to={`${product?.id}`}>
+          {product.name}
+        </Link>
       </td>
       <td className="text-nowrap align-middle">
         {Number(product.price).toLocaleString('en')}
@@ -111,6 +114,9 @@ const DashboardListProducts = () => {
                         <span>Products</span>
                         <small className="px-1">List of all items</small>
                       </h6>
+                      <div className="col text-right">
+                        <SearchSectionDashboard />
+                      </div>
                     </div>
                     <div className="e-table">
                       <div className="table-responsive table-lg mt-3">
@@ -334,7 +340,7 @@ const DashboardListProducts = () => {
         modalTitle={'Delete this Product'}
         modalId={'exampleModalCenter'}
         rightFunc={() => handleDeleteProduct(selectedItem?.id)}
-        leftFunc={() => {}}
+        leftFunc={() => { }}
       />
     </>
 

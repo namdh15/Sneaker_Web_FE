@@ -43,8 +43,12 @@ const DashboardRoutes = {
           path: 'create-product',
           element: <CreateProductPage />
         },
+        // {
+        //   path: 'create-product-detail',
+        //   element: <DashboardProductDetail />
+        // },
         {
-          path: 'create-product-detail',
+          path: ':id',
           element: <DashboardProductDetail />
         }
       ]

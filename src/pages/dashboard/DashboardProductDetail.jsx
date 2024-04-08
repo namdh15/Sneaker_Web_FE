@@ -14,13 +14,12 @@ import {
   Typography
 } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
-import React, { useEffect, useState } from 'react'
+import React, { useLayoutEffect, useState } from 'react'
 import * as Api from "../../services/product"
-import SearchSectionDashboard from '../../components/atoms/dashboard/SearchSectionDashboard';
 import { PRODUCT_CATEGORIES, PRODUCT_GENDER } from '../../constants/products.constant';
 import { ConfirmModal, HandleVariantModal, InitialComponent, Loading } from '../../components';
 import { toast } from 'react-toastify';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 
 const InfoCard = (props) => {
   const { product, loading } = props
@@ -246,32 +245,20 @@ const TableVariants = (props) => {
 
 
 const DashboardProductDetail = () => {
-  const [allProducts, setAllProducts] = useState([]);
-  const [selectedItem, setSelectedItem] = useState(null);
+
+  const { id } = useParams();
   const [detailSelectedItem, setDetailSelectedItem] = useState(null);
-  const [loading1, setLoading1] = useState(false);
   const [loading2, setLoading2] = useState(false);
 
-  useEffect(() => {
-    setLoading1(true)
-    const getProducts = async () => {
-      const response = await Api.getProducts();
-      setAllProducts(response?.results);
-      setLoading1(false);
-    };
-    getProducts();
-  }, []);
-
-
-  useEffect(() => {
+  useLayoutEffect(() => {
     const getProductDetail = async () => {
       setLoading2(true);
-      const response = await Api.getProduct(selectedItem?.id);
+      const response = await Api.getProduct(id);
       setDetailSelectedItem(response);
       setLoading2(false);
     };
-    selectedItem?.id && getProductDetail();
-  }, [selectedItem?.id])
+    id && getProductDetail();
+  }, [id])
 
   return (
     <>
@@ -282,49 +269,21 @@ const DashboardProductDetail = () => {
               <div className="title">
                 <div className="row">
                   <div className="col">
-                    <h6 className="mr-2 font-weight-bold">
-                      <span>Products</span>
-                      <small className="px-1 font-weight-bold">List of all items</small>
-                    </h6>
-                  </div>
-                  <div className="col">
-                    <SearchSectionDashboard />
+                    <nav aria-label="breadcrumb">
+                      <ol className="breadcrumb">
+                        <li className="breadcrumb-item">
+                          <Link style={{ textDecoration: 'none' }} to="/admin">Dashboard</Link>
+                        </li>
+                        <li className="breadcrumb-item">
+                          <Link style={{ textDecoration: 'none' }} to="/admin/products">Product Management</Link>
+                        </li>
+                        <li className="breadcrumb-item active" aria-current="page">
+                          Product Variant
+                        </li>
+                      </ol>
+                    </nav>
                   </div>
                 </div>
-              </div>
-              <div className="e-table mt-3">
-                {loading1 ? <Loading />
-                  :
-                  <TableContainer component={Paper}>
-                    <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                      <TableHead>
-                        <TableRow>
-                          <TableCell style={{ width: '30%' }}>Image</TableCell>
-                          <TableCell>Name</TableCell>
-                          <TableCell>Price</TableCell>
-                          <TableCell>Gender</TableCell>
-                          <TableCell>Category</TableCell>
-                        </TableRow>
-                      </TableHead>
-                      <TableBody>
-                        {allProducts?.slice(0, 3).map((item, index) => (
-                          <TableRow
-                            key={item?.id}
-                            sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                            onClick={() => setSelectedItem(item)}
-                          >
-                            <TableCell>
-                              <img src={item.image} alt="" width={150} height={110} />
-                            </TableCell>
-                            <TableCell>{item.name}</TableCell>
-                            <TableCell>{item.price}</TableCell>
-                            <TableCell>{PRODUCT_GENDER[item.gender]}</TableCell>
-                            <TableCell>{PRODUCT_CATEGORIES[item.categories]}</TableCell>
-                          </TableRow>
-                        ))}
-                      </TableBody>
-                    </Table>
-                  </TableContainer>}
               </div>
             </div>
           </div>

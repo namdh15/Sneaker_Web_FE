@@ -36,8 +36,8 @@ const DetailProduct = () => {
 
 
   return (
-    <div className="mx-5">
-      <div className="single_product">
+    <div className="d-flex justify-content-center">
+      <div className="single_product" style={{ width: '80%' }}>
         <div
           className="container-fluid"
           style={{ backgroundColor: "#fff", padding: "3em 2em" }}
