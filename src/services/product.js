@@ -36,10 +36,34 @@ export const createProduct = async (formData) => {
   }
 }
 
-export const deleteProduct = async (productCode) => {
+export const deleteProduct = async (productId) => {
   try {
-    const res = await API_ADMIN.delete(`/product/${productCode}`)
+    const res = await API_ADMIN.delete(`/product/${productId}`)
     return res?.data
+  } catch (error) {
+    return handleErrorAPI(error);
+  }
+}
+
+export const createNewVariant = async (productId, payload) => {
+  try {
+    const res = await API_ADMIN.post(`/products/${productId}/details/`, payload)
+    return {
+      data: res?.data,
+      statusCode: res?.status
+    }
+  } catch (error) {
+    return handleErrorAPI(error);
+  }
+}
+
+export const updateVariant = async (productId) => {
+  try {
+    const res = await API_ADMIN.patch(`/products/${productId}/details/`)
+    return {
+      data: res?.data,
+      statusCode: res?.status
+    }
   } catch (error) {
     return handleErrorAPI(error);
   }

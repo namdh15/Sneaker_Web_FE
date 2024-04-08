@@ -6,7 +6,6 @@ import { addCart } from '../../redux/action';
 const SimilarProducts = ({ similarProducts }) => {
 
   const dispatch = useDispatch();
-
   const addProduct = (product) => {
     dispatch(addCart(product));
   };

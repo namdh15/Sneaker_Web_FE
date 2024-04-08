@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import './atoms.scss';
 
 const EmptyComponent = (props) => {
@@ -14,21 +15,16 @@ const EmptyComponent = (props) => {
                   width={130}
                   height={130}
                   className="img-fluid mb-4 mr-3"
+                  alt=''
                 />
-                <h3>
-                  {/* <strong>Your Cart is Empty</strong> */}
-                  <strong>{message1}</strong>
-                </h3>
-                {/* <h4>Add something to make me happy</h4> */}
+                <h3><strong>{message1}</strong></h3>
                 <h4>{message2}</h4>
                 {!isSlide &&
-                  <a
-                    href="#"
+                  <Link
+                    to="/products"
                     className="btn btn-primary cart-btn-transform m-3"
                     data-abc="true"
-                  >
-                    continue shopping
-                  </a>
+                  >Continue Shopping</Link>
                 }
               </div>
             </div>
