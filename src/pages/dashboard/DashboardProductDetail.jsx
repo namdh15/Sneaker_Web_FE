@@ -20,7 +20,6 @@ import { ConfirmModal, HandleVariantModal, InitialComponent, Loading } from '../
 
 const InfoCard = (props) => {
   const { product, loading } = props
-  console.log(loading);
   return (
     loading ?
       < Loading /> :

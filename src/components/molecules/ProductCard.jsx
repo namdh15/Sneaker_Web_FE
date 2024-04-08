@@ -30,10 +30,10 @@ const ProductCard = ({ product }) => {
       <ul className="list-group list-group-flush">
         <li className="list-group-item lead">{Number(product.price).toLocaleString('en')} vnd</li>
         {/* <li className="list-group-item">Dapibus ac facilisis in</li>
-                    <li className="list-group-item">Vestibulum at eros</li> */}
+            <li className="list-group-item">Vestibulum at eros</li> */}
       </ul>
       <div className="product-card-body">
-        <Link to={"/product/" + product.id} className="btn btn-dark m-1">
+        <Link to={"/products/" + product.id} className="btn btn-dark m-1">
           Buy Now
         </Link>
         <button className="btn btn-dark m-1" onClick={() => addProduct(product)}>

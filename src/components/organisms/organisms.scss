@@ -62,6 +62,10 @@ $home-slide-heigh: 500px;
           .card {
             width: 96%;
             margin: auto;
+
+            .product-card-body {
+              padding: 0em 0em 2em 0em;
+            }
           }
 
           .slick-prev,
@@ -131,8 +135,7 @@ $home-slide-heigh: 500px;
     }
   }
 
-  @media screen and (min-width: 1368px) {
-  }
+  @media screen and (min-width: 1368px) {}
 }
 
 .list-poducts {

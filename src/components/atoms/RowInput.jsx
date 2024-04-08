@@ -18,8 +18,8 @@ const RowInput = (props) => {
                   name={item.name}
                   placeholder={item.placeholder}
                   onChange={item.handleChangeValue}
-                  // value={item.value}
-                  required
+                  value={item.value}
+                  required={item.required}
                 />
                 :
                 <input
@@ -29,8 +29,8 @@ const RowInput = (props) => {
                   name={item.name}
                   placeholder={item.placeholder}
                   onChange={item.handleChangeValue}
-                  // value={item.value}
-                  required
+                  value={item.value}
+                  required={item.required}
                 />}
               <div class="invalid-feedback">
                 Please provide valid value.

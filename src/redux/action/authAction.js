@@ -31,15 +31,22 @@ export const setInitialAuthState = (navigate) => async (dispatch) => {
 export const loginAction = (formData, navigate) => async (dispatch) => {
   try {
     const response = await api.login(formData)
-    console.log(response);
     localStorage.setItem("profile", JSON.stringify(response?.data));
     if (+response?.statusCode === 200) {
       toast.success("Welcome back !");
-      dispatch({
-        type: types.SIGNIN_SUCCESS,
-        payload: response?.data,
-      });
-      navigate("/");
+      if (response?.data?.role) {
+        dispatch({
+          type: types.SIGNIN_AS_ADMIN_SUCCESS,
+          payload: response?.data,
+        });
+        navigate("/admin");
+      } else {
+        dispatch({
+          type: types.SIGNIN_SUCCESS,
+          payload: response?.data,
+        });
+        navigate("/");
+      }
     } else if (+response?.statusCode !== 200) {
       response.errors?.map((error) => {
         toast.error(error);
@@ -92,36 +99,36 @@ export const registerAction = (formData, navigate) => async (dispatch) => {
 }
 
 
-export const loginAsAdminAction = (formData, navigate) => async (dispatch) => {
-  try {
-    const response = await api.loginAsAdmin(formData)
-    localStorage.setItem("admin_profile", JSON.stringify(response?.data));
-    if (+response?.statusCode === 200) {
-      toast.success("Welcome back !");
-      dispatch({
-        type: types.SIGNIN_AS_ADMIN_SUCCESS,
-        payload: response?.data,
-      });
-      navigate("/admin");
-    } else if (+response?.statusCode !== 200) {
-      response.errors?.map((error) => {
-        toast.error(error);
-        return false;
-      })
-      dispatch({
-        type: types.SIGNIN_AS_ADMIN_FAIL,
-        payload: response?.data,
-      });
-    }
-    return;
-  } catch (error) {
-    await dispatch({
-      type: types.SIGNIN_AS_ADMIN_FAIL,
-      payload: types.ERROR_MESSAGE,
-    });
-    navigate("/login");
-  }
-}
+// export const loginAsAdminAction = (formData, navigate) => async (dispatch) => {
+//   try {
+//     const response = await api.loginAsAdmin(formData)
+//     localStorage.setItem("admin_profile", JSON.stringify(response?.data));
+//     if (+response?.statusCode === 200) {
+//       toast.success("Welcome back !");
+//       dispatch({
+//         type: types.SIGNIN_AS_ADMIN_SUCCESS,
+//         payload: response?.data,
+//       });
+//       navigate("/admin");
+//     } else if (+response?.statusCode !== 200) {
+//       response.errors?.map((error) => {
+//         toast.error(error);
+//         return false;
+//       })
+//       dispatch({
+//         type: types.SIGNIN_AS_ADMIN_FAIL,
+//         payload: response?.data,
+//       });
+//     }
+//     return;
+//   } catch (error) {
+//     await dispatch({
+//       type: types.SIGNIN_AS_ADMIN_FAIL,
+//       payload: types.ERROR_MESSAGE,
+//     });
+//     navigate("/login");
+//   }
+// }
 
 
 export const logoutAction = (navigate) => async (dispatch) => {

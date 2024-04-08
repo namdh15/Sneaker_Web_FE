@@ -67,7 +67,7 @@ const products = {
     },
     {
       id: 'create-product-detail',
-      title: 'Create Product Detail',
+      title: 'Product Detail',
       type: 'item',
       url: '/admin/products/create-product-detail',
       icon: icons.IconShoe,

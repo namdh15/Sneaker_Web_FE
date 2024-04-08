@@ -2,8 +2,6 @@ import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { addCart, delCart } from "../redux/action";
 import { Link } from "react-router-dom";
-import Navbar from "../components/layouts/Navbar";
-import Footer from "../components/layouts/Footer";
 import { PRODUCT_COLOR } from "../constants/products.constant";
 
 const Cart = () => {
@@ -164,15 +162,11 @@ const Cart = () => {
   };
 
   return (
-    <>
-      <Navbar />
       <div className="container my-3 py-3">
         <h1 className="text-center">Cart</h1>
         <hr />
         {state.length > 0 ? <ShowCart /> : <EmptyCart />}
       </div>
-      <Footer />
-    </>
   );
 };
 

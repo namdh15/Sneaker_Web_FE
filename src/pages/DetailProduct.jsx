@@ -123,24 +123,24 @@ const DetailProduct = () => {
                   </div>
                   <div className="row" style={{ marginTop: 15 }}>
                     <div className="col-xs-6 ml-3 mb-3">
-                      <span className="product_options">RAM Options</span>
+                      <span className="product_options">Size Options</span>
                       <br />
-                      <button className="btn btn-primary btn-sm mr-2">4 GB</button>
-                      <button className="btn btn-primary btn-sm mr-2">8 GB</button>
-                      <button className="btn btn-primary btn-sm mr-2">16 GB</button>
+                      <button className="btn btn-primary btn-sm mr-2">36</button>
+                      <button className="btn btn-primary btn-sm mr-2">38</button>
+                      <button className="btn btn-primary btn-sm mr-2">40</button>
                     </div>
                     <div className="col-xs-6  ml-3 mb-3">
-                      <span className="product_options">Storage Options</span>
+                      <span className="product_options">Color Options</span>
                       <br />
-                      <button className="btn btn-primary btn-sm  mr-2">500 GB</button>
-                      <button className="btn btn-primary btn-sm  mr-2">1 TB</button>
+                      <button className="btn btn-primary btn-sm  mr-2">Green</button>
+                      <button className="btn btn-primary btn-sm  mr-2">Black</button>
                     </div>
                   </div>
                 </div>
                 <div className="row">
                   <div className="col-xs-6" style={{ marginLeft: 13 }}>
                     <div className="product_quantity">
-                      <span>QTY: </span>
+                      <span>Quantity: </span>
                       <input
                         id="quantity_input"
                         type="number"
@@ -510,7 +510,6 @@ const DetailProduct = () => {
         </div>
       </div>
     </div>
-
   )
 }
 export default DetailProduct

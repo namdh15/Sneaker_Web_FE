@@ -1,10 +1,11 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { useState } from "react";
 
 import * as Api from "../../services/product"
 import { PRODUCT_CATEGORIES, PRODUCT_GENDER } from "../../constants/products.constant";
 import { RowInput, RowSelect } from "../../components";
+import { toast } from "react-toastify";
 
 const sizeConstant = [36, 37, 38, 39, 40]
 
@@ -16,18 +17,18 @@ const DashboardCreateProduct = (props) => {
     gender: null,
     categories: null,
     description: null,
-    // quantity: null,
     image: null,
   }
   const { isEdit, currProduct } = props;
-  const [formValues, setFormValues] = useState();
+  const [formValues, setFormValues] = useState(initialProduct);
   const [previewImage, setPreviewImage] = useState(formValues?.image);
+  const navigate = useNavigate();
+
   useEffect(() => {
     setFormValues(currProduct);
     setPreviewImage(currProduct?.image)
     return () => {}
-  }, [currProduct])
-  const { name, price, gender, categories, description, quantity } = formValues || initialProduct;
+  }, [currProduct]);
 
   const handleChangeValue = (event) => {
     const { name, value } = event.target;
@@ -38,7 +39,7 @@ const DashboardCreateProduct = (props) => {
     const file = e.target.files[0];
     if (file) {
       if (file instanceof Blob) {
-        setFormValues({ 'image': file })
+        setFormValues({ ...formValues, 'image': file })
         var reader = new FileReader();
         reader.onload = function () {
           setPreviewImage(reader.result);
@@ -54,18 +55,31 @@ const DashboardCreateProduct = (props) => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    if (!formValues?.image) {
+      toast.error('Import your image file!')
+      return false;
+    }
     const formData = new FormData();
     // Append each key-value pair from the initialProduct object to the FormData object
-    console.log(formData);
     Object.keys(formValues).forEach(key => {
-      console.log(key);
       if (formValues[key]) {
         formData.append(key, formValues[key]);
       }
     });
     const res = await Api.createProduct(formData);
-    console.log(res);
+    if (res?.statusCode !== 201) {
+      res.errors?.map((error) => {
+        toast.error(error);
+        return false;
+      })
+    } else if (res?.statusCode === 201) {
+      toast.success('Create Product successful');
+      navigate('/admin/products')
+      return true;
+    }
   }
+
+
   return (
     <>
       <div >
@@ -91,7 +105,7 @@ const DashboardCreateProduct = (props) => {
                         </div>
                         <div className="col d-flex flex-column flex-sm-row justify-content-between mb-3">
                           <div className="text-center text-sm-left mb-2 mb-sm-0">
-                            <h4 className="pt-sm-2 pb-1 mb-0 text-nowrap" style={{ width: '200px', overflow: 'hidden', textOverflow: 'ellipsis', height: '1.8em' }}>{name}</h4>
+                            <h4 className="pt-sm-2 pb-1 mb-0 text-nowrap" style={{ width: '200px', overflow: 'hidden', textOverflow: 'ellipsis', height: '1.8em' }}>{formValues?.name}</h4>
                             <div className="text-muted"><small>HaNoi, 231.st Hoang Mai</small></div>
                             <div className="mt-2 required">
                               <label htmlFor="image">
@@ -102,6 +116,7 @@ const DashboardCreateProduct = (props) => {
                                   name="image"
                                   accept="image/*"
                                   onChange={handleImageChange}
+                                  required
                                 />
                                 <span class="btn btn-primary"><i className="fa fa-fw fa-camera" />Select Photo</span>
                               </label>
@@ -124,7 +139,11 @@ const DashboardCreateProduct = (props) => {
                       </ul>
                       <div className="tab-content pt-3">
                         <div className="tab-pane active">
-                          <form className="form needs-validation" novalidate>
+                          <form
+                            className="form needs-validation"
+                            novalidate
+                            onSubmit={handleSubmit}
+                          >
                             <div className="row">
                               <div className="col">
                                 <RowInput
@@ -137,7 +156,7 @@ const DashboardCreateProduct = (props) => {
                                       name: 'code',
                                       placeholder: "ABC-xyz",
                                       handleChangeValue: handleChangeValue,
-                                      value: quantity
+                                      value: undefined
                                     },
                                     {
                                       disabled: true,
@@ -147,7 +166,7 @@ const DashboardCreateProduct = (props) => {
                                       name: 'quantity',
                                       placeholder: "0",
                                       handleChangeValue: handleChangeValue,
-                                      value: quantity
+                                      value: undefined
                                     }
                                   ]}
                                 />
@@ -160,7 +179,7 @@ const DashboardCreateProduct = (props) => {
                                       name: 'name',
                                       placeholder: "New Product",
                                       handleChangeValue: handleChangeValue,
-                                      value: name
+                                      value: formValues?.name
                                     }
                                   ]}
                                 />
@@ -171,7 +190,7 @@ const DashboardCreateProduct = (props) => {
                                       name: 'description',
                                       placeholder: "Product Bio",
                                       handleChangeValue: handleChangeValue,
-                                      value: description
+                                      value: formValues?.description
                                     }
                                   ]}
                                   isTextArea={true}
@@ -192,25 +211,27 @@ const DashboardCreateProduct = (props) => {
                                       name: 'price',
                                       placeholder: "0",
                                       handleChangeValue: handleChangeValue,
-                                      value: price
+                                      value: formValues?.price
                                     }
                                   ]}
                                 />
                                 <RowSelect
                                   item={{
+                                    required: true,
                                     label: 'Category',
                                     name: 'categories',
                                     handleChangeValue: handleChangeValue,
-                                    value: categories
+                                    value: formValues?.categories
                                   }}
                                   options={PRODUCT_CATEGORIES}
                                 />
                                 <RowSelect
                                   item={{
+                                    required: true,
                                     label: 'Gender',
                                     name: 'gender',
                                     handleChangeValue: handleChangeValue,
-                                    value: gender
+                                    value: formValues?.gender
                                   }}
                                   options={PRODUCT_GENDER}
                                 />

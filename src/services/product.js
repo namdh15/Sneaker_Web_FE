@@ -27,9 +27,12 @@ export const getProduct = async (productId) => {
 export const createProduct = async (formData) => {
   try {
     const res = await API_ADMIN.post('/products', formData);
-    return res?.data
+    return {
+      data: res?.data,
+      statusCode: res?.status
+    }
   } catch (error) {
-
+    return handleErrorAPI(error);
   }
 }
 

@@ -17,8 +17,10 @@ const AuthNavi = () => {
         )
     }
 }
+
 const Navbar = () => {
     const itemsInCart = useSelector(state => state.cart)
+    const userData = useSelector(state => state.auth.userData);
 
     return (
         <nav className="navbar navbar-expand-lg navbar-light bg-light sticky-top">
@@ -36,7 +38,7 @@ const Navbar = () => {
                             <NavLink className="nav-link" to="/">Home </NavLink>
                         </li>
                         <li className="nav-item">
-                            <NavLink className="nav-link" to="/product">Products</NavLink>
+                            <NavLink className="nav-link" to="/products">Products</NavLink>
                         </li>
                         <li className="nav-item">
                             <NavLink className="nav-link" to="/about">About</NavLink>
@@ -44,6 +46,12 @@ const Navbar = () => {
                         <li className="nav-item">
                             <NavLink className="nav-link" to="/contact">Contact</NavLink>
                         </li>
+                        {
+                            userData?.role &&
+                            <li className="nav-item">
+                                <NavLink className="nav-link" to="/admin">Dashboard</NavLink>
+                            </li>
+                        }
                     </ul>
                     <div className="buttons text-center">
                         <AuthNavi />
