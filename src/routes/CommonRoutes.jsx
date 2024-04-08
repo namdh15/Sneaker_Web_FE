@@ -26,18 +26,18 @@ const CommonRoutes = {
       element: <Home />
     },
     {
-      path: 'product',
+      path: 'products',
       element: <ProductsPage />,
       children: [
-        {
-          path: ':id',
-          element: <ProductsPage />
-        },
         {
           path: '*',
           element: <PageNotFound />
         }
       ]
+    },
+    {
+      path: 'products/:id',
+      element: <DetailProduct />
     },
     {
       path: 'about',

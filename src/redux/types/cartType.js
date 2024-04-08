@@ -1,3 +1,3 @@
-export const ADD_ITEM = 'SET_MENU';
+export const ADD_ITEM = 'ADDITEM';
 
-export const DELETE_ITEM = 'DELETE_ITEM';
+export const DELETE_ITEM = 'DELITEM';
