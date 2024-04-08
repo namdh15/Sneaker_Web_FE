@@ -28,7 +28,7 @@ const Products = () => {
   const ShowProducts = () => {
     return (
       <>
-        <div className="buttons text-center py-5">
+        <div className="buttons text-center py-3">
           <button className="btn btn-outline-dark btn-sm m-2" onClick={() => setFilter(data)}>All</button>
           <button className="btn btn-outline-dark btn-sm m-2" onClick={() => filterProduct(0)}>Shoes</button>
           <button className="btn btn-outline-dark btn-sm m-2" onClick={() => filterProduct(1)}>
@@ -49,15 +49,15 @@ const Products = () => {
     );
   };
   return (
-    <div className="col-md-9">
-      <div className="list-poducts my-3 py-3">
+    <div className="col-md-9" id="main">
+      <div className="my-3 py-3">
         <div className="row">
           <div className="col-12">
             <h2 className="display-5 text-center">Latest Products</h2>
             <hr />
           </div>
         </div>
-        <div className="row justify-content-center">
+        <div className="row justify-content-center pr-5">
           {loading ? <SkeletonProducts /> : <ShowProducts />}
         </div>
       </div>

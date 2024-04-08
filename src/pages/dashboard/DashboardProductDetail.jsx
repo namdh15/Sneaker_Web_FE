@@ -1,4 +1,5 @@
 import {
+  Button,
   Card,
   CardActionArea,
   CardContent,
@@ -12,11 +13,14 @@ import {
   TableRow,
   Typography
 } from '@mui/material';
+import DeleteIcon from '@mui/icons-material/Delete';
 import React, { useEffect, useState } from 'react'
 import * as Api from "../../services/product"
 import SearchSectionDashboard from '../../components/atoms/dashboard/SearchSectionDashboard';
 import { PRODUCT_CATEGORIES, PRODUCT_GENDER } from '../../constants/products.constant';
 import { ConfirmModal, HandleVariantModal, InitialComponent, Loading } from '../../components';
+import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 
 const InfoCard = (props) => {
   const { product, loading } = props
@@ -71,8 +75,29 @@ const InfoCard = (props) => {
 }
 
 const TableVariants = (props) => {
-  const { product, loading } = props
-  const [editMode, setEditMode] = useState(false)
+  const { product, loading } = props;
+  const [editMode, setEditMode] = useState(false);
+  const [newVariants, setNewVariants] = useState([]);
+  const navigate = useNavigate();
+
+  const handleTempVariants = (tempVariant) => {
+    setNewVariants([...newVariants, tempVariant])
+  }
+
+  const handleAddVariants = async () => {
+    const res = await Api.createNewVariant(product?.id, newVariants)
+    if (res?.statusCode !== 201) {
+      res.errors?.map((error) => {
+        toast.error(error);
+        return false;
+      })
+    } else if (res?.statusCode === 201) {
+      toast.success('Create new Variant successful');
+      navigate('/admin/products')
+      return true;
+    }
+  }
+
   return (loading ?
     <Loading /> :
     <>
@@ -132,32 +157,89 @@ const TableVariants = (props) => {
                 </TableBody>
               </Table>
             </TableContainer>
-            <div style={{ textAlign: 'right' }}>
-              {editMode ?
+          </div>}
+
+        {(newVariants?.length > 0) &&
+          <div className="card-body">
+            <hr />
+            <h6 className="card-title font-weight-bold">List of temporary variants</h6>
+            <TableContainer component={Paper}>
+              <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                <TableHead>
+                  <TableRow>
+                    <TableCell>Size</TableCell>
+                    <TableCell>Color</TableCell>
+                    <TableCell>Quantity</TableCell>
+                    <TableCell style={{ width: '30%' }}>Image</TableCell>
+                    <TableCell>Action</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {newVariants?.map((tempVariant, index) => (
+                    <TableRow
+                      key={index}
+                      sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                    >
+                      <TableCell>{tempVariant.size}</TableCell>
+                      <TableCell>{tempVariant.color}</TableCell>
+                      <TableCell>{tempVariant.stock}</TableCell>
+                      <TableCell>
+                        <img src={tempVariant.previewImg} alt="" width={150} height={80} />
+                      </TableCell>
+                      <TableCell>
+                        <Button
+                          color="error"
+                          variant="outlined"
+                          startIcon={<DeleteIcon />}
+                          onClick={() => setNewVariants(newVariants?.filter((_, i) => i !== index))}
+                        >Delete</Button>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </div>}
+        {product && <div className="card-footer">
+          <div style={{ textAlign: 'right' }} className='pb-3'>
+            {editMode ?
+              <button
+                type="button"
+                className="btn btn-outline-primary mt-3 mr-3"
+                onClick={() => setEditMode(false)}
+              >Cancel</button> :
+              <>
                 <button
                   type="button"
                   className="btn btn-outline-primary mt-3 mr-3"
-                  onClick={() => setEditMode(false)}
-                >Cancel</button>
-                :
-                <>
+                  onClick={() => setEditMode(true)}
+                >Edit</button>
+                <button
+                  type="button"
+                  className="btn btn-primary mt-3 mr-3"
+                  data-target="#variant-form-modal"
+                  data-toggle="modal"
+                >Create</button>
+                {(newVariants?.length > 0) &&
                   <button
                     type="button"
-                    className="btn btn-outline-primary mt-3 mr-3"
-                    onClick={() => setEditMode(true)}
-                  >Edit</button>
-                  <button type="button" className="btn btn-success mt-3">Create</button>
-                </>
-              }
-            </div>
-          </div>}
+                    className="btn btn-success mt-3 mr-3"
+                    onClick={handleAddVariants}
+                  >Submit</button>}
+              </>
+            }
+          </div>
+        </div>}
       </div>
       <ConfirmModal
         modalId={'delete-variant-modal'}
         modalTitle={'Remove this item'}
         modalMessage={'Do you want to remove this variant !'}
       />
-      <HandleVariantModal />
+      <HandleVariantModal
+        isEdit={editMode}
+        handleTempVariants={handleTempVariants}
+      />
     </>
   )
 }
@@ -225,7 +307,7 @@ const DashboardProductDetail = () => {
                         </TableRow>
                       </TableHead>
                       <TableBody>
-                        {allProducts.map((item, index) => (
+                        {allProducts?.slice(0, 3).map((item, index) => (
                           <TableRow
                             key={item?.id}
                             sx={{ '&:last-child td, &:last-child th': { border: 0 } }}

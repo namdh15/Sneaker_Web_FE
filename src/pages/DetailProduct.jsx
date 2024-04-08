@@ -429,9 +429,7 @@ const DetailProduct = () => {
               <span className=" deal-text">Specifications</span>
             </div>
             <div className="col-md-6">
-
               <a href="#" data-abc="true">
-
                 <span className="ml-auto view-all" />
               </a>
             </div>

@@ -91,6 +91,7 @@ $home-slide-heigh: 500px;
 
 .sidebar {
   padding-left: 2em;
+  background-color: white;
 
   .filter-type-content {
     display: flex;
@@ -136,10 +137,6 @@ $home-slide-heigh: 500px;
   }
 
   @media screen and (min-width: 1368px) {}
-}
-
-.list-poducts {
-  margin: 0 1em;
 }
 
 @media (max-width: 767px) {

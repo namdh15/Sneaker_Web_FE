@@ -116,7 +116,6 @@ const DashboardCreateProduct = (props) => {
                                   name="image"
                                   accept="image/*"
                                   onChange={handleImageChange}
-                                  required
                                 />
                                 <span class="btn btn-primary"><i className="fa fa-fw fa-camera" />Select Photo</span>
                               </label>
@@ -276,12 +275,9 @@ const DashboardCreateProduct = (props) => {
                             <div className="row">
                               <div className="col d-flex justify-content-end">
                                 <button
-                                  // onClick={handleSubmit}
                                   className="btn btn-primary"
                                   type="submit"
-                                >
-                                  Submit
-                                </button>
+                                >Submit</button>
                               </div>
                             </div>
                           </form>

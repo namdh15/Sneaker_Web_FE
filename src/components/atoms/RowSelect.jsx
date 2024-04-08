@@ -5,16 +5,21 @@ const RowSelect = (props) => {
   return (
     <div className="row">
       <div className="col">
-        <div className="form-group">
-          <label>{item.label}</label>
+        <div className={`form-group ${item.required && 'required'}`}>
+          <label className="form-label">{item.label}</label>
           <select
             onChange={item.handleChangeValue}
             name={item.name}
             class="form-select"
             aria-label="Default select example"
             value={item.value}
+            required={item.required}
           >
-            <option selected>Select {item.label}</option>
+            <option
+              selected
+              disabled
+              value=''
+            >Select {item.label}</option>
             {options?.map((it, index) => (
               <option value={index}>{it}</option>
             ))}

@@ -2,7 +2,12 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Marquee from "react-fast-marquee";
 
-import { Footer, Navbar, ProductDetail, SimilarProducts, SkaletonDetailProduct, SkeletonSimilarProducts } from "../components";
+import {
+  ProductDetail,
+  SimilarProducts,
+  SkaletonDetailProduct,
+  SkeletonSimilarProducts
+} from "../components";
 
 
 import * as Api from "../services/product"
@@ -52,26 +57,22 @@ const Product = () => {
   // }, [id]);
 
   return (
-    <>
-      <Navbar />
-      <div className="container">
-        <div className="row">{loading ? <SkaletonDetailProduct /> : <ProductDetail product={product} />}</div>
-        <div className="row my-5 py-5">
-          <div className="d-none d-md-block">
-            <h2 className="">You may also Like</h2>
-            <Marquee
-              pauseOnHover={true}
-              pauseOnClick={true}
-              speed={100}
-              delay={5}
-            >
-              {loading2 ? <SkeletonSimilarProducts /> : <SimilarProducts similarProducts={[]} />}
-            </Marquee>
-          </div>
+    <div className="container">
+      <div className="row">{loading ? <SkaletonDetailProduct /> : <ProductDetail product={product} />}</div>
+      <div className="row my-5 py-5">
+        <div className="d-none d-md-block">
+          <h2 className="">You may also Like</h2>
+          <Marquee
+            pauseOnHover={true}
+            pauseOnClick={true}
+            speed={100}
+            delay={5}
+          >
+            {loading2 ? <SkeletonSimilarProducts /> : <SimilarProducts similarProducts={[]} />}
+          </Marquee>
         </div>
       </div>
-      <Footer />
-    </>
+    </div>
   );
 };
 

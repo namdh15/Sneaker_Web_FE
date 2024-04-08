@@ -3,6 +3,9 @@ import { useEffect, useState } from 'react';
 
 // material-ui
 import { Grid } from '@mui/material';
+import TotalIncomeDarkCard from "../../components/mock-components/TotalIncomeDarkCard";
+import PopularCard from "../../components/mock-components/PopularCard";
+import TotalGrowthBarChart from "../../components/mock-components/TotalGrowthBarChart";
 
 // project imports
 // import PopularCard from './PopularCard';
@@ -34,7 +37,7 @@ const DashboardPage = () => {
             <Grid item lg={4} md={12} sm={12} xs={12}>
               <Grid container spacing={gridSpacing}>
                 <Grid item sm={6} xs={12} md={6} lg={12}>
-                  {/* <TotalIncomeDarkCard isLoading={isLoading} /> */}
+                  <TotalIncomeDarkCard isLoading={isLoading} />
                 </Grid>
                 <Grid item sm={6} xs={12} md={6} lg={12}>
                   {/* <TotalIncomeLightCard isLoading={isLoading} /> */}
@@ -46,10 +49,10 @@ const DashboardPage = () => {
         <Grid item xs={12}>
           <Grid container spacing={gridSpacing}>
             <Grid item xs={12} md={8}>
-              {/* <TotalGrowthBarChart isLoading={isLoading} /> */}
+              <TotalGrowthBarChart isLoading={false} />
             </Grid>
             <Grid item xs={12} md={4}>
-              {/* <PopularCard isLoading={isLoading} /> */}
+              <PopularCard isLoading={isLoading} />
             </Grid>
           </Grid>
         </Grid>
