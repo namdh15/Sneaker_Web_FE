@@ -16,6 +16,7 @@ export { default as Navbar } from './layouts/Navbar';
 export { default as SkaletonDetailProduct } from './layouts/SkaletonDetailProduct';
 export { default as SkeletonProducts } from './layouts/SkeletonProducts';
 export { default as SkeletonSimilarProducts } from './layouts/SkeletonSimilarProducts';
+export { default as Loadable } from './layouts/Loadable';
 //export layouts components ********************************
 export { default as DashboardLayout } from './layouts/dashboard/DashboardLayout';
 

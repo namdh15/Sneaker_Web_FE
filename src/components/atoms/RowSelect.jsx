@@ -21,7 +21,7 @@ const RowSelect = (props) => {
               value=''
             >Select {item.label}</option>
             {options?.map((it, index) => (
-              <option value={index}>{it}</option>
+              <option value={(item.name === 'size') ? it : index}>{it}</option>
             ))}
           </select>
         </div>

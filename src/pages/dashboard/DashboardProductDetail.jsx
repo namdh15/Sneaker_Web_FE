@@ -20,6 +20,7 @@ import { PRODUCT_CATEGORIES, PRODUCT_GENDER } from '../../constants/products.con
 import { ConfirmModal, HandleVariantModal, InitialComponent, Loading } from '../../components';
 import { toast } from 'react-toastify';
 import { Link, useNavigate, useParams } from 'react-router-dom';
+import { STATUS_CODE } from '../../constants/statusCode.constant';
 
 const InfoCard = (props) => {
   const { product, loading } = props
@@ -74,10 +75,12 @@ const InfoCard = (props) => {
 }
 
 const TableVariants = (props) => {
+  const navigate = useNavigate();
   const { product, loading } = props;
   const [editMode, setEditMode] = useState(false);
   const [newVariants, setNewVariants] = useState([]);
-  const navigate = useNavigate();
+  const [selectedVariant, setSelectedVariant] = useState();
+  const [currentVariants, setCurrentVariants] = useState(product?.details || []);
 
   const handleTempVariants = (tempVariant) => {
     setNewVariants([...newVariants, tempVariant])
@@ -85,18 +88,36 @@ const TableVariants = (props) => {
 
   const handleAddVariants = async () => {
     const res = await Api.createNewVariant(product?.id, newVariants)
-    if (res?.statusCode !== 201) {
+    if (res?.statusCode !== STATUS_CODE.CREATE) {
       res.errors?.map((error) => {
         toast.error(error);
         return false;
       })
-    } else if (res?.statusCode === 201) {
+    } else if (res?.statusCode === STATUS_CODE.CREATE) {
       toast.success('Create new Variant successful');
       navigate('/admin/products')
       return true;
     }
   }
 
+  const handleRemoveVariants = async () => {
+    const res = await Api.deleteVariant(selectedVariant?.id)
+    if (res?.statusCode !== STATUS_CODE.DELETE) {
+      res.errors?.map((error) => {
+        toast.error(error);
+        return false;
+      })
+    } else if (res?.statusCode === STATUS_CODE.DELETE) {
+      setCurrentVariants(currentVariants?.filter((item, index) => item?.id !== selectedVariant?.id))
+      toast.success('Deleted Variant successful');
+      return true;
+    }
+  }
+
+  useLayoutEffect(() => {
+    setCurrentVariants(product?.details)
+  }, [product?.details])
+  
   return (loading ?
     <Loading /> :
     <>
@@ -119,7 +140,7 @@ const TableVariants = (props) => {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {product?.details?.map((vari, index) => (
+                  {currentVariants?.map((vari, index) => (
                     <TableRow
                       key={index}
                       sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
@@ -146,6 +167,7 @@ const TableVariants = (props) => {
                             type="button"
                             data-target="#delete-variant-modal"
                             data-toggle="modal"
+                            onClick={() => setSelectedVariant(vari)}
                           >
                             <i className="fa fa-trash" style={{ color: 'red' }} />
                           </button>
@@ -234,6 +256,7 @@ const TableVariants = (props) => {
         modalId={'delete-variant-modal'}
         modalTitle={'Remove this item'}
         modalMessage={'Do you want to remove this variant !'}
+        rightFunc={handleRemoveVariants}
       />
       <HandleVariantModal
         isEdit={editMode}

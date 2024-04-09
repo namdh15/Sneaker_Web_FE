@@ -7,14 +7,6 @@ import TotalIncomeDarkCard from "../../components/mock-components/TotalIncomeDar
 import PopularCard from "../../components/mock-components/PopularCard";
 import TotalGrowthBarChart from "../../components/mock-components/TotalGrowthBarChart";
 
-// project imports
-// import PopularCard from './PopularCard';
-// import TotalOrderLineChartCard from './TotalOrderLineChartCard';
-// import TotalIncomeDarkCard from './TotalIncomeDarkCard';
-// import TotalIncomeLightCard from './TotalIncomeLightCard';
-// import TotalGrowthBarChart from './TotalGrowthBarChart';
-
-
 const gridSpacing = 3
 const DashboardPage = () => {
 

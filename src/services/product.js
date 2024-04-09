@@ -68,3 +68,15 @@ export const updateVariant = async (productId) => {
     return handleErrorAPI(error);
   }
 }
+
+export const deleteVariant = async (variantId) => {
+  try {
+    const res = await API_ADMIN.delete(`/product-detail/${variantId}`)
+    return {
+      data: res?.data,
+      statusCode: res?.status
+    }
+  } catch (error) {
+    return handleErrorAPI(error);
+  }
+}
