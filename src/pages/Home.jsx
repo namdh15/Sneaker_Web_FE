@@ -1,9 +1,7 @@
 import { useEffect, useState } from "react";
-import SlideProducts from "../components/SlideProducts";
-import SlideImageHomepage from "../components/sub-components/SlideImageHomepage";
-import HomeAbout from "../components/HomeAbout";
 import * as Api from "../services/product"
-import SkeletonSimilarProducts from "../components/sub-components/SkeletonSimilarProducts";
+import { HomeAbout, SkeletonSimilarProducts, SlideImageHomepage, SlideProducts } from "../components";
+
 
 function Home() {
   const [dataMen, setDataMen] = useState([]);
@@ -21,10 +19,10 @@ function Home() {
         Api.getProducts({ gender: 2 }),
         Api.getProducts({ gender: 3 })
       ]);
-      setDataMen(resMen);
-      setDataWomen(resWomen);
-      setDataGirl(resGirl);
-      setDataBoy(resBoy);
+      setDataMen(resMen?.results);
+      setDataWomen(resWomen?.results);
+      setDataGirl(resGirl?.results);
+      setDataBoy(resBoy?.results);
       setLoading(false);
     };
     getProducts();

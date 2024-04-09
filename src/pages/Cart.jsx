@@ -2,46 +2,12 @@ import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { addCart, delCart } from "../redux/action";
 import { Link } from "react-router-dom";
-import Navbar from "../components/layouts/Navbar";
-import Footer from "../components/layouts/Footer";
+import { PRODUCT_COLOR } from "../constants/products.constant";
+import { EmptyComponent } from "../components";
 
 const Cart = () => {
-  const state = useSelector((state) => state.handleCart);
+  const state = useSelector((state) => state.cart);
   const dispatch = useDispatch();
-  console.log(state);
-
-  const EmptyCart = () => {
-    return (
-      <div className="container">
-        <div className="row">
-          <div className="col-md-12 py-5 bg-light text-center">
-            <h4 className="p-3 display-5">Your Cart is Empty</h4>
-            <Link to="/" className="btn  btn-outline-dark mx-4">
-              <i className="fa fa-arrow-left"></i> Continue Shopping
-            </Link>
-          </div>
-        </div>
-      </div>
-    );
-  };
-
-  // To-Do: move to constant folder
-  const genColor = (colorCode) => {
-    switch (colorCode) {
-      case 0:
-        return 'Black'
-      case 1:
-        return 'Grey'
-      case 2:
-        return 'Blue'
-      case 3:
-        return 'Orange'
-      case 4:
-        return 'Navy'
-      default:
-        break;
-    }
-  }
 
   const addItem = (product) => {
     dispatch(addCart(product));
@@ -74,7 +40,7 @@ const Cart = () => {
                   <div className="card-body">
                     {state.map((item) => {
                       return (
-                        <div key={item.code}>
+                        <div key={item.id}>
                           <div className="row d-flex align-items-center">
                             <div className="col-lg-3 col-md-12">
                               <div
@@ -95,7 +61,7 @@ const Cart = () => {
                               <p>
                                 <strong>{item.name}</strong>
                               </p>
-                              <p>Color: {genColor(item.color)}</p>
+                              <p>Color: {PRODUCT_COLOR[item.color]}</p>
                               <p>Size: M</p>
                             </div>
 
@@ -182,15 +148,17 @@ const Cart = () => {
   };
 
   return (
-    <>
-      <Navbar />
-      <div className="container my-3 py-3">
-        <h1 className="text-center">Cart</h1>
-        <hr />
-        {state.length > 0 ? <ShowCart /> : <EmptyCart />}
-      </div>
-      <Footer />
-    </>
+    <div className="container my-3 py-3">
+      <h1 className="text-center">Cart</h1>
+      <hr />
+      {state.length > 0 ?
+        <ShowCart /> :
+        <EmptyComponent
+          message1={'Your Cart is Empty'}
+          message2={'Find more products in Product list'}
+        />
+      }
+    </div>
   );
 };
 

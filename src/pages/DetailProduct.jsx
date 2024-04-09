@@ -1,30 +1,68 @@
+import { Link, useParams } from 'react-router-dom';
 import './page.scss';
+import { useEffect, useState } from 'react';
+
+import * as Api from "../services/product"
+// assets
+import {
+  IconTag
+} from '@tabler/icons-react';
+import { PRODUCT_SIZE } from '../constants/products.constant';
 
 const DetailProduct = () => {
+  const { id } = useParams();
+  const [product, setProduct] = useState([]);
+  // const [similarProducts, setSimilarProducts] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [loading2, setLoading2] = useState(false);
+
+  useEffect(() => {
+    const getProducts = async () => {
+      setLoading(true);
+      setLoading2(true);
+      const response = await Api.getProduct(id);
+      setProduct(response);
+      setLoading(false);
+      //     const response2 = await fetch(
+      //       `https://fakestoreapi.com/products/category/${data.category}`
+      //     );
+      //     const data2 = await response2.json();
+      //     setSimilarProducts(data2);
+      //     setLoading2(false);
+    };
+
+    getProducts();
+  }, [id]);
+
+
   return (
-    <div className="container">
-      <div className="single_product">
+    <div className="d-flex justify-content-center">
+      <div className="single_product" style={{ width: '80%' }}>
         <div
           className="container-fluid"
-          style={{ backgroundColor: "#fff", padding: 11 }}
+          style={{ backgroundColor: "#fff", padding: "3em 2em" }}
         >
           <div className="row">
             <div className="col-lg-2 order-lg-1 order-2">
               <ul className="image_list">
                 <li data-image="">
-                  <img src="" alt="" />
+                  <img src="https://images.unsplash.com/photo-1603787081207-362bcef7c144?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8c25lYWtlcnxlbnwwfHwwfHx8MA%3D%3D" alt="" />
                 </li>
                 <li data-image="">
-                  <img src="" alt="" />
+                  <img src="https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8c25lYWtlcnxlbnwwfHwwfHx8MA%3D%3D" alt="" />
                 </li>
                 <li data-image=".imgur.com/HkEiXfn.jpg">
-                  <img src=".imgur.com/HkEiXfn.jpg" alt="" />
+                  <img src="https://images.unsplash.com/photo-1560769629-975ec94e6a86?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mjh8fHNuZWFrZXJ8ZW58MHx8MHx8fDA%3Dg" alt="" />
                 </li>
               </ul>
             </div>
             <div className="col-lg-4 order-lg-2 order-1">
-              <div className="image_selected">
-                <img src=".imgur.com/qEwct2O.jpg" alt="" />
+              <div className="image_selected d-flex">
+                <img style={{
+                  flexShrink: 0,
+                  minWidth: '100%',
+                  minHeight: '100%',
+                }} src={product?.image} alt="" />
               </div>
             </div>
             <div className="col-lg-6 order-3">
@@ -41,61 +79,33 @@ const DetailProduct = () => {
                   </ol>
                 </nav>
                 <div className="product_name">
-                  Acer Aspire 3 Celeron Dual Core - (2 GB/500 GB HDD/Windows 10
-                  Home) A315-33 Laptop (15.6 inch, Black, 2.1 kg)
+                  {product?.name}
                 </div>
                 <div className="product-rating">
                   <span className="badge badge-success">
                     <i className="fa fa-star" /> 4.5 Star
-                  </span>{" "}
-                  <span className="rating-review">35 Ratings &amp; 45 Reviews</span>
+                  </span>
+                  <span className="rating-review ml-3">35 Ratings &amp; 45 Reviews</span>
                 </div>
                 <div>
-                  {" "}
-                  <span className="product_price">₹ 29,000</span>{" "}
+                  <span className="product_price">VND {Number(product.price).toLocaleString('en')}</span>
                   <strike className="product_discount">
-                    {" "}
                     <span style={{ color: "black" }}>
-                      ₹ 2,000<span> </span>
+                      VND 2,000<span> </span>
                     </span>
-                  </strike>{" "}
+                  </strike>
                 </div>
                 <div>
-                  {" "}
-                  <span className="product_saved">You Saved:</span>{" "}
+                  <span className="product_saved">You Saved:</span>
                   <span style={{ color: "black" }}>
-                    ₹ 2,000<span> </span>
+                    VND 2,000<span> </span>
                   </span>
                 </div>
                 <hr className="singleline" />
                 <div>
-                  {" "}
+
                   <span className="product_info">
-                    EMI starts at ₹ 2,000. No Cost EMI Available
-                    <span>
-                      <br />{" "}
-                      <span className="product_info">
-                        Warranty: 6 months warranty
-                        <span>
-                          <br />{" "}
-                          <span className="product_info">
-                            7 Days easy return policy
-                            <span>
-                              <br />{" "}
-                              <span className="product_info">
-                                7 Days easy return policy
-                                <span>
-                                  <br />{" "}
-                                  <span className="product_info">
-                                    In Stock: 25 units sold this week<span> </span>
-                                  </span>
-                                </span>
-                              </span>
-                            </span>
-                          </span>
-                        </span>
-                      </span>
-                    </span>
+                    {product.description}
                   </span>
                 </div>
                 <div>
@@ -104,15 +114,18 @@ const DetailProduct = () => {
                       <div className="br-dashed">
                         <div className="row">
                           <div className="col-md-3 col-xs-3">
-                            {" "}
-                            <img src="mg.icons8.com/color/48/000000/price-tag.png" />{" "}
+                            <IconTag
+                              size={40}
+                              strokeWidth={1}
+                              color={'black'}
+                            />
                           </div>
                           <div className="col-md-9 col-xs-9">
                             <div className="pr-info">
-                              {" "}
+
                               <span className="break-all">
                                 Get 5% instant discount + 10X rewards @ RENTOPC
-                              </span>{" "}
+                              </span>
                             </div>
                           </div>
                         </div>
@@ -121,37 +134,30 @@ const DetailProduct = () => {
                     <div className="col-md-7"> </div>
                   </div>
                   <div className="row" style={{ marginTop: 15 }}>
-                    <div className="col-xs-6" style={{ marginLeft: 15 }}>
-                      {" "}
-                      <span className="product_options">RAM Options</span>
-                      <br />{" "}
-                      <button className="btn btn-primary btn-sm">4 GB</button>{" "}
-                      <button className="btn btn-primary btn-sm">8 GB</button>{" "}
-                      <button className="btn btn-primary btn-sm">16 GB</button>{" "}
+                    <div className="col-xs-6 ml-3 mb-3">
+                      <span className="product_options">Size Options</span>
+                      <br />
+                      {
+                        PRODUCT_SIZE.map((size, index) => (
+                          <button className="btn btn-primary btn-sm mr-2">{size}</button>
+                        ))
+                      }
                     </div>
-                    <div className="col-xs-6" style={{ marginLeft: 55 }}>
-                      {" "}
-                      <span className="product_options">Storage Options</span>
-                      <br />{" "}
-                      <button className="btn btn-primary btn-sm">
-                        500 GB
-                      </button>{" "}
-                      <button className="btn btn-primary btn-sm">1 TB</button>{" "}
+                    <div className="col-xs-6  ml-3 mb-3">
+                      <span className="product_options">Color Options</span>
+                      <br />
+                      <button className="btn btn-primary btn-sm  mr-2">Green</button>
+                      <button className="btn btn-primary btn-sm  mr-2">Black</button>
                     </div>
                   </div>
-                </div>
-                <hr className="singleline" />
-                <div className="order_info d-flex flex-row">
-                  <form action="#"></form>
                 </div>
                 <div className="row">
                   <div className="col-xs-6" style={{ marginLeft: 13 }}>
                     <div className="product_quantity">
-                      {" "}
-                      <span>QTY: </span>{" "}
+                      <span>Quantity: </span>
                       <input
                         id="quantity_input"
-                        type="text"
+                        type="number"
                         pattern="[0-9]*"
                         defaultValue={1}
                       />
@@ -172,14 +178,16 @@ const DetailProduct = () => {
                     </div>
                   </div>
                   <div className="col-xs-6">
-                    {" "}
-                    <button type="button" className="btn btn-primary shop-button">
+                    <button
+                      className="btn btn-dark"
+                    // onClick={() => addProduct(product)}
+                    >
                       Add to Cart
-                    </button>{" "}
-                    <button type="button" className="btn btn-success shop-button">
-                      Buy Now
                     </button>
-                    <div className="product_fav">
+                    <Link to="/cart" className="btn btn-dark mx-2">
+                      Go to Cart
+                    </Link>
+                    <div className=" btn btn-outline-dark mx-1">
                       <i className="fas fa-heart" />
                     </div>
                   </div>
@@ -189,15 +197,12 @@ const DetailProduct = () => {
           </div>
           <div className="row row-underline">
             <div className="col-md-6">
-              {" "}
-              <span className=" deal-text">Combo Offers</span>{" "}
+              <span className=" deal-text">Combo Offers</span>
             </div>
             <div className="col-md-6">
-              {" "}
               <a href="#" data-abc="true">
-                {" "}
-                <span className="ml-auto view-all" />{" "}
-              </a>{" "}
+                <span className="ml-auto view-all" />
+              </a>
             </div>
           </div>
           <div className="row">
@@ -213,34 +218,34 @@ const DetailProduct = () => {
                       />
                     </div>
                     <div className="d-flex flex-row justify-content-start">
-                      {" "}
+
                       <strike style={{ color: "red" }}>
-                        {" "}
+
                         <span className="fs-10" style={{ color: "black" }}>
                           ₹ 32,000<span> </span>
                         </span>
-                      </strike>{" "}
+                      </strike>
                       <span className="ml-auto">
                         <i className="fa fa-star p-rating" />
                         <i className="fa fa-star p-rating" />
                         <i className="fa fa-star p-rating" />
                         <i className="fa fa-star p-rating" />
-                      </span>{" "}
+                      </span>
                     </div>
                     <div
                       className="d-flex flex-row justify-content-start"
                       style={{ marginBottom: 13 }}
                     >
-                      {" "}
-                      <span style={{ marginTop: "-4px" }}>₹30,000</span>{" "}
-                      <span className="ml-auto fs-10">23 Reviews</span>{" "}
-                    </div>{" "}
+
+                      <span style={{ marginTop: "-4px" }}>₹30,000</span>
+                      <span className="ml-auto fs-10">23 Reviews</span>
+                    </div>
                     <span>Acer laptop with 10GB RAM + 500 GB Hard Disk</span>
                   </div>
                 </div>
                 <div className="col-md-2 text-center">
-                  {" "}
-                  <span className="step">+</span>{" "}
+
+                  <span className="step">+</span>
                 </div>
                 <div className="col-md-5 padding-0">
                   <div className="bbb_combo">
@@ -252,28 +257,28 @@ const DetailProduct = () => {
                       />
                     </div>
                     <div className="d-flex flex-row justify-content-start">
-                      {" "}
+
                       <strike style={{ color: "red" }}>
-                        {" "}
+
                         <span className="fs-10" style={{ color: "black" }}>
                           ₹ 32,000<span> </span>
                         </span>
-                      </strike>{" "}
+                      </strike>
                       <span className="ml-auto">
                         <i className="fa fa-star p-rating" />
                         <i className="fa fa-star p-rating" />
                         <i className="fa fa-star p-rating" />
                         <i className="fa fa-star p-rating" />
-                      </span>{" "}
+                      </span>
                     </div>
                     <div
                       className="d-flex flex-row justify-content-start"
                       style={{ marginBottom: 13 }}
                     >
-                      {" "}
-                      <span style={{ marginTop: "-4px" }}>₹30,000</span>{" "}
-                      <span className="ml-auto fs-10">23 Reviews</span>{" "}
-                    </div>{" "}
+
+                      <span style={{ marginTop: "-4px" }}>₹30,000</span>
+                      <span className="ml-auto fs-10">23 Reviews</span>
+                    </div>
                     <span>Acer laptop with 10GB RAM + 500 GB Hard Disk</span>
                   </div>
                 </div>
@@ -282,41 +287,41 @@ const DetailProduct = () => {
                 <div className="col-xs-12" style={{ marginLeft: 36 }}>
                   <div className="boxo-pricing-items">
                     <div className="combo-pricing-item">
-                      {" "}
-                      <span className="items_text">1 Item</span>{" "}
-                      <span className="combo_item_price">₹13,200</span>{" "}
+
+                      <span className="items_text">1 Item</span>
+                      <span className="combo_item_price">₹13,200</span>
                     </div>
                     <div className="combo-plus">
-                      {" "}
-                      <span className="plus-sign">+</span>{" "}
+
+                      <span className="plus-sign">+</span>
                     </div>
                     <div className="combo-pricing-item">
-                      {" "}
-                      <span className="items_text">1 Add-on</span>{" "}
-                      <span className="combo_item_price">₹500</span>{" "}
+
+                      <span className="items_text">1 Add-on</span>
+                      <span className="combo_item_price">₹500</span>
                     </div>
                     <div className="combo-plus">
-                      {" "}
-                      <span className="plus-sign">=</span>{" "}
+
+                      <span className="plus-sign">=</span>
                     </div>
                     <div className="combo-pricing-item">
-                      {" "}
-                      <span className="items_text">Total</span>{" "}
-                      <span className="combo_item_price">₹13,700</span>{" "}
+
+                      <span className="items_text">Total</span>
+                      <span className="combo_item_price">₹13,700</span>
                     </div>
                     <div className="add-both-cart-button">
-                      {" "}
+
                       <button type="button" className="btn btn-primary shop-button">
                         Add to Cart
-                      </button>{" "}
+                      </button>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
             <div className="col-md-2 text-center">
-              {" "}
-              <span className="vertical-line" />{" "}
+
+              <span className="vertical-line" />
             </div>
             <div className="col-md-5" style={{ marginLeft: "-27px" }}>
               <div className="row padding-2">
@@ -330,34 +335,34 @@ const DetailProduct = () => {
                       />
                     </div>
                     <div className="d-flex flex-row justify-content-start">
-                      {" "}
+
                       <strike style={{ color: "red" }}>
-                        {" "}
+
                         <span className="fs-10" style={{ color: "black" }}>
                           ₹ 32,000<span> </span>
                         </span>
-                      </strike>{" "}
+                      </strike>
                       <span className="ml-auto">
                         <i className="fa fa-star p-rating" />
                         <i className="fa fa-star p-rating" />
                         <i className="fa fa-star p-rating p-rating" />
                         <i className="fa fa-star p-rating" />
-                      </span>{" "}
+                      </span>
                     </div>
                     <div
                       className="d-flex flex-row justify-content-start"
                       style={{ marginBottom: 13 }}
                     >
-                      {" "}
-                      <span style={{ marginTop: "-4px" }}>₹30,000</span>{" "}
-                      <span className="ml-auto fs-10">23 Reviews</span>{" "}
-                    </div>{" "}
+
+                      <span style={{ marginTop: "-4px" }}>₹30,000</span>
+                      <span className="ml-auto fs-10">23 Reviews</span>
+                    </div>
                     <span>Acer laptop with 10GB RAM + 500 GB Hard Disk</span>
                   </div>
                 </div>
                 <div className="col-md-2 text-center">
-                  {" "}
-                  <span className="step">+</span>{" "}
+
+                  <span className="step">+</span>
                 </div>
                 <div className="col-md-5 padding-0">
                   <div className="bbb_combo">
@@ -369,28 +374,28 @@ const DetailProduct = () => {
                       />
                     </div>
                     <div className="d-flex flex-row justify-content-start">
-                      {" "}
+
                       <strike style={{ color: "red" }}>
-                        {" "}
+
                         <span className="fs-10" style={{ color: "black" }}>
                           ₹ 32,000<span> </span>
                         </span>
-                      </strike>{" "}
+                      </strike>
                       <span className="ml-auto">
                         <i className="fa fa-star p-rating" />
                         <i className="fa fa-star p-rating" />
                         <i className="fa fa-star p-rating" />
                         <i className="fa fa-star p-rating" />
-                      </span>{" "}
+                      </span>
                     </div>
                     <div
                       className="d-flex flex-row justify-content-start"
                       style={{ marginBottom: 13 }}
                     >
-                      {" "}
-                      <span style={{ marginTop: "-4px" }}>₹30,000</span>{" "}
-                      <span className="ml-auto fs-10">23 Reviews</span>{" "}
-                    </div>{" "}
+
+                      <span style={{ marginTop: "-4px" }}>₹30,000</span>
+                      <span className="ml-auto fs-10">23 Reviews</span>
+                    </div>
                     <span>Acer laptop with 10GB RAM + 500 GB Hard Disk</span>
                   </div>
                 </div>
@@ -399,33 +404,33 @@ const DetailProduct = () => {
                 <div className="col-xs-12" style={{ marginLeft: 36 }}>
                   <div className="boxo-pricing-items">
                     <div className="combo-pricing-item">
-                      {" "}
-                      <span className="items_text">1 Item</span>{" "}
-                      <span className="combo_item_price">₹13,200</span>{" "}
+
+                      <span className="items_text">1 Item</span>
+                      <span className="combo_item_price">₹13,200</span>
                     </div>
                     <div className="combo-plus">
-                      {" "}
-                      <span className="plus-sign">+</span>{" "}
+
+                      <span className="plus-sign">+</span>
                     </div>
                     <div className="combo-pricing-item">
-                      {" "}
-                      <span className="items_text">1 Add-on</span>{" "}
-                      <span className="combo_item_price">₹500</span>{" "}
+
+                      <span className="items_text">1 Add-on</span>
+                      <span className="combo_item_price">₹500</span>
                     </div>
                     <div className="combo-plus">
-                      {" "}
-                      <span className="plus-sign">=</span>{" "}
+
+                      <span className="plus-sign">=</span>
                     </div>
                     <div className="combo-pricing-item">
-                      {" "}
-                      <span className="items_text">Total</span>{" "}
-                      <span className="combo_item_price">₹13,700</span>{" "}
+
+                      <span className="items_text">Total</span>
+                      <span className="combo_item_price">₹13,700</span>
                     </div>
                     <div className="add-both-cart-button">
-                      {" "}
+
                       <button type="button" className="btn btn-primary shop-button">
                         Add to Cart
-                      </button>{" "}
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -434,15 +439,13 @@ const DetailProduct = () => {
           </div>
           <div className="row row-underline">
             <div className="col-md-6">
-              {" "}
-              <span className=" deal-text">Specifications</span>{" "}
+
+              <span className=" deal-text">Specifications</span>
             </div>
             <div className="col-md-6">
-              {" "}
               <a href="#" data-abc="true">
-                {" "}
-                <span className="ml-auto view-all" />{" "}
-              </a>{" "}
+                <span className="ml-auto view-all" />
+              </a>
             </div>
           </div>
           <div className="row">
@@ -451,7 +454,7 @@ const DetailProduct = () => {
                 <tbody>
                   <tr className="row mt-10">
                     <td className="col-md-4">
-                      <span className="p_specification">Sales Package :</span>{" "}
+                      <span className="p_specification">Sales Package :</span>
                     </td>
                     <td className="col-md-8">
                       <ul>
@@ -464,7 +467,7 @@ const DetailProduct = () => {
                   </tr>
                   <tr className="row mt-10">
                     <td className="col-md-4">
-                      <span className="p_specification">Model Number :</span>{" "}
+                      <span className="p_specification">Model Number :</span>
                     </td>
                     <td className="col-md-8">
                       <ul>
@@ -474,7 +477,7 @@ const DetailProduct = () => {
                   </tr>
                   <tr className="row mt-10">
                     <td className="col-md-4">
-                      <span className="p_specification">Part Number :</span>{" "}
+                      <span className="p_specification">Part Number :</span>
                     </td>
                     <td className="col-md-8">
                       <ul>
@@ -484,7 +487,7 @@ const DetailProduct = () => {
                   </tr>
                   <tr className="row mt-10">
                     <td className="col-md-4">
-                      <span className="p_specification">Color :</span>{" "}
+                      <span className="p_specification">Color :</span>
                     </td>
                     <td className="col-md-8">
                       <ul>
@@ -494,7 +497,7 @@ const DetailProduct = () => {
                   </tr>
                   <tr className="row mt-10">
                     <td className="col-md-4">
-                      <span className="p_specification">Suitable for :</span>{" "}
+                      <span className="p_specification">Suitable for :</span>
                     </td>
                     <td className="col-md-8">
                       <ul>
@@ -504,7 +507,7 @@ const DetailProduct = () => {
                   </tr>
                   <tr className="row mt-10">
                     <td className="col-md-4">
-                      <span className="p_specification">Processor Brand :</span>{" "}
+                      <span className="p_specification">Processor Brand :</span>
                     </td>
                     <td className="col-md-8">
                       <ul>
@@ -519,7 +522,6 @@ const DetailProduct = () => {
         </div>
       </div>
     </div>
-
   )
 }
 export default DetailProduct

@@ -1,8 +1,8 @@
 import React from 'react'
-import { Footer, Navbar } from "../components";
 import { useDispatch, useSelector } from 'react-redux';
 import { logoutAction } from '../redux/action/authAction';
 import { useNavigate } from 'react-router-dom';
+
 const UserProfile = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -11,8 +11,6 @@ const UserProfile = () => {
     await dispatch(logoutAction(navigate));;
   };
   return (
-    <>
-      <Navbar />
       <div className="container my-3 py-3">
         <h1 className="text-center">Profile</h1>
         <hr />
@@ -58,9 +56,7 @@ const UserProfile = () => {
           </div>
         </div>
       </div>
-      <Footer />
-    </>
   )
 }
 
-export default UserProfile
+export default UserProfile;

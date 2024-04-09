@@ -1,15 +1,17 @@
+import { ADD_ITEM, DELETE_ITEM } from "../types/cartType"
+
 // For Add Item to Cart
-export const addCart = (product) =>{
+export const addCart = (product) => {
     return {
-        type:"ADDITEM",
-        payload:product
+        type: ADD_ITEM,
+        payload: product
     }
 }
 
 // For Delete Item to Cart
-export const delCart = (product) =>{
+export const delCart = (product) => {
     return {
-        type:"DELITEM",
-        payload:product
+        type: DELETE_ITEM,
+        payload: product
     }
 }

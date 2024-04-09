@@ -3,17 +3,17 @@ import axios from "axios";
 const BASE_URL = process.env.REACT_APP_API_URL;
 
 const authInterceptor = (req) => {
-  const accessToken = JSON.parse(localStorage.getItem("profile"))?.accessToken;
+  const accessToken = JSON.parse(localStorage.getItem("profile"))?.token;
   if (accessToken) {
-    req.headers.Authorization = `Bearer ${accessToken}`;
+    req.headers.Authorization = `Token ${accessToken}`;
   }
   return req;
 };
 
 const authInterceptorAdmin = (req) => {
-  const accessToken = JSON.parse(localStorage.getItem("admin_profile"))?.accessToken;
+  const accessToken = JSON.parse(localStorage.getItem("admin_profile"))?.token;
   if (accessToken) {
-    req.headers.Authorization = `Bearer ${accessToken}`;
+    req.headers.Authorization = `Token ${accessToken}`;
   }
   return req;
 };
@@ -25,14 +25,14 @@ export const API_ADMIN = axios.create({ baseURL: BASE_URL });
 // attach interceptor to auth request *******************
 API.interceptors.request.use(authInterceptor);
 API.interceptors.request.use((req) => {
-  req.headers["Content-Type"] = 'application/json';
+  req.headers['Content-Type'] = req.data instanceof FormData ? 'multipart/form-data' : 'application/json';
   return req;
 });
 
 // attach interceptor to admin auth request *******************
 API_ADMIN.interceptors.request.use(authInterceptorAdmin);
 API_ADMIN.interceptors.request.use((req) => {
-  req.headers["Content-Type"] = 'application/json';
+  req.headers['Content-Type'] = req.data instanceof FormData ? 'multipart/form-data' : 'application/json';
   return req;
 });
 
