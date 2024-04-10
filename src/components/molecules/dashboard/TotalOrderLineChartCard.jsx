@@ -14,9 +14,9 @@ import Chart from 'react-apexcharts';
 import LocalMallOutlinedIcon from '@mui/icons-material/LocalMallOutlined';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import MainCard from '../../atoms/MainCard';
-import ChartDataYear from '../../../constants/chart-data/total-order-year-line-chart';
-import ChartDataMonth from '../../../constants/chart-data/total-order-month-line-chart';
 import SkeletonEarningCard from '../../layouts/SkeletonEarningCard';
+import ChartDataMonth from '../../../constants/chart-data/total-order-month-line-chart';
+import ChartDataYear from '../../../constants/chart-data/total-order-year-line-chart';
 
 const CardWrapper = styled(MainCard)(({ theme }) => ({
   backgroundColor: theme.palette.primary.dark,

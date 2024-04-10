@@ -4,3 +4,4 @@ export * from './chart-data/total-order-month-line-chart';
 export * from './chart-data/total-order-year-line-chart';
 export * from './menuItems.constant';
 export * from './products.constant';
+export * from './theme.constant';
