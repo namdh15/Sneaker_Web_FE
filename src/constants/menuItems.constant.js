@@ -195,7 +195,13 @@ const other = {
 
 
 const menuItems = {
-  items: [dashboard, products, utilities, auth, other]
+  items: [
+    dashboard,
+    products,
+    // utilities,
+    // auth,
+    // other
+  ]
 };
 
 export default menuItems;

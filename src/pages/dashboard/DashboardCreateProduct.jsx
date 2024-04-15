@@ -27,7 +27,7 @@ const DashboardCreateProduct = (props) => {
   useEffect(() => {
     setFormValues(currProduct);
     setPreviewImage(currProduct?.image)
-    return () => {}
+    return () => { }
   }, [currProduct]);
 
   const handleChangeValue = (event) => {
@@ -145,7 +145,7 @@ const DashboardCreateProduct = (props) => {
                           >
                             <div className="row">
                               <div className="col">
-                                <RowInput
+                                {/* <RowInput
                                   items={[
                                     {
                                       disabled: true,
@@ -168,7 +168,7 @@ const DashboardCreateProduct = (props) => {
                                       value: undefined
                                     }
                                   ]}
-                                />
+                                /> */}
                                 <RowInput
                                   items={[
                                     {
@@ -182,25 +182,13 @@ const DashboardCreateProduct = (props) => {
                                     }
                                   ]}
                                 />
-                                <RowInput
-                                  items={[
-                                    {
-                                      label: 'Description',
-                                      name: 'description',
-                                      placeholder: "Product Bio",
-                                      handleChangeValue: handleChangeValue,
-                                      value: formValues?.description
-                                    }
-                                  ]}
-                                  isTextArea={true}
-                                />
                               </div>
                             </div>
                             <div className="row">
-                              <div className="col-12 col-sm-6 mb-3">
-                                <div className="mb-2">
-                                  <b>Product static</b>
-                                </div>
+                              <div className="mb-2">
+                                <b>Product static</b>
+                              </div>
+                              <div className="col-md-4">
                                 <RowInput
                                   items={[
                                     {
@@ -214,6 +202,8 @@ const DashboardCreateProduct = (props) => {
                                     }
                                   ]}
                                 />
+                              </div>
+                              <div className="col-md-4">
                                 <RowSelect
                                   item={{
                                     required: true,
@@ -224,6 +214,8 @@ const DashboardCreateProduct = (props) => {
                                   }}
                                   options={PRODUCT_CATEGORIES}
                                 />
+                              </div>
+                              <div className="col-md-4">
                                 <RowSelect
                                   item={{
                                     required: true,
@@ -235,7 +227,7 @@ const DashboardCreateProduct = (props) => {
                                   options={PRODUCT_GENDER}
                                 />
                               </div>
-                              <div className="col-12 col-sm-5 offset-sm-1 mb-3">
+                              {/* <div className="col-12 col-sm-5 offset-sm-1 mb-3">
                                 <div className="mb-2">
                                   <b>Other static</b>
                                 </div>
@@ -270,8 +262,20 @@ const DashboardCreateProduct = (props) => {
                                     </div>
                                   </div>
                                 </div>
-                              </div>
+                              </div> */}
                             </div>
+                            <RowInput
+                              items={[
+                                {
+                                  label: 'Description',
+                                  name: 'description',
+                                  placeholder: "Product Bio",
+                                  handleChangeValue: handleChangeValue,
+                                  value: formValues?.description
+                                }
+                              ]}
+                              isTextArea={true}
+                            />
                             <div className="row">
                               <div className="col d-flex justify-content-end">
                                 <button
@@ -280,6 +284,7 @@ const DashboardCreateProduct = (props) => {
                                 >Submit</button>
                               </div>
                             </div>
+
                           </form>
                         </div>
                       </div>
