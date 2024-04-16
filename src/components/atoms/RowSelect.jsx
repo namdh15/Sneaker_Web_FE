@@ -16,7 +16,7 @@ const RowSelect = (props) => {
             required={item.required}
           >
             <option
-              selected
+              selected={!item.value}
               disabled
               value=''
             >Select {item.label}</option>

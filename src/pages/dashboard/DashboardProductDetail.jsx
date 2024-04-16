@@ -117,7 +117,7 @@ const TableVariants = (props) => {
   useLayoutEffect(() => {
     setCurrentVariants(product?.details)
   }, [product?.details])
-  
+
   return (loading ?
     <Loading /> :
     <>
@@ -150,18 +150,18 @@ const TableVariants = (props) => {
                       <TableCell>{vari.color}</TableCell>
                       <TableCell>{vari.stock}</TableCell>
                       <TableCell>
-                        <img src={vari.img} alt="" width={150} height={80} />
+                        <img src={vari.image} alt="" width={150} height={80} />
                       </TableCell>
                       {editMode && <TableCell>
                         <div className="btn-group align-top">
-                          <button
+                          {/* <button
                             className="btn btn-info badge badge2"
                             type="button"
                             data-target="#variant-form-modal"
                             data-toggle="modal"
                           >
                             Edit
-                          </button>
+                          </button> */}
                           <button
                             className="btn btn-sm btn-outline-danger badge badge2"
                             type="button"
@@ -205,7 +205,7 @@ const TableVariants = (props) => {
                       <TableCell>{tempVariant.color}</TableCell>
                       <TableCell>{tempVariant.stock}</TableCell>
                       <TableCell>
-                        <img src={tempVariant.previewImg} alt="" width={150} height={80} />
+                        <img src={tempVariant.image} alt="" width={150} height={80} />
                       </TableCell>
                       <TableCell>
                         <Button

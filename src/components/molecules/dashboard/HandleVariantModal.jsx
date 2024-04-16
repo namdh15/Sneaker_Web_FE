@@ -54,7 +54,7 @@ const HandleVariantModal = (props) => {
 
     } else {
       toast.info('You added a new variant to queue')
-      handleTempVariants({ ...formValue, previewImg: previewImage })
+      handleTempVariants({ ...formValue, image: previewImage })
     }
   }
 
