@@ -2,7 +2,7 @@ export const PRODUCT_COLOR = ['BLACK', 'GREY', 'BLUE', 'ORANGE', 'NAVY'];
 
 export const PRODUCT_GENDER = ['MEN', 'WOMEN', 'GIRLS', 'BOYS'];
 
-export const PRODUCT_SIZE = [36, 37, 38, 39, 40, 41, 42, 43];
+export const PRODUCT_SIZE = [37, 38, 39, 40, 41, 42, 43];
 
 export const PRODUCT_CATEGORIES = ['SHOES', 'SANDALS', 'RUNNING', 'SNEAKER'];
 

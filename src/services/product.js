@@ -3,7 +3,7 @@ import { API, API_ADMIN, handleErrorAPI } from "./setupAPI/api"
 export const getProducts = async (payload = {}) => {
   try {
     const queryParams = Object.entries(payload)
-      .filter(([key, value]) => value !== undefined)
+      .filter(([key, value]) => (value !== undefined && value !== null))
       .map(([key, value]) => `${key}=${value}`)
       .join('&');
 

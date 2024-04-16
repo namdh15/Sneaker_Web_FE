@@ -88,7 +88,6 @@ const DashboardListProducts = () => {
     const res = await Api.deleteProduct(productId)
     setAllProducts(allProducts.filter((item) => item?.id !== productId))
     toast.success('You removed this product!')
-    console.log(res);
   }
 
   return (

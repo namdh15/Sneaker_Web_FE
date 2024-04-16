@@ -7,8 +7,6 @@ import { PRODUCT_CATEGORIES, PRODUCT_GENDER } from "../../constants/products.con
 import { RowInput, RowSelect } from "../../components";
 import { toast } from "react-toastify";
 
-const sizeConstant = [36, 37, 38, 39, 40]
-
 const DashboardCreateProduct = (props) => {
 
   const initialProduct = {
