@@ -3,7 +3,9 @@ import "react-loading-skeleton/dist/skeleton.css";
 import * as Api from "../../services/product"
 import { ProductCard, SkeletonProducts } from "..";
 
-const Products = () => {
+const Products = (props) => {
+  const { payloadFilter } = props;
+
   const [data, setData] = useState([]);
   const [filter, setFilter] = useState(data);
   const [loading, setLoading] = useState(false);
@@ -11,14 +13,14 @@ const Products = () => {
   useEffect(() => {
     const getProducts = async () => {
       setLoading(true);
-      const response = await Api.getProducts();
+      const response = await Api.getProducts(payloadFilter);
       setData(response?.results);
       setFilter(response?.results);
       setLoading(false);
     };
 
     getProducts();
-  }, []);
+  }, [payloadFilter]);
 
   const filterProduct = (cat) => {
     const updatedList = data?.filter((item) => item.categories === cat);

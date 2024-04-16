@@ -31,7 +31,7 @@ import { EmptyComponent, ProductCard } from "..";
 const SlideProducts = ({ products, title }) => {
   const settings = {
     dots: true,
-    infinite: true,
+    infinite: products.length > 2,
     slidesToShow: 4,
     slidesToScroll: 1,
     autoplaySpeed: 3000,
@@ -43,17 +43,18 @@ const SlideProducts = ({ products, title }) => {
       <div className="container my-5">
         <div className="row">
           <div className="col-12">
-            <h2 className="display-5 text-center">{title}</h2>
+            <h2 className="display-5 text-center"><b>{title}</b></h2>
             <hr />
           </div>
         </div>
         <div className="row justify-content-center">
           <div className="slider-product-section">
-            {products?.length > 4 ?
+            {products?.length > 0 ?
               <Slider {...settings}>
                 {products.map((product) => <ProductCard product={product} />)}
               </Slider>
-              : <EmptyComponent
+              :
+              <EmptyComponent
                 isSlide={true}
                 message1={'Sorry, there are currently no products available'}
                 message2={`Don't worry, we'll have products available soon!`}

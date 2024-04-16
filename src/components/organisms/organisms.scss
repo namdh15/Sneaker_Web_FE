@@ -30,6 +30,7 @@ $home-slide-heigh: 500px;
 
     img {
       height: $home-slide-heigh;
+      object-fit: contain;
     }
   }
 }
@@ -57,6 +58,7 @@ $home-slide-heigh: 500px;
   .slick-slider {
     .slick-list {
       .slick-track {
+        width: 100%;
 
         .slick-slide {
           .card {
