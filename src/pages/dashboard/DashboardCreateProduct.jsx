@@ -25,7 +25,7 @@ const DashboardCreateProduct = (props) => {
   useEffect(() => {
     setFormValues(currProduct);
     setPreviewImage(currProduct?.image)
-    return () => { }
+    return () => {}
   }, [currProduct]);
 
   const handleChangeValue = (event) => {
@@ -64,7 +64,7 @@ const DashboardCreateProduct = (props) => {
         formData.append(key, formValues[key]);
       }
     });
-    const res = await Api.createProduct(formData);
+    const res = isEdit ? await Api.createProduct(formData) : await Api.createProduct(formData);
     if (res?.statusCode !== 201) {
       res.errors?.map((error) => {
         toast.error(error);

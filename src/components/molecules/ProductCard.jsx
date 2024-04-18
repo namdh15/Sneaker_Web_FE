@@ -2,8 +2,11 @@ import React from 'react'
 import { Link } from 'react-router-dom';
 import './molecules.scss'
 import SelectProductModal from './SelectProductModal';
+import { Modal } from '@mui/material';
 
 const ProductCard = ({ product }) => {
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
 
   return (
     <>
@@ -24,8 +27,6 @@ const ProductCard = ({ product }) => {
         </div>
         <ul className="list-group list-group-flush">
           <li className="list-group-item lead">{Number(product.price).toLocaleString('en')} vnd</li>
-          {/* <li className="list-group-item">Dapibus ac facilisis in</li>
-            <li className="list-group-item">Vestibulum at eros</li> */}
         </ul>
         <div className="product-card-body">
           <Link to={"/products/" + product.id} className="btn btn-dark m-1">
@@ -36,15 +37,24 @@ const ProductCard = ({ product }) => {
             className="btn btn-dark m-1"
             data-target="#select-product-variant-modal"
             data-toggle="modal"
-          //  onClick={() => addProduct(product)}
+            onClick={() => setOpen(true)}
           >
             Add to Cart
           </button>
         </div>
       </div>
-      <SelectProductModal
-        productId={product?.id}
-      />
+      <Modal
+        open={open}
+        onClose={() => setOpen(false)}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <SelectProductModal
+          product={product}
+          setOpenModal={setOpen}
+        />
+      </Modal>
+
     </>
   )
 }

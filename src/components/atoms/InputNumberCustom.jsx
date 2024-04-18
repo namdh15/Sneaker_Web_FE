@@ -90,6 +90,7 @@ const StyledButton = styled('button')(
 `,
 );
 const NumberInput = React.forwardRef(function CustomNumberInput(props, ref) {
+
   return (
     <BaseNumberInput
       slots={{
@@ -113,6 +114,18 @@ const NumberInput = React.forwardRef(function CustomNumberInput(props, ref) {
   );
 });
 
-export default function InputNumberCustom() {
-  return <NumberInput aria-label="Quantity Input" min={1} />;
+export default function InputNumberCustom(props) {
+  const { onChange, maxValue, sx, defaultValue } = props
+  const handleChange = (event, newValue) => {
+    event.preventDefault();
+    onChange(newValue);
+  };
+  return <NumberInput
+    sx={sx}
+    aria-label="Quantity Input"
+    min={1}
+    max={maxValue}
+    defaultValue={defaultValue}
+    onChange={(event, newValue) => handleChange(event, newValue)}
+  />;
 }
