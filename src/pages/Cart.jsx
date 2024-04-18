@@ -321,31 +321,26 @@ const Cart = () => {
   const dispatch = useDispatch();
   const [selected, setSelected] = React.useState([]);
 
-  // const addItem = (product) => {
-  //   dispatch(addCart(product));
-  // };
-  // const removeItem = (product) => {
-  //   dispatch(delCart(product));
-  // };
-  const handleCreateOrder = () => {
-    dispatch(createOrder({
-      shippingFee: 300,
-      selected
-    }))
-  }
-
   const ShowCart = () => {
     let subtotal = 0;
     let shipping = 30.0;
     let totalItems = 0;
-    cartProducts.map((item) => {
+    selected.map((item) => {
       return (subtotal += item.price * item.qty);
     });
 
-    cartProducts.map((item) => {
+    selected.map((item) => {
       return (totalItems += item.qty);
     });
 
+    const handleCreateOrder = () => {
+      dispatch(createOrder({
+        shippingFee: shipping,
+        subtotal,
+        totalItems,
+        selected
+      }))
+    }
 
     console.log(selected);
     return (
