@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import * as Api from "../../services/product"
-import { PRODUCT_CATEGORIES, PRODUCT_GENDER } from "../../constants/products.constant";
+import { PRODUCT_CATEGORIES, PRODUCT_GENDER } from "../../constants";
 import { toast } from "react-toastify";
 import { ConfirmModal, EditProductModal, EmptyComponent } from "../../components";
 import SearchSectionDashboard from "../../components/atoms/dashboard/SearchSectionDashboard";

@@ -6,6 +6,7 @@ import {
   ContactPage,
   Home,
   Login,
+  OrderDetail,
   PageNotFound,
   ProductsPage,
   Register,
@@ -74,6 +75,10 @@ const CommonRoutes = {
     {
       path: 'admin-test',
       element: <DashboardPageTest />
+    },
+    {
+      path: 'order',
+      element: <OrderDetail />
     },
     {
       path: 'testing',

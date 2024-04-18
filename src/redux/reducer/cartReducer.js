@@ -8,10 +8,10 @@ const cartReducer = (state = cart, action) => {
             const exist = state.find((x) => x.id === product.id)
             if (exist) {
                 // Increase the quantity
-                return state.map((x) => x.id === product.id ? { ...x, qty: x.qty + 1 } : x)
+                return state.map((x) => x.id === product.id ? { ...x, qty: x.qty + product?.stock } : x)
             }
             else {
-                return [...state, { ...product, qty: 1 }]
+                return [...state, { ...product, qty: product?.stock }]
             }
         case "DELITEM":
             const exist2 = state.find((x) => x.id === product.id)

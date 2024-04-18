@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import RowSelect from '../../atoms/RowSelect';
-import { PRODUCT_COLOR, PRODUCT_SIZE } from '../../../constants/products.constant';
 import RowInput from '../../atoms/RowInput';
 import { toast } from 'react-toastify';
+import { PRODUCT_COLOR, PRODUCT_SIZE } from '../../../constants';
 
 const HandleVariantModal = (props) => {
   const {

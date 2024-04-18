@@ -150,7 +150,7 @@ const TableVariants = (props) => {
                       <TableCell>{vari.color}</TableCell>
                       <TableCell>{vari.stock}</TableCell>
                       <TableCell>
-                        <img src={vari.image} alt="" width={150} height={80} />
+                        <img style={{ objectFit: 'cover' }} src={vari.image} alt="" width={150} height={80} />
                       </TableCell>
                       {editMode && <TableCell>
                         <div className="btn-group align-top">
@@ -205,7 +205,7 @@ const TableVariants = (props) => {
                       <TableCell>{tempVariant.color}</TableCell>
                       <TableCell>{tempVariant.stock}</TableCell>
                       <TableCell>
-                        <img src={tempVariant.image} alt="" width={150} height={80} />
+                        <img style={{ objectFit: 'cover' }} src={tempVariant.image} alt="" width={150} height={80} />
                       </TableCell>
                       <TableCell>
                         <Button

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import RowSelect from '../atoms/RowSelect';
-import { PRODUCT_CATEGORIES, PRODUCT_COLOR, PRODUCT_GENDER, PRODUCT_SIZE } from '../../constants/products.constant';
+import { PRODUCT_CATEGORIES, PRODUCT_COLOR, PRODUCT_GENDER, PRODUCT_SIZE } from '../../constants';
 import { FormControlLabel, Radio, RadioGroup } from '@mui/material';
 
 const SidebarFilter = (props) => {
