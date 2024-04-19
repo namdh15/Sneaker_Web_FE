@@ -11,7 +11,7 @@ import { AppBar, Box, CssBaseline, Toolbar, useMediaQuery } from '@mui/material'
 
 // assets
 import { IconChevronRight } from '@tabler/icons-react';
-import Breadcrumbs from '../../atoms/Breadcrumbs';
+import Breadcrumbs from '../../atoms/BreadcrumbsCustom';
 import DashboardHeader from '../../organisms/dashboard/DashboardHeader';
 import DashboardSidebar from '../../organisms/dashboard/DashboardSidebar';
 

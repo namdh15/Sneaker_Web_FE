@@ -5,7 +5,6 @@ import {
   MDBCardHeader,
   MDBCardImage,
   MDBCol,
-  MDBContainer,
   MDBProgress,
   MDBProgressBar,
   MDBRow,
@@ -14,10 +13,10 @@ import {
 import React from "react";
 import { useSelector } from "react-redux";
 import { PRODUCT_COLOR, PRODUCT_GENDER } from "../constants";
+import { BreadcrumbsCustom } from "../components";
 
 export default function OrderDetail() {
   const order = useSelector((state) => state?.order);
-  console.log(order);
 
   return (
     <>
@@ -28,8 +27,9 @@ export default function OrderDetail() {
         <div className="py-5 h-100">
           <MDBRow className="justify-content-center align-items-center h-100">
             <MDBCol lg="10" xl="8">
+              <BreadcrumbsCustom />
               <MDBCard style={{ borderRadius: "10px" }}>
-                <MDBCardHeader className="px-4 py-5">
+                <MDBCardHeader className="px-4 py-4">
                   <MDBTypography tag="h5" className="text-muted mb-0">
                     Thanks for your Order
                   </MDBTypography>

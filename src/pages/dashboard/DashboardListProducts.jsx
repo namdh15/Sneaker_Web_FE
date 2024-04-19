@@ -4,8 +4,27 @@ import { Link } from "react-router-dom";
 import * as Api from "../../services/product"
 import { PRODUCT_CATEGORIES, PRODUCT_GENDER } from "../../constants";
 import { toast } from "react-toastify";
-import { ConfirmModal, EditProductModal, EmptyComponent } from "../../components";
+import { BreadcrumbsCustom, ConfirmModal, EditProductModal, EmptyComponent } from "../../components";
 import SearchSectionDashboard from "../../components/atoms/dashboard/SearchSectionDashboard";
+
+import DashboardIcon from '@mui/icons-material/Dashboard';
+import ListAltIcon from '@mui/icons-material/ListAlt';
+import ExtensionIcon from '@mui/icons-material/Extension';
+
+const listRoutesBreadCrumb = [
+  {
+    href: '/admin',
+    icon: <DashboardIcon sx={{ fontSize: 20 }} />,
+    label: 'Home'
+  },
+  {
+    href: '/admin/products',
+    icon: <ListAltIcon sx={{ fontSize: 20 }} />,
+    label: 'Product lists'
+  },
+]
+
+
 
 const ProductItem = (props) => {
   const { product, setSelectedItem } = props;
@@ -95,6 +114,7 @@ const DashboardListProducts = () => {
       <div >
         <div className="row flex-lg-nowrap">
           <div className="col">
+            <BreadcrumbsCustom routeItems={listRoutesBreadCrumb} />
             <div className="e-tabs mb-3 px-3">
               <ul className="nav nav-tabs">
                 <li className="nav-item">
@@ -339,7 +359,7 @@ const DashboardListProducts = () => {
         modalTitle={'Delete this Product'}
         modalId={'exampleModalCenter'}
         rightFunc={() => handleDeleteProduct(selectedItem?.id)}
-        leftFunc={() => { }}
+        leftFunc={() => {}}
       />
     </>
 
