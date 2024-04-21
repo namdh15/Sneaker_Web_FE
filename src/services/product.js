@@ -80,3 +80,46 @@ export const deleteVariant = async (variantId) => {
     return handleErrorAPI(error);
   }
 }
+
+export const getVoting = async (id, filter_by_user) => {
+  try {
+    if (filter_by_user){
+      const createQuery = `/get-voting?product_id=${id}`;
+      const res = await API.get(createQuery);
+      return res?.data;
+    }
+    else {
+      const createQuery = `/get-voting?product_id=${id}`;
+      const res = await API.get(createQuery);
+      return res?.data;
+    }
+  } catch (error) {
+    return handleErrorAPI(error);
+  }
+}
+
+export const submitVote = async (formData) => {
+  try {
+    const createQuery = `/voting/`;
+    const res = await API.post(createQuery, formData);
+    return {
+      data: res?.data,
+      statusCode: res?.status
+    }
+  } catch (error) {
+    return handleErrorAPI(error);
+  }
+}
+
+export const updateVote = async (formData) => {
+  try {
+    const createQuery = `/voting/`;
+    const res = await API.patch(createQuery, formData);
+    return {
+      data: res?.data,
+      statusCode: res?.status
+    }
+  } catch (error) {
+    return handleErrorAPI(error);
+  }
+}

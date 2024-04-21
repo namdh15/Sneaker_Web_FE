@@ -1,7 +1,7 @@
 import { Link, useParams } from 'react-router-dom';
 import './page.scss';
-import { useEffect, useState } from 'react';
-
+import React, { useEffect, useState } from 'react';
+import { TextField, Button, Box, Typography, Rating } from '@mui/material';
 import * as Api from "../services/product"
 // assets
 import {
@@ -9,31 +9,173 @@ import {
 } from '@tabler/icons-react';
 import { PRODUCT_SIZE } from '../constants/products.constant';
 
+import { format } from 'date-fns';
+
+const convertDateFormat = (dateString) => {
+  // Tạo một đối tượng Date từ chuỗi ngày
+  const date = new Date(dateString);
+
+  // Sử dụng date-fns để định dạng lại ngày
+  const formattedDate = format(date, 'yyyy-MM-dd HH:mm');
+
+  return formattedDate;
+};
+
+const VoteRow = ({ vote }) => {
+  const renderRatingStars = (rating) => {
+    const stars = [];
+    const maxStars = 5;
+    const filledStars = Math.floor(rating);
+    const hasHalfStar = rating - filledStars >= 0.5;
+
+    for (let i = 0; i < maxStars; i++) {
+      if (i < filledStars) {
+        stars.push(<span key={i} style={{ color: "#FF0000" }}>&#9733;</span>); // Màu đỏ cho sao đầy
+      } else if (hasHalfStar && i === filledStars) {
+        stars.push(<span key={i} style={{ color: "#FF0000" }}>&#9734;</span>); // Màu đỏ cho nửa sao
+      } else {
+        stars.push(<span key={i} style={{ color: "#000000" }}>&#9734;</span>); // Màu đen cho sao trống
+      }
+    }
+    return stars;
+  };
+
+  const renderUserAvatar = (userAvatar) => {
+    if (userAvatar) {
+      return <img src={userAvatar}  width="100"/>;
+    } else {
+      return <img src="./assets/user.png" width="100"/>;
+    }
+  };
+
+  return (
+    <>
+      <div className="col-2">
+        <div className="comment-avatar">
+          {renderUserAvatar(vote.user.avatar)}
+        </div>
+      </div>
+      <div className="col-9">
+        <div className="comment-content">
+          <div className="comment-rating">{vote.user.fullname}</div>
+          <div className="comment-rating">{renderRatingStars(vote.vote)}</div>
+          <div className="comment-date">{convertDateFormat(vote.created_at)}</div>
+          <div className="comment-text">{vote.comment}</div>
+        </div>
+      </div>
+    </>
+  );
+};
+
+const VoteRowCreate = ({ onSubmit, personal_vote }) => {
+  console.log(`personal_vote:`)
+  console.log(personal_vote)
+  const { id } = useParams();
+  const [comment, setComment] = useState('');
+  const [voting, setVoting] = useState(4);  
+
+  const handleRatingChange = (event, newValue) => {
+    setVoting(newValue);
+  };
+
+  const handleCommentChange = (event) => {
+    setComment(event.target.value);
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    onSubmit({
+      product: parseInt(id),
+      vote: voting,
+      comment: comment
+    }, personal_vote,);
+    setComment(comment);
+    setVoting(voting);
+  };
+
+  return (
+    <Box component="form" onSubmit={handleSubmit} sx={{ mt: 4 }}>
+      <Typography variant="h6">Viết bình luận mới:</Typography>
+      <Rating
+        name="simple-controlled"
+        value={voting}
+        onChange={handleRatingChange}
+        sx={{ mb: 4 }}
+      />
+      <TextField
+        fullWidth
+        label="Bình luận"
+        placeholder ={personal_vote ? personal_vote.comment : "Bình luận"}
+        multiline
+        rows={4}
+        value={comment}
+        onChange={handleCommentChange}
+        variant="outlined"  
+        InputLabelProps={{
+          shrink: true,
+        }}       
+        sx={{ mb: 2 }}
+      />
+      <Button type="submit" variant="contained" color="primary">
+      {personal_vote ? "Chỉnh sửa bình luận" : "Gửi Bình Luận"}
+      </Button>
+    </Box>
+  );
+};
+
 const DetailProduct = () => {
   const { id } = useParams();
   const [product, setProduct] = useState([]);
+  const [voting, setVoting] = useState([]);
+  const [personal_vote, setpVoting] = useState([]);
   // const [similarProducts, setSimilarProducts] = useState([]);
   const [loading, setLoading] = useState(false);
   const [loading2, setLoading2] = useState(false);
 
-  useEffect(() => {
-    const getProducts = async () => {
-      setLoading(true);
-      setLoading2(true);
-      const response = await Api.getProduct(id);
-      setProduct(response);
-      setLoading(false);
-      //     const response2 = await fetch(
-      //       `https://fakestoreapi.com/products/category/${data.category}`
-      //     );
-      //     const data2 = await response2.json();
-      //     setSimilarProducts(data2);
-      //     setLoading2(false);
-    };
+  const getProducts = async () => {
+    setLoading(true);
+    // setLoading2(true);
+    const response = await Api.getProduct(id);
+    setProduct(response);
+    setLoading(false);
+    //     const response2 = await fetch(
+    //       `https://fakestoreapi.com/products/category/${data.category}`
+    //     );
+    //     const data2 = await response2.json();
+    //     setSimilarProducts(data2);
+    //     setLoading2(false);
+  };
 
+  const getVotings = async (filter_by_user = false) => {
+    setLoading2(true);
+    const response1 = await Api.getVoting(id, filter_by_user);
+    setVoting(response1);
+    const response2 = await Api.getVoting(id, filter_by_user=true);
+    setpVoting(response2?.results[0]);
+    setLoading2(false);
+  }
+
+  useEffect(() => {
     getProducts();
+    getVotings();
   }, [id]);
 
+  const onSubmitVote = async  (formData, personal_vote) => {
+    if (personal_vote){
+      const update_data = {
+        "voting_id": personal_vote.id,
+        "vote": formData.vote,
+        "comment": formData.comment,
+      }
+      await Api.updateVote(update_data);
+      getVotings();
+    }
+    else {
+      await Api.submitVote(formData);
+      getVotings();
+    }
+    
+  }
 
   return (
     <div className="d-flex justify-content-center">
@@ -139,7 +281,7 @@ const DetailProduct = () => {
                       <br />
                       {
                         PRODUCT_SIZE.map((size, index) => (
-                          <button className="btn btn-primary btn-sm mr-2">{size}</button>
+                          <button key={index} className="btn btn-primary btn-sm mr-2">{size}</button>
                         ))
                       }
                     </div>
@@ -197,7 +339,8 @@ const DetailProduct = () => {
           </div>
           <div className="row row-underline">
             <div className="col-md-6">
-              <span className=" deal-text">Combo Offers</span>
+
+              <span className=" deal-text">Product Ratings</span>
             </div>
             <div className="col-md-6">
               <a href="#" data-abc="true">
@@ -206,318 +349,18 @@ const DetailProduct = () => {
             </div>
           </div>
           <div className="row">
-            <div className="col-md-5">
-              <div className="row padding-2">
-                <div className="col-md-5 padding-0">
-                  <div className="bbb_combo">
-                    <div className="bbb_combo_image">
-                      <img
-                        className="bbb_combo_image"
-                        src=".imgur.com/K4b71NV.jpg"
-                        alt=""
-                      />
-                    </div>
-                    <div className="d-flex flex-row justify-content-start">
-
-                      <strike style={{ color: "red" }}>
-
-                        <span className="fs-10" style={{ color: "black" }}>
-                          ₹ 32,000<span> </span>
-                        </span>
-                      </strike>
-                      <span className="ml-auto">
-                        <i className="fa fa-star p-rating" />
-                        <i className="fa fa-star p-rating" />
-                        <i className="fa fa-star p-rating" />
-                        <i className="fa fa-star p-rating" />
-                      </span>
-                    </div>
-                    <div
-                      className="d-flex flex-row justify-content-start"
-                      style={{ marginBottom: 13 }}
-                    >
-
-                      <span style={{ marginTop: "-4px" }}>₹30,000</span>
-                      <span className="ml-auto fs-10">23 Reviews</span>
-                    </div>
-                    <span>Acer laptop with 10GB RAM + 500 GB Hard Disk</span>
-                  </div>
-                </div>
-                <div className="col-md-2 text-center">
-
-                  <span className="step">+</span>
-                </div>
-                <div className="col-md-5 padding-0">
-                  <div className="bbb_combo">
-                    <div className="bbb_combo_image">
-                      <img
-                        className="bbb_combo_image"
-                        src=".imgur.com/K4b71NV.jpg"
-                        alt=""
-                      />
-                    </div>
-                    <div className="d-flex flex-row justify-content-start">
-
-                      <strike style={{ color: "red" }}>
-
-                        <span className="fs-10" style={{ color: "black" }}>
-                          ₹ 32,000<span> </span>
-                        </span>
-                      </strike>
-                      <span className="ml-auto">
-                        <i className="fa fa-star p-rating" />
-                        <i className="fa fa-star p-rating" />
-                        <i className="fa fa-star p-rating" />
-                        <i className="fa fa-star p-rating" />
-                      </span>
-                    </div>
-                    <div
-                      className="d-flex flex-row justify-content-start"
-                      style={{ marginBottom: 13 }}
-                    >
-
-                      <span style={{ marginTop: "-4px" }}>₹30,000</span>
-                      <span className="ml-auto fs-10">23 Reviews</span>
-                    </div>
-                    <span>Acer laptop with 10GB RAM + 500 GB Hard Disk</span>
-                  </div>
-                </div>
+            {/* <div className="col-md-12"> */}
+              <div className="row mb-4" style={{ borderBottom: '1px solid #ccc', paddingBottom: '10px', marginBottom: '10px' }}>
+                <VoteRowCreate onSubmit={onSubmitVote} personal_vote={personal_vote}/>
               </div>
-              <div className="row">
-                <div className="col-xs-12" style={{ marginLeft: 36 }}>
-                  <div className="boxo-pricing-items">
-                    <div className="combo-pricing-item">
-
-                      <span className="items_text">1 Item</span>
-                      <span className="combo_item_price">₹13,200</span>
-                    </div>
-                    <div className="combo-plus">
-
-                      <span className="plus-sign">+</span>
-                    </div>
-                    <div className="combo-pricing-item">
-
-                      <span className="items_text">1 Add-on</span>
-                      <span className="combo_item_price">₹500</span>
-                    </div>
-                    <div className="combo-plus">
-
-                      <span className="plus-sign">=</span>
-                    </div>
-                    <div className="combo-pricing-item">
-
-                      <span className="items_text">Total</span>
-                      <span className="combo_item_price">₹13,700</span>
-                    </div>
-                    <div className="add-both-cart-button">
-
-                      <button type="button" className="btn btn-primary shop-button">
-                        Add to Cart
-                      </button>
-                    </div>
+              {voting?.results?.map((vote, index) => {
+                return (
+                  <div id={vote.id} key={index} className="row mb-4" style={{ borderBottom: '1px solid #ccc', paddingBottom: '10px', marginBottom: '10px' }}>
+                    <VoteRow vote={vote} />
                   </div>
-                </div>
-              </div>
-            </div>
-            <div className="col-md-2 text-center">
-
-              <span className="vertical-line" />
-            </div>
-            <div className="col-md-5" style={{ marginLeft: "-27px" }}>
-              <div className="row padding-2">
-                <div className="col-md-5 padding-0">
-                  <div className="bbb_combo">
-                    <div className="bbb_combo_image">
-                      <img
-                        className="bbb_combo_image"
-                        src=".imgur.com/K4b71NV.jpg"
-                        alt=""
-                      />
-                    </div>
-                    <div className="d-flex flex-row justify-content-start">
-
-                      <strike style={{ color: "red" }}>
-
-                        <span className="fs-10" style={{ color: "black" }}>
-                          ₹ 32,000<span> </span>
-                        </span>
-                      </strike>
-                      <span className="ml-auto">
-                        <i className="fa fa-star p-rating" />
-                        <i className="fa fa-star p-rating" />
-                        <i className="fa fa-star p-rating p-rating" />
-                        <i className="fa fa-star p-rating" />
-                      </span>
-                    </div>
-                    <div
-                      className="d-flex flex-row justify-content-start"
-                      style={{ marginBottom: 13 }}
-                    >
-
-                      <span style={{ marginTop: "-4px" }}>₹30,000</span>
-                      <span className="ml-auto fs-10">23 Reviews</span>
-                    </div>
-                    <span>Acer laptop with 10GB RAM + 500 GB Hard Disk</span>
-                  </div>
-                </div>
-                <div className="col-md-2 text-center">
-
-                  <span className="step">+</span>
-                </div>
-                <div className="col-md-5 padding-0">
-                  <div className="bbb_combo">
-                    <div className="bbb_combo_image">
-                      <img
-                        className="bbb_combo_image"
-                        src=".imgur.com/K4b71NV.jpg"
-                        alt=""
-                      />
-                    </div>
-                    <div className="d-flex flex-row justify-content-start">
-
-                      <strike style={{ color: "red" }}>
-
-                        <span className="fs-10" style={{ color: "black" }}>
-                          ₹ 32,000<span> </span>
-                        </span>
-                      </strike>
-                      <span className="ml-auto">
-                        <i className="fa fa-star p-rating" />
-                        <i className="fa fa-star p-rating" />
-                        <i className="fa fa-star p-rating" />
-                        <i className="fa fa-star p-rating" />
-                      </span>
-                    </div>
-                    <div
-                      className="d-flex flex-row justify-content-start"
-                      style={{ marginBottom: 13 }}
-                    >
-
-                      <span style={{ marginTop: "-4px" }}>₹30,000</span>
-                      <span className="ml-auto fs-10">23 Reviews</span>
-                    </div>
-                    <span>Acer laptop with 10GB RAM + 500 GB Hard Disk</span>
-                  </div>
-                </div>
-              </div>
-              <div className="row">
-                <div className="col-xs-12" style={{ marginLeft: 36 }}>
-                  <div className="boxo-pricing-items">
-                    <div className="combo-pricing-item">
-
-                      <span className="items_text">1 Item</span>
-                      <span className="combo_item_price">₹13,200</span>
-                    </div>
-                    <div className="combo-plus">
-
-                      <span className="plus-sign">+</span>
-                    </div>
-                    <div className="combo-pricing-item">
-
-                      <span className="items_text">1 Add-on</span>
-                      <span className="combo_item_price">₹500</span>
-                    </div>
-                    <div className="combo-plus">
-
-                      <span className="plus-sign">=</span>
-                    </div>
-                    <div className="combo-pricing-item">
-
-                      <span className="items_text">Total</span>
-                      <span className="combo_item_price">₹13,700</span>
-                    </div>
-                    <div className="add-both-cart-button">
-
-                      <button type="button" className="btn btn-primary shop-button">
-                        Add to Cart
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="row row-underline">
-            <div className="col-md-6">
-
-              <span className=" deal-text">Specifications</span>
-            </div>
-            <div className="col-md-6">
-              <a href="#" data-abc="true">
-                <span className="ml-auto view-all" />
-              </a>
-            </div>
-          </div>
-          <div className="row">
-            <div className="col-md-12">
-              <table className="col-md-12">
-                <tbody>
-                  <tr className="row mt-10">
-                    <td className="col-md-4">
-                      <span className="p_specification">Sales Package :</span>
-                    </td>
-                    <td className="col-md-8">
-                      <ul>
-                        <li>
-                          2 in 1 Laptop, Power Adaptor, Active Stylus Pen, User
-                          Guide, Warranty Documents
-                        </li>
-                      </ul>
-                    </td>
-                  </tr>
-                  <tr className="row mt-10">
-                    <td className="col-md-4">
-                      <span className="p_specification">Model Number :</span>
-                    </td>
-                    <td className="col-md-8">
-                      <ul>
-                        <li> 14-dh0107TU </li>
-                      </ul>
-                    </td>
-                  </tr>
-                  <tr className="row mt-10">
-                    <td className="col-md-4">
-                      <span className="p_specification">Part Number :</span>
-                    </td>
-                    <td className="col-md-8">
-                      <ul>
-                        <li>7AL87PA</li>
-                      </ul>
-                    </td>
-                  </tr>
-                  <tr className="row mt-10">
-                    <td className="col-md-4">
-                      <span className="p_specification">Color :</span>
-                    </td>
-                    <td className="col-md-8">
-                      <ul>
-                        <li>Black</li>
-                      </ul>
-                    </td>
-                  </tr>
-                  <tr className="row mt-10">
-                    <td className="col-md-4">
-                      <span className="p_specification">Suitable for :</span>
-                    </td>
-                    <td className="col-md-8">
-                      <ul>
-                        <li>Processing &amp; Multitasking</li>
-                      </ul>
-                    </td>
-                  </tr>
-                  <tr className="row mt-10">
-                    <td className="col-md-4">
-                      <span className="p_specification">Processor Brand :</span>
-                    </td>
-                    <td className="col-md-8">
-                      <ul>
-                        <li>Intel</li>
-                      </ul>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
+                )
+              })} 
+            {/* </div> */}
           </div>
         </div>
       </div>
