@@ -5,7 +5,6 @@ import {
   MDBCardHeader,
   MDBCardImage,
   MDBCol,
-  MDBContainer,
   MDBProgress,
   MDBProgressBar,
   MDBRow,
@@ -14,10 +13,10 @@ import {
 import React from "react";
 import { useSelector } from "react-redux";
 import { PRODUCT_COLOR, PRODUCT_GENDER } from "../constants";
+import { BreadcrumbsCustom } from "../components";
 
 export default function OrderDetail() {
   const order = useSelector((state) => state?.order);
-  console.log(order);
 
   return (
     <>
@@ -25,14 +24,14 @@ export default function OrderDetail() {
         className="h-100 gradient-custom"
         style={{ backgroundColor: "#eee" }}
       >
-        <MDBContainer className="py-5 h-100">
+        <div className="py-5 h-100">
           <MDBRow className="justify-content-center align-items-center h-100">
             <MDBCol lg="10" xl="8">
+              <BreadcrumbsCustom />
               <MDBCard style={{ borderRadius: "10px" }}>
-                <MDBCardHeader className="px-4 py-5">
+                <MDBCardHeader className="px-4 py-4">
                   <MDBTypography tag="h5" className="text-muted mb-0">
-                    Thanks for your Order,{" "}
-                    <span style={{ color: "#a8729a" }}>Anna</span>!
+                    Thanks for your Order
                   </MDBTypography>
                 </MDBCardHeader>
                 <MDBCardBody className="p-4">
@@ -133,14 +132,15 @@ export default function OrderDetail() {
                   <div className="d-flex justify-content-between pt-2">
                     <p className="fw-bold mb-0">Order Details</p>
                     <p className="text-muted mb-0">
-                      <span className="fw-bold me-4">Total</span> $898.00
+                      <span className="fw-bold me-4">Total</span> vnd {order?.subtotal}
                     </p>
                   </div>
 
                   <div className="d-flex justify-content-between pt-2">
+                    <p className="text-muted mb-0">Total Items : {order?.totalItems}</p>
                     <p className="text-muted mb-0">Invoice Number : 788152</p>
                     <p className="text-muted mb-0">
-                      <span className="fw-bold me-4">Discount</span> $19.00
+                      <span className="fw-bold me-4">Discount</span> vnd 19%
                     </p>
                   </div>
 
@@ -175,13 +175,13 @@ export default function OrderDetail() {
                     tag="h5"
                     className="d-flex align-items-center justify-content-end text-white text-uppercase mb-0"
                   >
-                    Total paid: <span className="h2 mb-0 ms-2">$1040</span>
+                    Total paid: <span className="h2 mb-0 ms-2">vnd {order?.subtotal !== undefined ? +order?.subtotal * 0.81 : 0}</span>
                   </MDBTypography>
                 </MDBCardFooter>
               </MDBCard>
             </MDBCol>
           </MDBRow>
-        </MDBContainer>
+        </div>
       </section>
     </>
   );

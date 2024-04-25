@@ -4,8 +4,32 @@ import { useState } from "react";
 
 import * as Api from "../../services/product"
 import { PRODUCT_CATEGORIES, PRODUCT_GENDER } from "../../constants/products.constant";
-import { RowInput, RowSelect } from "../../components";
+import { BreadcrumbsCustom, RowInput, RowSelect } from "../../components";
 import { toast } from "react-toastify";
+
+import DashboardIcon from '@mui/icons-material/Dashboard';
+import ListAltIcon from '@mui/icons-material/ListAlt';
+import PostAddIcon from '@mui/icons-material/PostAdd';
+
+const listRoutesBreadCrumb = [
+  {
+    href: '/admin',
+    icon: <DashboardIcon sx={{ fontSize: 20 }} />,
+    label: 'Home'
+  },
+  {
+    href: '/admin/products',
+    icon: <ListAltIcon sx={{ fontSize: 20 }} />,
+    label: 'Product lists'
+  },
+  {
+    href: '#',
+    icon: <PostAddIcon sx={{ fontSize: 20 }} />,
+    label: 'Product details'
+  }
+]
+
+
 
 const DashboardCreateProduct = (props) => {
 
@@ -83,6 +107,7 @@ const DashboardCreateProduct = (props) => {
       <div >
         <div className="row flex-lg-nowrap">
           <div className="col">
+            <BreadcrumbsCustom routeItems={listRoutesBreadCrumb} />
             <div className="row">
               <div className="col mb-3">
                 <div className="card">

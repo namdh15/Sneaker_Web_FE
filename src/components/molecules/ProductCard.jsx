@@ -6,7 +6,6 @@ import { Modal } from '@mui/material';
 
 const ProductCard = ({ product }) => {
   const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
 
   return (
     <>

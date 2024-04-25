@@ -102,14 +102,20 @@ const SelectProductModal = (props) => {
                   slider?.slickGoTo(prodDetails?.findIndex(item => (item?.size === currentVariant?.size && item?.color === currentVariant?.color)))
                 }}
               >
-                {prodDetails?.map(variant => (
+                {prodDetails?.length ? prodDetails?.map(variant => (
                   <div>
                     <img style={{ width: '250px', height: '200px', objectFit: 'cover' }}
                       src={variant?.image}
                       alt=""
                     />
                   </div>
-                ))}
+                )) :
+                  <div>
+                    <img style={{ width: '250px', height: '200px', objectFit: 'cover' }}
+                      src={product?.image}
+                      alt=""
+                    />
+                  </div>}
               </Slider>
             </div>
             <div className="col-md-8">

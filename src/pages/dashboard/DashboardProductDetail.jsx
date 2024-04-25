@@ -17,10 +17,32 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import React, { useLayoutEffect, useState } from 'react'
 import * as Api from "../../services/product"
 import { PRODUCT_CATEGORIES, PRODUCT_GENDER } from '../../constants/products.constant';
-import { ConfirmModal, HandleVariantModal, InitialComponent, Loading } from '../../components';
+import { BreadcrumbsCustom, ConfirmModal, HandleVariantModal, InitialComponent, Loading } from '../../components';
 import { toast } from 'react-toastify';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { STATUS_CODE } from '../../constants/statusCode.constant';
+
+import DashboardIcon from '@mui/icons-material/Dashboard';
+import ListAltIcon from '@mui/icons-material/ListAlt';
+import ExtensionIcon from '@mui/icons-material/Extension';
+
+const listRoutesBreadCrumb = [
+  {
+    href: '/admin',
+    icon: <DashboardIcon sx={{ fontSize: 20 }} />,
+    label: 'Home'
+  },
+  {
+    href: '/admin/products',
+    icon: <ListAltIcon sx={{ fontSize: 20 }} />,
+    label: 'Product lists'
+  },
+  {
+    href: '#',
+    icon: <ExtensionIcon sx={{ fontSize: 20 }} />,
+    label: 'Product details'
+  }
+]
 
 const InfoCard = (props) => {
   const { product, loading } = props
@@ -287,29 +309,7 @@ const DashboardProductDetail = () => {
     <>
       <div className='row'>
         <div className="col">
-          <div className="e-panel card">
-            <div className="card-body">
-              <div className="title">
-                <div className="row">
-                  <div className="col">
-                    <nav aria-label="breadcrumb">
-                      <ol className="breadcrumb">
-                        <li className="breadcrumb-item">
-                          <Link style={{ textDecoration: 'none' }} to="/admin">Dashboard</Link>
-                        </li>
-                        <li className="breadcrumb-item">
-                          <Link style={{ textDecoration: 'none' }} to="/admin/products">Product Management</Link>
-                        </li>
-                        <li className="breadcrumb-item active" aria-current="page">
-                          Product Variant
-                        </li>
-                      </ol>
-                    </nav>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+          <BreadcrumbsCustom routeItems={listRoutesBreadCrumb} />
         </div>
       </div>
       <div className="row">

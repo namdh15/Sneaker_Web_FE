@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { useSelector, useDispatch } from "react-redux";
 import { addCart, delCart } from "../redux/action";
-import { Link } from "react-router-dom";
-import { EmptyComponent } from "../components";
+import { Link, useNavigate } from "react-router-dom";
+import { BreadcrumbsCustom, EmptyComponent } from "../components";
 
 import { alpha } from '@mui/material/styles';
 import Box from '@mui/material/Box';
@@ -26,7 +26,31 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import { visuallyHidden } from '@mui/utils';
 import { createOrder } from '../redux/action/orderAction';
+import { Button } from '@mui/material';
+import { toast } from 'react-toastify';
 
+import HomeIcon from '@mui/icons-material/Home';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import InventoryIcon from '@mui/icons-material/Inventory';
+
+
+const listRoutesBreadCrumb = [
+  {
+    href: '/',
+    icon: <HomeIcon sx={{ fontSize: 20 }} />,
+    label: 'Home'
+  },
+  {
+    href: '/products',
+    icon: <InventoryIcon sx={{ fontSize: 20 }} />,
+    label: 'Product lists'
+  },
+  {
+    href: '#',
+    icon: <ShoppingCartIcon sx={{ fontSize: 20 }} />,
+    label: 'Product details'
+  }
+]
 
 const headCells = [
   {
@@ -202,7 +226,6 @@ const EnhancedTable = (props) => {
     setSelected(newSelected);
   };
 
-  console.log(selected);
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -275,7 +298,7 @@ const EnhancedTable = (props) => {
                       />
                     </TableCell>
                     <TableCell align="center" component="th" id={labelId} scope="row" padding="none">
-                      <img style={{ margin: '1em' }} width={'150px'} height={'100px'} src={item.image} alt="" />
+                      <img style={{ margin: '1em', objectFit: 'cover' }} width={'150px'} height={'100px'} src={item.image} alt="" />
                     </TableCell>
                     <TableCell align="center">{item.name}</TableCell>
                     <TableCell align="center">{item.categories}</TableCell>
@@ -319,38 +342,40 @@ const EnhancedTable = (props) => {
 const Cart = () => {
   const cartProducts = useSelector((state) => state.cart);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [selected, setSelected] = React.useState([]);
-
-  // const addItem = (product) => {
-  //   dispatch(addCart(product));
-  // };
-  // const removeItem = (product) => {
-  //   dispatch(delCart(product));
-  // };
-  const handleCreateOrder = () => {
-    dispatch(createOrder({
-      shippingFee: 300,
-      selected
-    }))
-  }
 
   const ShowCart = () => {
     let subtotal = 0;
     let shipping = 30.0;
     let totalItems = 0;
-    cartProducts.map((item) => {
+    selected.map((item) => {
       return (subtotal += item.price * item.qty);
     });
 
-    cartProducts.map((item) => {
+    selected.map((item) => {
       return (totalItems += item.qty);
     });
 
+    const handleCreateOrder = () => {
+      if (selected?.length) {
+        dispatch(createOrder({
+          shippingFee: shipping,
+          subtotal,
+          totalItems,
+          selected
+        }))
+        navigate('/order');
+        toast.success('You created new Order')
+      } else {
+        toast.warning('Select products for your order')
+      }
+    }
 
-    console.log(selected);
     return (
       <section className="h-100 gradient-custom">
         <div className="py-1">
+          <BreadcrumbsCustom routeItems={listRoutesBreadCrumb} />
           <div className="row d-flex justify-content-center my-4">
             <div className="col-md-9">
               <div className="card mb-4">
@@ -390,11 +415,10 @@ const Cart = () => {
                     </li>
                   </ul>
 
-                  <Link
-                    to="/order"
+                  <Button
                     className="btn btn-dark btn-lg btn-block"
                     onClick={handleCreateOrder}
-                  >Create new order</Link>
+                  >Create new order</Button>
                 </div>
               </div>
             </div>
@@ -406,6 +430,7 @@ const Cart = () => {
 
   return (
     <div className="px-5 my-1 py-3">
+      <BreadcrumbsCustom routeItems={listRoutesBreadCrumb} />
       <h1 className="text-center">Cart</h1>
       <hr />
       {cartProducts.length > 0 ?

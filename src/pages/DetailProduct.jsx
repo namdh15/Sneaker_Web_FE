@@ -3,41 +3,56 @@ import './page.scss';
 import { useEffect, useState } from 'react';
 
 import * as Api from "../services/product"
+import HomeIcon from '@mui/icons-material/Home';
+import LocalMallIcon from '@mui/icons-material/LocalMall';
+import InventoryIcon from '@mui/icons-material/Inventory';
 // assets
 import {
   IconTag
 } from '@tabler/icons-react';
-import { PRODUCT_SIZE } from '../constants/products.constant';
+import { BreadcrumbsCustom, SelectProductModal, SlideProducts } from '../components';
+import { PRODUCT_CATEGORIES, PRODUCT_COLOR, PRODUCT_GENDER } from '../constants';
+import { Modal } from '@mui/material';
+
+const listRoutesBreadCrumb = [
+  {
+    href: '/',
+    icon: <HomeIcon sx={{ fontSize: 20 }} />,
+    label: 'Home'
+  },
+  {
+    href: '/products',
+    icon: <InventoryIcon sx={{ fontSize: 20 }} />,
+    label: 'Product lists'
+  },
+  {
+    href: '#',
+    icon: <LocalMallIcon sx={{ fontSize: 20 }} />,
+    label: 'Product details'
+  }
+]
 
 const DetailProduct = () => {
   const { id } = useParams();
   const [product, setProduct] = useState([]);
+  const [similarProducts, setSimilarProducts] = useState([]);
+  const [open, setOpen] = useState(false);
   // const [similarProducts, setSimilarProducts] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [loading2, setLoading2] = useState(false);
 
   useEffect(() => {
     const getProducts = async () => {
-      setLoading(true);
-      setLoading2(true);
       const response = await Api.getProduct(id);
+      const res2 = await Api.getProducts({ categories: response?.categories ?? 1 });
       setProduct(response);
-      setLoading(false);
-      //     const response2 = await fetch(
-      //       `https://fakestoreapi.com/products/category/${data.category}`
-      //     );
-      //     const data2 = await response2.json();
-      //     setSimilarProducts(data2);
-      //     setLoading2(false);
+      setSimilarProducts(res2?.results)
     };
-
     getProducts();
   }, [id]);
-
-
+  
   return (
     <div className="d-flex justify-content-center">
       <div className="single_product" style={{ width: '80%' }}>
+        <BreadcrumbsCustom routeItems={listRoutesBreadCrumb} />
         <div
           className="container-fluid"
           style={{ backgroundColor: "#fff", padding: "3em 2em" }}
@@ -67,18 +82,7 @@ const DetailProduct = () => {
             </div>
             <div className="col-lg-6 order-3">
               <div className="product_description">
-                <nav>
-                  <ol className="breadcrumb">
-                    <li className="breadcrumb-item">
-                      <a href="#">Home</a>
-                    </li>
-                    <li className="breadcrumb-item">
-                      <a href="#">Products</a>
-                    </li>
-                    <li className="breadcrumb-item active">Accessories</li>
-                  </ol>
-                </nav>
-                <div className="product_name">
+                <div className="product_name font-weight-bold">
                   {product?.name}
                 </div>
                 <div className="product-rating">
@@ -135,64 +139,54 @@ const DetailProduct = () => {
                   </div>
                   <div className="row" style={{ marginTop: 15 }}>
                     <div className="col-xs-6 ml-3 mb-3">
+                      <span className="product_options font-weight-bold">Gender</span>
+                      <span className="ml-5">{PRODUCT_GENDER[product?.gender]}</span>
+                    </div>
+                    <div className="col-xs-6 ml-3 mb-3">
+                      <span className="product_options font-weight-bold">Category</span>
+                      <span className="ml-5">{PRODUCT_CATEGORIES[product?.categories]}</span>
+                    </div>
+                    <div className="col-xs-6 ml-3 mb-3">
                       <span className="product_options">Size Options</span>
                       <br />
-                      {
-                        PRODUCT_SIZE.map((size, index) => (
-                          <button className="btn btn-primary btn-sm mr-2">{size}</button>
-                        ))
+                      {product?.details?.length ?
+                        [...new Set(product?.details?.map((item, index) => item?.size))]?.map((item, index) => (
+                          <button className="btn btn-primary btn-sm mr-2">{item}</button>
+                        )) : <span className="btn ml-5">Empty variant</span>
                       }
                     </div>
                     <div className="col-xs-6  ml-3 mb-3">
                       <span className="product_options">Color Options</span>
                       <br />
-                      <button className="btn btn-primary btn-sm  mr-2">Green</button>
-                      <button className="btn btn-primary btn-sm  mr-2">Black</button>
+                      {product?.details?.length ?
+                        [...new Set(product?.details?.map((item, index) => item?.color))]?.map((item, index) => (
+                          <button className="btn btn-primary btn-sm mr-2">{PRODUCT_COLOR[item]}</button>
+                        )) :
+                        <span className="btn ml-5">Empty variant</span>
+                      }
                     </div>
                   </div>
                 </div>
                 <div className="row">
-                  <div className="col-xs-6" style={{ marginLeft: 13 }}>
-                    <div className="product_quantity">
-                      <span>Quantity: </span>
-                      <input
-                        id="quantity_input"
-                        type="number"
-                        pattern="[0-9]*"
-                        defaultValue={1}
-                      />
-                      <div className="quantity_buttons">
-                        <div
-                          id="quantity_inc_button"
-                          className="quantity_inc quantity_control"
-                        >
-                          <i className="fas fa-chevron-up" />
-                        </div>
-                        <div
-                          id="quantity_dec_button"
-                          className="quantity_dec quantity_control"
-                        >
-                          <i className="fas fa-chevron-down" />
-                        </div>
-                      </div>
-                    </div>
-                  </div>
                   <div className="col-xs-6">
-                    <button
-                      className="btn btn-dark"
-                    // onClick={() => addProduct(product)}
-                    >
-                      Add to Cart
-                    </button>
-                    <Link to="/cart" className="btn btn-dark mx-2">
-                      Go to Cart
-                    </Link>
+                    <button onClick={() => setOpen(true)} className="btn btn-dark">Add to Cart</button>
+                    <Link to="/cart" className="btn btn-dark mx-2">Go to Cart</Link>
                     <div className=" btn btn-outline-dark mx-1">
                       <i className="fas fa-heart" />
                     </div>
                   </div>
                 </div>
               </div>
+            </div>
+          </div>
+          <div className="row row-underline mt-5">
+            <div className="col-md-6">
+              <span className=" deal-text">Similar Products</span>
+            </div>
+          </div>
+          <div className="row">
+            <div className="col">
+              <SlideProducts products={similarProducts} />
             </div>
           </div>
           <div className="row row-underline">
@@ -320,7 +314,6 @@ const DetailProduct = () => {
               </div>
             </div>
             <div className="col-md-2 text-center">
-
               <span className="vertical-line" />
             </div>
             <div className="col-md-5" style={{ marginLeft: "-27px" }}>
@@ -521,6 +514,17 @@ const DetailProduct = () => {
           </div>
         </div>
       </div>
+      <Modal
+        open={open}
+        onClose={() => setOpen(false)}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <SelectProductModal
+          product={product}
+          setOpenModal={setOpen}
+        />
+      </Modal>
     </div>
   )
 }
