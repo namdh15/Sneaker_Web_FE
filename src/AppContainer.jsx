@@ -44,7 +44,7 @@ const AppContainer = () => {
       <Provider store={store}>
         <StyledEngineProvider injectFirst>
           <ThemeProvider theme={theme()}>
-            <ToastContainer />
+            <ToastContainer autoClose={1000} />
             <Routes />
           </ThemeProvider>
         </StyledEngineProvider>

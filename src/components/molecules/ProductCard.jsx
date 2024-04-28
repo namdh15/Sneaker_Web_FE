@@ -18,7 +18,9 @@ const ProductCard = ({ product }) => {
         />
         <div className="product-card-body">
           <h5 className="card-title">
-            {product.name}
+            <Link to={"/products/" + product.id} style={{ textDecoration: 'none', color: 'black' }} >
+              {product.name}
+            </Link>
           </h5>
           <p className="card-text">
             {product.description}
@@ -28,9 +30,9 @@ const ProductCard = ({ product }) => {
           <li className="list-group-item lead">{Number(product.price).toLocaleString('en')} vnd</li>
         </ul>
         <div className="product-card-body">
-          <Link to={"/products/" + product.id} className="btn btn-dark m-1">
+          {/* <Link to={"/products/" + product.id} className="btn btn-dark m-1">
             Buy Now
-          </Link>
+          </Link> */}
           <button
             type="button"
             className="btn btn-dark m-1"

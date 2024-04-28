@@ -215,7 +215,7 @@ const EnhancedTable = (props) => {
       newSelected = newSelected.concat(selected, item);
     } else if (selectedIndex === 0) {
       newSelected = newSelected.concat(selected.slice(1));
-    } else if (selectedIndex === selected.length - 1) {
+    } else if (selectedIndex === selected?.length - 1) {
       newSelected = newSelected.concat(selected.slice(0, -1));
     } else if (selectedIndex > 0) {
       newSelected = newSelected.concat(
@@ -243,7 +243,7 @@ const EnhancedTable = (props) => {
 
   // Avoid a layout jump when reaching the last page with empty rows.
   // const emptyRows =
-  //   page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
+  //   page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows?.length) : 0;
 
   // const visibleRows = React.useMemo(
   //   () =>
@@ -257,7 +257,7 @@ const EnhancedTable = (props) => {
   return (
     <Box sx={{ width: '100%' }}>
       <Paper sx={{ width: '100%', mb: 2 }}>
-        <EnhancedTableToolbar numSelected={selected.length} />
+        <EnhancedTableToolbar numSelected={selected?.length} />
         <TableContainer>
           <Table
             sx={{ minWidth: 750 }}
@@ -265,12 +265,12 @@ const EnhancedTable = (props) => {
             size={dense ? 'small' : 'medium'}
           >
             <EnhancedTableHead
-              numSelected={selected.length}
+              numSelected={selected?.length}
               order={order}
               orderBy={orderBy}
               // onSelectAllClick={handleSelectAllClick}
               onRequestSort={handleRequestSort}
-              rowCount={selected.length}
+              rowCount={selected?.length}
             />
             <TableBody>
               {cartProducts.map((item, index) => {
@@ -322,7 +322,7 @@ const EnhancedTable = (props) => {
         <TablePagination
           rowsPerPageOptions={[5, 10, 25]}
           component="div"
-          count={selected.length}
+          count={selected?.length}
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={handleChangePage}
@@ -357,7 +357,7 @@ const Cart = () => {
       return (totalItems += item.qty);
     });
 
-    const handleCreateOrder = () => {
+    const handleCreateOrder = async () => {
       if (selected?.length) {
         dispatch(createOrder({
           shippingFee: shipping,
@@ -375,7 +375,6 @@ const Cart = () => {
     return (
       <section className="h-100 gradient-custom">
         <div className="py-1">
-          <BreadcrumbsCustom routeItems={listRoutesBreadCrumb} />
           <div className="row d-flex justify-content-center my-4">
             <div className="col-md-9">
               <div className="card mb-4">

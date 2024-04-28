@@ -10,13 +10,33 @@ import {
   MDBRow,
   MDBTypography,
 } from "mdb-react-ui-kit";
-import React from "react";
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { PRODUCT_COLOR, PRODUCT_GENDER } from "../constants";
 import { BreadcrumbsCustom } from "../components";
+import { createOrder } from "../services/order";
+import SimpleBackdrop from "../components/atoms/BackDrop";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export default function OrderDetail() {
+  const navigation = useNavigate();
+  const [loading, setLoading] = useState(false)
   const order = useSelector((state) => state?.order);
+  const payloadOrder = {
+    amount: order?.subtotal,
+    item: order?.selected?.map((item, index) => ({
+      product_detail: item.id,
+      quantity: item.stock
+    }))
+  }
+  const handleCheckout = async () => {
+    setLoading(true);
+    const res1 = await createOrder(payloadOrder);
+    toast.success('Checkout Seccessful !!!');
+    navigation('/checkout');
+    setLoading(false);
+  }
 
   return (
     <>
@@ -175,14 +195,22 @@ export default function OrderDetail() {
                     tag="h5"
                     className="d-flex align-items-center justify-content-end text-white text-uppercase mb-0"
                   >
-                    Total paid: <span className="h2 mb-0 ms-2">vnd {order?.subtotal !== undefined ? +order?.subtotal * 0.81 : 0}</span>
+                    Total paid: <span className="h2 mb-0 ms-2">vnd {Number(Math.round(order?.subtotal !== undefined ? +order?.subtotal * 0.81 : 0)).toLocaleString('en')}</span>
                   </MDBTypography>
                 </MDBCardFooter>
               </MDBCard>
             </MDBCol>
+            <div className="text-center">
+              <button
+                stype={{ padding: '0.5em 1em', width: 'fit-content' }}
+                className="col btn btn-primary"
+                onClick={handleCheckout}
+              >Checkout</button>
+            </div>
           </MDBRow>
         </div>
       </section>
+      <SimpleBackdrop isOpen={loading} />
     </>
   );
 }

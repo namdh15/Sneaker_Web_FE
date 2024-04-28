@@ -31,7 +31,7 @@ import { EmptyComponent, ProductCard } from "..";
 const SlideProducts = ({ products, title }) => {
   const settings = {
     dots: title?.length > 0,
-    infinite: products.length > 2,
+    infinite: products?.length > 2,
     slidesToShow: 4,
     slidesToScroll: 1,
     autoplaySpeed: 3000,

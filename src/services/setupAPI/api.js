@@ -41,8 +41,12 @@ export const handleErrorAPI = async (error) => {
     const data = error?.response;
     const errorMessage = Object.values(error?.response?.data).flat() || ["Exist an error"];
     const statusCode = error?.response?.status
+    if(+statusCode === 403 || + statusCode === 401){
+      window.location.assign("/login")
+    }
     return { errors: errorMessage, data, statusCode }
   } catch (error) {
+    console.log(error);
     throw new Error("Exist an error")
   }
 }
