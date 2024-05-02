@@ -11,6 +11,8 @@ import {
   IconPackages,
   IconCirclePlus,
   IconShoe,
+  IconCheckupList,
+  IconReportMoney,
 } from '@tabler/icons-react';
 // constant
 const icons = {
@@ -24,7 +26,9 @@ const icons = {
   IconWindmill,
   IconPackages,
   IconCirclePlus,
-  IconShoe
+  IconShoe,
+  IconCheckupList,
+  IconReportMoney,
 };
 
 const dashboard = {
@@ -63,6 +67,39 @@ const products = {
       type: 'item',
       url: '/admin/products/create-product',
       icon: icons.IconCirclePlus,
+      breadcrumbs: false
+    },
+    // {
+    //   id: 'create-product-detail',
+    //   title: 'Product Detail',
+    //   type: 'item',
+    //   url: '/admin/products/create-product-detail',
+    //   icon: icons.IconShoe,
+    //   breadcrumbs: false
+    // },
+  ]
+};
+
+const orders = {
+  id: 'orders',
+  title: 'Orders',
+  caption: 'Orders Caption',
+  type: 'group',
+  children: [
+    {
+      id: 'list-orders',
+      title: 'List Orders',
+      type: 'item',
+      url: '/admin/orders',
+      icon: icons.IconCheckupList,
+      breadcrumbs: false
+    },
+    {
+      id: 'list-transactions',
+      title: 'List Transactions',
+      type: 'item',
+      url: '/admin/transactions',
+      icon: icons.IconReportMoney,
       breadcrumbs: false
     },
     // {
@@ -198,7 +235,7 @@ const menuItems = {
   items: [
     dashboard,
     products,
-    // utilities,
+    orders,
     // auth,
     // other
   ]
