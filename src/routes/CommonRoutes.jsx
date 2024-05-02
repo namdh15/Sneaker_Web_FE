@@ -65,7 +65,7 @@ const CommonRoutes = {
       element: <UserProfile />
     },
     {
-      path: 'checkout',
+      path: 'checkout/:id',
       element: <Checkout />
     },
     {
@@ -77,7 +77,7 @@ const CommonRoutes = {
       element: <DashboardPageTest />
     },
     {
-      path: 'order',
+      path: 'order/:id',
       element: <OrderDetail />
     },
     {

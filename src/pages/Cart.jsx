@@ -25,7 +25,9 @@ import Switch from '@mui/material/Switch';
 import DeleteIcon from '@mui/icons-material/Delete';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import { visuallyHidden } from '@mui/utils';
-import { createOrder } from '../redux/action/orderAction';
+import { createOrderToCart } from '../redux/action/orderAction';
+import { createOrder } from "../services/order";
+
 import { Button } from '@mui/material';
 import { toast } from 'react-toastify';
 
@@ -344,6 +346,15 @@ const Cart = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [selected, setSelected] = React.useState([]);
+  
+  const order = useSelector((state) => state?.order);
+  const payloadOrder = {
+    amount: order?.subtotal,
+    item: order?.selected?.map((item, index) => ({
+      product_detail: item.id,
+      quantity: item.stock
+    }))
+  }
 
   const ShowCart = () => {
     let subtotal = 0;
@@ -359,14 +370,23 @@ const Cart = () => {
 
     const handleCreateOrder = async () => {
       if (selected?.length) {
-        dispatch(createOrder({
+        dispatch(createOrderToCart({
           shippingFee: shipping,
           subtotal,
           totalItems,
           selected
         }))
-        navigate('/order');
-        toast.success('You created new Order')
+        try {
+          console.log(payloadOrder)
+          const res1 = await createOrder(payloadOrder);
+          if (res1) {
+            navigate(`/order/${res1?.data?.id}`);
+          } 
+          toast.success('You created new Order')
+        } 
+        catch (err) {
+          toast.error('Failed to create new order')
+        }
       } else {
         toast.warning('Select products for your order')
       }

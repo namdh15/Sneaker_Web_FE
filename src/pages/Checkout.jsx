@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import {useSearchParams} from 'react-router-dom'
 
 const SuccessCheckout = () => {
   return (
@@ -39,10 +40,12 @@ const FailureChekout = () => {
 
 
 const Checkout = (props) => {
-  const state = useSelector((state) => state.cart);
-  const { checkoutStatus } = props;
-
-  // const [checout, setchecout] = useState(second)
+  const [searchParams, setSearchParams] = useSearchParams();
+  
+  const checkoutStatus  = searchParams.get('success') ? true : false;
+  useEffect(() => {
+    console.log(checkoutStatus);
+  })
   return (
     <div className="container my-3 py-3">
       {checkoutStatus ? <SuccessCheckout /> : <FailureChekout />}

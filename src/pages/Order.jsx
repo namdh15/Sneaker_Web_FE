@@ -14,27 +14,26 @@ import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { PRODUCT_COLOR, PRODUCT_GENDER } from "../constants";
 import { BreadcrumbsCustom } from "../components";
-import { createOrder } from "../services/order";
+import { checkoutOrder } from "../services/order";
 import SimpleBackdrop from "../components/atoms/BackDrop";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 
 export default function OrderDetail() {
   const navigation = useNavigate();
   const [loading, setLoading] = useState(false)
   const order = useSelector((state) => state?.order);
-  const payloadOrder = {
-    amount: order?.subtotal,
-    item: order?.selected?.map((item, index) => ({
-      product_detail: item.id,
-      quantity: item.stock
-    }))
-  }
+  const { id } = useParams()
   const handleCheckout = async () => {
     setLoading(true);
-    const res1 = await createOrder(payloadOrder);
-    toast.success('Checkout Seccessful !!!');
-    navigation('/checkout');
+    console.log(order)
+    const res = await checkoutOrder({order_id: id});
+    if (res?.statusCode === 200) {
+      toast.success("Checkout successful")
+      window.location.href = res.data.url
+    } else {
+      toast.error("Checkout failed")
+    }
     setLoading(false);
   }
 

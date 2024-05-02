@@ -1,7 +1,7 @@
 import { CREATE_ORDER } from "../types/orderType"
 
 // For Add Item to Cart
-export const createOrder = (order) => {
+export const createOrderToCart = (order) => {
   return {
     type: CREATE_ORDER,
     payload: order

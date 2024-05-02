@@ -11,3 +11,17 @@ export const createOrder = async (payload) => {
       return handleErrorAPI(error);
     }
   }
+
+export const checkoutOrder = async (payload) => {
+    try {
+      const formData = new FormData();
+      formData.append('order_id', payload.order_id);
+      const res = await API.post(`payment/billing/stripe`, formData)
+      return {
+        data: res?.data,
+        statusCode: res?.status
+      }
+    } catch (error) {
+      return handleErrorAPI(error);
+    }
+}
