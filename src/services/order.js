@@ -1,16 +1,16 @@
 import { API, handleErrorAPI } from "./setupAPI/api";
 
 export const createOrder = async (payload) => {
-    try {
-      const res = await API.post(`/order/`, payload)
-      return {
-        data: res?.data,
-        statusCode: res?.status
-      }
-    } catch (error) {
-      return handleErrorAPI(error);
+  try {
+    const res = await API.post(`/order/`, payload)
+    return {
+      data: res?.data,
+      statusCode: res?.status
     }
+  } catch (error) {
+    return handleErrorAPI(error);
   }
+}
 
 export const checkoutOrder = async (payload) => {
     try {
@@ -24,4 +24,16 @@ export const checkoutOrder = async (payload) => {
     } catch (error) {
       return handleErrorAPI(error);
     }
+}
+
+export const getOrderByUser = async () => {
+  try {
+    const res = await API.get(`get-order`)
+    return {
+      data: res?.data,
+      statusCode: res?.status
+    }
+  } catch (error) {
+    return handleErrorAPI(error);
+  }
 }

@@ -3,7 +3,7 @@ import { lazy } from 'react';
 // project imports
 // import Loadable from 'ui-component/Loadable';
 import { DashboardLayout } from '../components';
-import { DashboardListProducts, DashboardPage, DashboardProductDetail } from '../pages';
+import { DashboardListProducts, DashboardPage, DashboardProductDetail, DashboardListOrder } from '../pages';
 import CreateProductPage from '../pages/dashboard/DashboardCreateProduct';
 
 // const DashboardPage = lazy(() => import('../pages'));
@@ -50,9 +50,13 @@ const DashboardRoutes = {
         {
           path: ':id',
           element: <DashboardProductDetail />
-        }
+        },
       ]
     },
+    {
+      path: 'orders',
+      element: <DashboardListOrder />
+    }
 
   ]
 };
