@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { useSelector, useDispatch } from "react-redux";
-import { addCart, delCart } from "../redux/action";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { BreadcrumbsCustom, EmptyComponent } from "../components";
 
 import { alpha } from '@mui/material/styles';
@@ -243,19 +242,6 @@ const EnhancedTable = (props) => {
 
   const isSelected = (item) => selected.indexOf(item) !== -1;
 
-  // Avoid a layout jump when reaching the last page with empty rows.
-  // const emptyRows =
-  //   page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows?.length) : 0;
-
-  // const visibleRows = React.useMemo(
-  //   () =>
-  //     stableSort(rows, getComparator(order, orderBy)).slice(
-  //       page * rowsPerPage,
-  //       page * rowsPerPage + rowsPerPage,
-  //     ),
-  //   [order, orderBy, page, rowsPerPage],
-  // );
-
   return (
     <Box sx={{ width: '100%' }}>
       <Paper sx={{ width: '100%', mb: 2 }}>
@@ -309,15 +295,6 @@ const EnhancedTable = (props) => {
                   </TableRow>
                 );
               })}
-              {/* {emptyRows > 0 && (
-                <TableRow
-                  style={{
-                    height: (dense ? 33 : 53) * emptyRows,
-                  }}
-                >
-                  <TableCell colSpan={6} />
-                </TableRow>
-              )} */}
             </TableBody>
           </Table>
         </TableContainer>

@@ -1,32 +1,8 @@
 import Slider from "react-slick";
 import "./organisms.scss"
 import { EmptyComponent, ProductCard } from "..";
+import { Link } from "react-router-dom";
 
-// export const SampleNextArrow = (props) => {
-//   const { className, style, onClick } = props;
-//   return (
-//     <div
-//       className={className}
-//       style={{ ...style, display: "block" }}
-//       onClick={onClick}
-//     >
-//       <img class="d-block w-100" src="./assets/next.svg" alt="First slide" />
-//     </div >
-//   );
-// }
-
-// export const SamplePrevArrow = (props) => {
-//   const { className, style, onClick } = props;
-//   return (
-//     <div
-//       className={className}
-//       style={{ ...style, display: "block" }}
-//       onClick={onClick}
-//     >
-//       <img class="d-block w-100" src="./assets/previous.svg" alt="First slide" />
-//     </div>
-//   );
-// }
 
 const SlideProducts = ({ products, title }) => {
   const settings = {
@@ -34,9 +10,7 @@ const SlideProducts = ({ products, title }) => {
     infinite: products?.length > 2,
     slidesToShow: 4,
     slidesToScroll: 1,
-    autoplaySpeed: 3000,
-    // nextArrow: <SampleNextArrow />,
-    // prevArrow: <SamplePrevArrow />
+    autoplaySpeed: 3000
   };
 
   return (
@@ -64,9 +38,9 @@ const SlideProducts = ({ products, title }) => {
           </div>
         </div>
         {(products?.length > 4 && title) &&
-          <div className="row justify-content-center">
+          <Link className="row justify-content-center" to="/products" style={{ textDecoration: 'none' }}>
             <button className="button-loadmore">More</button>
-          </div>}
+          </Link>}
       </div>
     </>
   );

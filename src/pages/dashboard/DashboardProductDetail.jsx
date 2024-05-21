@@ -19,7 +19,7 @@ import * as Api from "../../services/product"
 import { PRODUCT_CATEGORIES, PRODUCT_GENDER } from '../../constants/products.constant';
 import { BreadcrumbsCustom, ConfirmModal, HandleVariantModal, InitialComponent, Loading } from '../../components';
 import { toast } from 'react-toastify';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { STATUS_CODE } from '../../constants/statusCode.constant';
 
 import DashboardIcon from '@mui/icons-material/Dashboard';

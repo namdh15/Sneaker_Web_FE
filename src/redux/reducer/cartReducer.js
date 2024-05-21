@@ -1,4 +1,6 @@
-const cart = []
+import { getLocalStorage } from "../../utils/storageUtils"
+
+const { cart } = JSON.parse(getLocalStorage("state"));
 
 const cartReducer = (state = cart, action) => {
     const product = action.payload
