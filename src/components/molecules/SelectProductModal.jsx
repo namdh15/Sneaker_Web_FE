@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect, useState } from 'react'
+import React, { useLayoutEffect, useState } from 'react'
 import { addCart } from '../../redux/action';
 import { useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';

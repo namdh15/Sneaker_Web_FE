@@ -332,7 +332,7 @@ const DashboardListOrder = () => {
     getOrders();
   }, []);
 
-  const ShowCart = () => {
+  const ShowOrders = () => {
     return (
       <div className="py-1">
         <div className="d-flex justify-content-center my-4">
@@ -356,7 +356,7 @@ const DashboardListOrder = () => {
     <div className="px-5 my-1 py-3">
       <BreadcrumbsCustom routeItems={listRoutesBreadCrumb} />
       {allOrders.length > 0 ?
-        <ShowCart /> :
+        <ShowOrders /> :
         <EmptyComponent
           message1={'Your Cart is Empty'}
           message2={'Find more products in Product list'}

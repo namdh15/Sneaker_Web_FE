@@ -13,5 +13,6 @@ export { default as DashboardListProducts } from './dashboard/DashboardListProdu
 export { default as DashboardCreateProduct } from './dashboard/DashboardCreateProduct';
 export { default as DashboardProductDetail } from './dashboard/DashboardProductDetail';
 export { default as DashboardListOrder } from './dashboard/DashboardListOrder';
+export { default as DashboardListTransaction } from './dashboard/DashboardListTransaction';
 export { default as UserProfile } from './UserProfile';
 export { default as OrderDetail } from './Order';
